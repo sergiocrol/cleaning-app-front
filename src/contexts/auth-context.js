@@ -46,6 +46,7 @@ class AuthProvider extends Component {
           isLoggedIn: true,
           user
         })
+        return user;
       })
   }
 

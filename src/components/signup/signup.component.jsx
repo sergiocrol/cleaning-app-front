@@ -104,7 +104,11 @@ class Signup extends Component {
     if (!formValidations.validPassword()) return;
 
     signup({ email, password, isCleaner })
-      .then((user) => {
+      .then(res => {
+        if (res.message) {
+          this.setState({ emailError: 'This email already exists' });
+          return;
+        };
         this.setState({
           redirect: '/homepage'
         })
@@ -114,7 +118,16 @@ class Signup extends Component {
   }
 
   render() {
-    const { email, password, confirmPassword, isCleaner, emailError, passwordError, confirmPasswordError, redirect } = this.state;
+    const {
+      email,
+      password,
+      confirmPassword,
+      isCleaner,
+      emailError,
+      passwordError,
+      confirmPasswordError,
+      redirect
+    } = this.state;
 
     if (redirect) {
       return <Redirect to={redirect} />
