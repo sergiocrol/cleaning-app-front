@@ -1,182 +1,120 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+import { useInputChange } from '../helpers/input-change.component';
 
-import './signup.styles.scss';
+import { SignupContainer, SignupForm, UserIcon, UserSelector } from './signup.styles';
 
-class Signup extends Component {
-  state = {
+const Signup = ({ value: { signup } }) => {
+
+  // Handle state
+  const initialState = {
     email: '',
     password: '',
     confirmPassword: '',
     isCleaner: false,
-    emailError: '',
-    passwordError: '',
-    confirmPasswordError: '',
-    isChecked: true,
     redirect: null
   }
 
-  formValidations = () => {
-    const { email, password, confirmPassword } = this.state;
-    let isValid = true;
+  const [state, setState] = useInputChange(initialState);
 
-    const requiredField = () => {
-      if (!email || !password || !confirmPassword) {
-        if (!email) this.setState({ emailError: 'This field must be completed' });
-        if (!password) this.setState({ passwordError: 'This field must be completed' });
-        if (!confirmPassword) this.setState({ confirmPasswordError: 'This field must be completed' });
-        isValid = false;
-      }
-      return isValid;
-    }
+  const { email, password, confirmPassword, isCleaner, redirect } = state;
 
-    const validEmail = () => {
-      const validEmail = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
-      if (!validEmail.exec(email)) {
-        this.setState({ emailError: 'Must be a valid email' });
-        isValid = false;
-      }
-      return isValid;
-    }
-
-    const passwordsMatch = () => {
-      if (password !== confirmPassword) {
-        this.setState({
-          passwordError: `Passwords don't match`,
-          confirmPasswordError: `Passwords don't match`
-        });
-        isValid = false;
-      }
-      return isValid;
-    }
-
-    const validPassword = () => {
-      const validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
-      if (!validPassword.exec(password)) {
-        this.setState({ passwordError: 'Password must contain: 1 capital letter, 1 lower case letter, 1 number and 1 special character' });
-        isValid = false;
-      }
-      return isValid;
-    }
-
-    return {
-      requiredField,
-      validEmail,
-      passwordsMatch,
-      validPassword
-    }
-
+  const handleInput = event => {
+    setState({ field: event.target.name, value: event.target.value });
   }
 
-  handleInput = event => {
-    const { value, name } = event.target;
-
-    this.setState({
-      [name]: value
-    })
+  const handleChange = event => {
+    setState({ field: 'isCleaner', value: !isCleaner });
   }
 
-  handleChange = event => {
-    this.setState({
-      isCleaner: !this.state.isCleaner
-    })
-  }
+  // Handle form validations
+  const { register, handleSubmit, errors, setError, getValues } = useForm();
 
-  handleSubmit = event => {
-    event.preventDefault();
-
-    const { value: { signup } } = this.props;
-    const { email, password, isCleaner } = this.state;
-    const formValidations = this.formValidations();
-
-    this.setState({
-      emailError: '',
-      passwordError: '',
-      confirmPasswordError: ''
-    })
-
-    if (!formValidations.requiredField()) return;
-    if (!formValidations.validEmail()) return;
-    if (!formValidations.passwordsMatch()) return;
-    if (!formValidations.validPassword()) return;
-
+  const onSubmit = event => {
     signup({ email, password, isCleaner })
       .then(res => {
         if (res.message) {
-          this.setState({ emailError: 'This email already exists' });
+          setError('email', 'alreadyExists', 'This email already exists');
           return;
         };
-        this.setState({
-          redirect: '/homepage'
-        })
+        setState({ field: 'redirect', value: '/homepage' })
       })
       .catch(error => console.log(error))
-
   }
 
-  render() {
-    const {
-      email,
-      password,
-      confirmPassword,
-      isCleaner,
-      emailError,
-      passwordError,
-      confirmPasswordError,
-      redirect
-    } = this.state;
 
-    if (redirect) {
-      return <Redirect to={redirect} />
-    }
-
-    return (
-      <div className='signup'>
-        <h3>Create your account</h3>
-        <form className='signup-form' onSubmit={this.handleSubmit}>
-          <FormInput
-            type='email'
-            name='email'
-            value={email}
-            onChange={this.handleInput}
-            label='email'
-            error={emailError}
-          />
-          <FormInput
-            type='password'
-            name='password'
-            value={password}
-            onChange={this.handleInput}
-            label='password'
-            error={passwordError}
-          />
-          <FormInput
-            type='password'
-            name='confirmPassword'
-            value={confirmPassword}
-            onChange={this.handleInput}
-            label='repeat password'
-            error={confirmPasswordError}
-          />
-          <div className='user-selector'>
-            <label className='user-icon'>
-              <input type="radio" name="isCleaner" onChange={this.handleChange} checked={!isCleaner} />
-              <span>USER</span>
-            </label>
-
-            <label className='user-icon'>
-              <input type="radio" name="isCleaner" onChange={this.handleChange} checked={isCleaner} />
-              <span>CLEANER</span>
-            </label>
-          </div>
-          <CustomButton type='submit'>SIGN UP</CustomButton>
-        </form>
-      </div>
-    );
+  if (redirect) {
+    return <Redirect to={redirect} />
   }
+
+  return (
+    <SignupContainer>
+      <h3>Create your account</h3>
+      <SignupForm onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='off'>
+        <FormInput
+          type='email'
+          name='email'
+          onChange={handleInput}
+          label='email'
+          content={email}
+          register={register}
+          required='this field is required'
+          pattern={{
+            value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+            message: 'Must be a valid email'
+          }}
+          error={errors.email && errors.email.message}
+        />
+        <FormInput
+          type='password'
+          name='password'
+          content={password}
+          onChange={handleInput}
+          label='password'
+          register={register}
+          required='this field is required'
+          pattern={{
+            value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
+            message: 'Password must contain: 1 capital letter, 1 lower case letter, 1 number and 1 special character'
+          }}
+          error={errors.password && errors.password.message}
+        />
+        <FormInput
+          type='password'
+          name='confirmPassword'
+          onChange={handleInput}
+          label='repeat password'
+          content={confirmPassword}
+          register={register}
+          required='this field is required'
+          validate={{
+            matchesPreviousPassword: (value) => {
+              const { password } = getValues();
+              return password === value || `Passwords don't match`;
+            },
+          }}
+          error={errors.confirmPassword && errors.confirmPassword.message}
+        />
+        <UserSelector>
+          <UserIcon>
+            <input type="radio" name="isCleaner" onChange={handleChange} checked={!isCleaner} />
+            <span>USER</span>
+          </UserIcon>
+
+          <UserIcon>
+            <input type="radio" name="isCleaner" onChange={handleChange} checked={isCleaner} />
+            <span>CLEANER</span>
+          </UserIcon>
+        </UserSelector>
+        <CustomButton type='submit'>SIGN UP</CustomButton>
+      </SignupForm>
+    </SignupContainer>
+  );
+
 }
 
 export default Signup;

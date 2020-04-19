@@ -1,17 +1,19 @@
 import React, { useContext } from 'react';
 
 import Signup from '../../components/signup/signup.component';
+import LoginBlock from '../../components/login-block/login-block.component';
 import { AuthContext } from '../../contexts/auth-context';
 
-import './signup-page.styles.scss';
+import { SignupPageContainer } from './signup-page.styles';
 
 const SignupPage = () => {
   const value = useContext(AuthContext);
   return (
-    <div className='signup-page'>
-      <h1>Signup page</h1>
+    <SignupPageContainer>
+      <h1>m a e ● m a e</h1>
       <Signup value={value} />
-    </div>
+      <LoginBlock to={'/login'}>I already have an account</LoginBlock>
+    </SignupPageContainer>
   )
 };
 

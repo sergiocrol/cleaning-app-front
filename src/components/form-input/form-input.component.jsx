@@ -1,19 +1,21 @@
 import React from 'react';
 
-import './form-input.styles.scss';
+import { FormInputContainer, FormInputItem, FormInputLabel, ErrorMessage } from './form-input.styles';
 
-const FormInput = ({ label, error, ...otherProps }) => (
-  <div className='form-input-group'>
-    <input className='form-input' {...otherProps} />
-    {
-      label ?
-        (<label className={`${otherProps.value.length ? 'shrink' : ''} form-input-label`}>
-          {label}
-        </label>)
-        : null
-    }
-    <span className='error-message'>{error}</span>
-  </div>
-);
+const FormInput = ({ label, error, register, required, pattern, validate, ...otherProps }) => {
+  return (
+    <FormInputContainer>
+      <FormInputItem {...otherProps} ref={register({ required, pattern, validate })} />
+      {
+        label ?
+          (<FormInputLabel content={otherProps.content}>
+            {label}
+          </FormInputLabel>)
+          : null
+      }
+      <ErrorMessage>{error}</ErrorMessage>
+    </FormInputContainer>
+  )
+};
 
 export default FormInput;

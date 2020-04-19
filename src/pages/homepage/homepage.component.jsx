@@ -1,9 +1,7 @@
 import React from 'react';
 
-import './homepage.styles.scss';
-
-const Homepage = ({ email }) => (
-  <div>Homepage</div>
+const Homepage = () => (
+  <h2>Homepage</h2>
 );
 
 export default Homepage;
