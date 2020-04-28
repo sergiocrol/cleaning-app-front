@@ -1,51 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { useInputChange } from '../helpers/input-change.component';
 
-import { SignupContainer, SignupForm, UserIcon, UserSelector } from './signup.styles';
+import { SignupContainer, SignupForm } from './signup.styles';
 
-const Signup = ({ value: { signup } }) => {
-
+const SignupCleaner = ({ value: { signup } }) => {
   // Handle state
-  const initialState = {
+  const [userCredentials, setCredentials] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-    isCleaner: false,
-    redirect: null
-  }
+    firstName: '',
+    lastName: '',
+    city: '',
+    fee: 10,
+    isCleaner: true
+  });
+  const [redirect, setRedirect] = useState(null);
 
-  const [state, setState] = useInputChange(initialState);
-
-  const { email, password, confirmPassword, isCleaner, redirect } = state;
+  const { email, password, confirmPassword, firstName, lastName, city, fee, isCleaner } = userCredentials;
 
   const handleInput = event => {
-    setState({ field: event.target.name, value: event.target.value });
-  }
-
-  const handleChange = event => {
-    setState({ field: 'isCleaner', value: !isCleaner });
+    const { value, name } = event.target;
+    setCredentials({ ...userCredentials, [name]: value });
   }
 
   // Handle form validations
   const { register, handleSubmit, errors, setError, getValues } = useForm();
 
   const onSubmit = event => {
-    signup({ email, password, isCleaner })
+    signup({ email, password, firstName, lastName, fee, city, isCleaner })
       .then(res => {
         if (res.message) {
           setError('email', 'alreadyExists', 'This email already exists');
           return;
         };
-        setState({ field: 'redirect', value: '/homepage' })
+        setRedirect('/');
       })
       .catch(error => console.log(error))
   }
-
 
   if (redirect) {
     return <Redirect to={redirect} />
@@ -68,6 +64,48 @@ const Signup = ({ value: { signup } }) => {
             message: 'Must be a valid email'
           }}
           error={errors.email && errors.email.message}
+        />
+        <FormInput
+          name='firstName'
+          onChange={handleInput}
+          label='first name'
+          content={firstName}
+          register={register}
+          required='this field is required'
+          error={errors.firstName && errors.firstName.message}
+        />
+        <FormInput
+          name='lastName'
+          onChange={handleInput}
+          label='last name'
+          content={lastName}
+          register={register}
+          required='this field is required'
+          error={errors.lastName && errors.lastName.message}
+        />
+        <FormInput
+          name='city'
+          onChange={handleInput}
+          label='city'
+          content={city}
+          register={register}
+          required='this field is required'
+          error={errors.city && errors.city.message}
+        />
+        <FormInput
+          type='number'
+          name='fee'
+          onChange={handleInput}
+          label='fee per hour'
+          content={fee}
+          register={register}
+          required='this field is required'
+          min={{
+            value: 10,
+            message: 'Must be 10 or greater'
+          }}
+          defaultValue={fee}
+          error={errors.fee && errors.fee.message}
         />
         <FormInput
           type='password'
@@ -99,17 +137,6 @@ const Signup = ({ value: { signup } }) => {
           }}
           error={errors.confirmPassword && errors.confirmPassword.message}
         />
-        <UserSelector>
-          <UserIcon>
-            <input type="radio" name="isCleaner" onChange={handleChange} checked={!isCleaner} />
-            <span>USER</span>
-          </UserIcon>
-
-          <UserIcon>
-            <input type="radio" name="isCleaner" onChange={handleChange} checked={isCleaner} />
-            <span>CLEANER</span>
-          </UserIcon>
-        </UserSelector>
         <CustomButton type='submit'>SIGN UP</CustomButton>
       </SignupForm>
     </SignupContainer>
@@ -117,4 +144,4 @@ const Signup = ({ value: { signup } }) => {
 
 }
 
-export default Signup;
+export default SignupCleaner;

@@ -14,6 +14,12 @@ export const SignupForm = styled.form`
   align-items: center;
 `;
 
+export const UserTypeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const UserIcon = styled.label`
   margin-right: 30px;
 `;

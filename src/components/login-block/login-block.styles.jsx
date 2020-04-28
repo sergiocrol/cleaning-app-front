@@ -24,4 +24,5 @@ export const OptionLink = styled(Link)`
   text-decoration: none;
   font-weight: 600;
   color: #3674AB;
+  margin-bottom: 24px;
 `;

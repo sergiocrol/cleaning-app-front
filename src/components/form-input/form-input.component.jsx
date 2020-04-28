@@ -2,10 +2,10 @@ import React from 'react';
 
 import { FormInputContainer, FormInputItem, FormInputLabel, ErrorMessage } from './form-input.styles';
 
-const FormInput = ({ label, error, register, required, pattern, validate, ...otherProps }) => {
+const FormInput = ({ label, error, register, required, pattern, validate, min, ...otherProps }) => {
   return (
     <FormInputContainer>
-      <FormInputItem {...otherProps} ref={register({ required, pattern, validate })} />
+      <FormInputItem {...otherProps} ref={register({ required, pattern, validate, min })} />
       {
         label ?
           (<FormInputLabel content={otherProps.content}>

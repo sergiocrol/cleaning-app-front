@@ -1,37 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { useInputChange } from '../helpers/input-change.component';
 
 import { SignupContainer, SignupForm } from '../signup/signup.styles';
 
 const Login = ({ value: { login } }) => {
   // Handle state
-  const initialState = { email: '', password: '', redirect: null };
+  const [userCredentials, setCredentials] = useState({ email: '', password: '' });
+  const [redirect, setRedirect] = useState(null);
 
-  const [state, setState] = useInputChange(initialState);
+  const { email, password } = userCredentials;
 
-  const { email, password, redirect } = state;
+  // Handle form validations
+  const { register, handleSubmit, errors, setError } = useForm();
 
   const handleInput = event => {
-    setState({ field: event.target.name, value: event.target.value });
+    const { name, value } = event.target;
+    setCredentials({ ...userCredentials, [name]: value });
   }
 
   const onSubmit = event => {
     login({ email, password })
       .then(res => {
-        setState({ field: 'redirect', value: '/homepage' });
+        setRedirect('/');
       })
       .catch(error => {
         setError('email', 'notMatch', 'Incorrect email and/or password');
       })
   }
-
-  // Handle form validations
-  const { register, handleSubmit, errors, setError } = useForm();
 
   if (redirect) {
     return <Redirect to={redirect} />

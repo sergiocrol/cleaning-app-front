@@ -9,7 +9,7 @@ const shrink = css`
 
 export const FormInputContainer = styled.div`
   position: relative;
-  margin: 30px 0;
+  margin: 10px 0;
   width: 90%;
   max-width: 400px;
 `;
@@ -21,7 +21,7 @@ export const ErrorMessage = styled.span`
 `;
 
 const getValue = ({ content }) => {
-  return content.length ? shrink : '';
+  return content ? shrink : '';
 }
 
 export const FormInputLabel = styled.label`

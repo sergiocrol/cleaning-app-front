@@ -9,7 +9,7 @@ const PublicRoute = ({ component: Component, ...rest }) => {
   return (
     <Route {...rest} render={(props) => (!user._id
       ? <Component {...props} />
-      : <Redirect to="/homepage" />
+      : <Redirect to="/" />
     )} />
   );
 }
