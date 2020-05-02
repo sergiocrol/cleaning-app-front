@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from 'react';
 
 import authService from '../services/auth-service';
+import withSpinner from '../components/with-spinner/with-spinner.component';
 
 export const AuthContext = React.createContext();
 
 const AuthProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
-
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isSubscribed = true
     authService.me()
       .then(user => {
-        setUser(user);
-        setIsLoggedIn(true);
+        if (isSubscribed) {
+          setUser(user);
+          setIsLoggedIn(true);
+          setIsLoading(false);
+        }
       })
       .catch(() => {
-        setUser({});
-        setIsLoggedIn(false);
+        if (isSubscribed) {
+          setUser({});
+          setIsLoggedIn(false);
+          setIsLoading(false);
+        }
       })
+    return () => isSubscribed = false;
   }, [])
 
   const userLogin = (user) => {
@@ -32,8 +41,6 @@ const AuthProvider = (props) => {
   const userSignUp = (user) => {
     return authService.signup(user)
       .then((user) => {
-        setUser(user);
-        setIsLoggedIn(true);
         return user;
       })
   }
@@ -48,21 +55,22 @@ const AuthProvider = (props) => {
 
   return (
     <>
-      {<AuthContext.Provider value={
-        {
-          user,
-          isLoggedIn,
-          login: userLogin,
-          signup: userSignUp,
-          logout: userLogout,
-        }
-      }>
-        {props.children}
-      </AuthContext.Provider>
-      }
+      {isLoading ? <p></p> : (
+        <AuthContext.Provider value={
+          {
+            user,
+            isLoggedIn,
+            login: userLogin,
+            signup: userSignUp,
+            logout: userLogout,
+          }
+        }>
+          {props.children}
+        </AuthContext.Provider>
+      )}
     </>
   );
 
 }
 
-export default AuthProvider;
+export default withSpinner(AuthProvider);

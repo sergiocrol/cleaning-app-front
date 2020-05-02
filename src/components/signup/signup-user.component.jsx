@@ -29,7 +29,7 @@ const SignupUser = ({ value: { signup } }) => {
           setError('email', 'alreadyExists', 'This email already exists');
           return;
         };
-        setRedirect('/');
+        setRedirect('/login');
       })
       .catch(error => console.log(error))
   }

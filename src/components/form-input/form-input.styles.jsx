@@ -7,11 +7,18 @@ const shrink = css`
   color: black;
 `;
 
+const getWidth = ({ width }) => {
+  return width
+    ? `width:${width}; display: inline-block;`
+    : 'width: 90%; max-width: 400px;'
+}
+
 export const FormInputContainer = styled.div`
   position: relative;
   margin: 10px 0;
   width: 90%;
   max-width: 400px;
+  ${getWidth}
 `;
 
 export const ErrorMessage = styled.span`

@@ -5,7 +5,7 @@ class AuthService {
     this.auth = axios.create({
       baseURL: 'http://localhost:4001',
       withCredentials: true
-    })
+    });
   }
 
   me() {

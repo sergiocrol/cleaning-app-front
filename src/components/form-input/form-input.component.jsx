@@ -4,7 +4,7 @@ import { FormInputContainer, FormInputItem, FormInputLabel, ErrorMessage } from 
 
 const FormInput = ({ label, error, register, required, pattern, validate, min, ...otherProps }) => {
   return (
-    <FormInputContainer>
+    <FormInputContainer {...otherProps}>
       <FormInputItem {...otherProps} ref={register({ required, pattern, validate, min })} />
       {
         label ?

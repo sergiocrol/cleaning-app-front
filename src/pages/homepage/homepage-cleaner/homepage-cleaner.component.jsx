@@ -1,10 +1,12 @@
 import React from 'react';
 
+import MenuCleaner from '../../../components/menu/menu-cleaner.component';
 
-const HomepageUser = () => {
+const HomepageCleaner = () => {
   return (
     <div>
       <h2>Cleaner Homepage</h2>
+      <MenuCleaner />
       {/*<AddJob />
       <CleanersOverview />
       <UserMenu />*/}
@@ -12,4 +14,4 @@ const HomepageUser = () => {
   );
 }
 
-export default HomepageUser;
+export default HomepageCleaner;
