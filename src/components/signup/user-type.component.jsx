@@ -2,30 +2,41 @@ import React, { useState } from 'react';
 
 import CustomButton from '../../components/custom-button/custom-button.component';
 
-import { UserIcon, UserSelector, UserTypeContainer } from './signup.styles';
+import {
+  UserSelector,
+  UserTypeContainer,
+  UserTypeTitle,
+  UserTypeSubtitle,
+  SelectionUser,
+  UserImg,
+  CleanerImg,
+  UserDescription
+} from './signup.styles';
 
 const UserType = ({ setCleaner }) => {
   const [isCleaner, setIsCleaner] = useState(false);
 
-  const handleChange = () => {
-    setIsCleaner(!isCleaner);
+  const handleChange = (type) => {
+    type === 'user' ? setIsCleaner(false) : setIsCleaner(true);
   }
 
   return (
     <UserTypeContainer>
-      <h2>Select if you are a user or a cleaner</h2>
+      <UserTypeTitle>Welcome to maemae</UserTypeTitle>
+      <UserTypeSubtitle>You can be part of our community in two ways:</UserTypeSubtitle>
       <UserSelector>
-        <UserIcon>
-          <input type="radio" name="isCleaner" onChange={handleChange} checked={!isCleaner} />
-          <span>USER</span>
-        </UserIcon>
-
-        <UserIcon>
-          <input type="radio" name="isCleaner" onChange={handleChange} checked={isCleaner} />
-          <span>CLEANER</span>
-        </UserIcon>
+        <SelectionUser isCleaner={!isCleaner} onClick={() => handleChange('user')}>
+          <UserImg />
+          <UserTypeTitle>User</UserTypeTitle>
+          <UserDescription>You can offer job, and hire professionals</UserDescription>
+        </SelectionUser>
+        <SelectionUser isCleaner={isCleaner} onClick={() => handleChange('cleaner')}>
+          <CleanerImg />
+          <UserTypeTitle>Cleaner</UserTypeTitle>
+          <UserDescription>You can find jobs adapted to your needs</UserDescription>
+        </SelectionUser>
       </UserSelector>
-      <CustomButton onClick={() => setCleaner(isCleaner)}>NEXT</CustomButton>
+      <CustomButton onClick={() => setCleaner(isCleaner)}>next</CustomButton>
     </UserTypeContainer>
   );
 }

@@ -1,48 +1,32 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-const buttonStyles = css`
-  background-color: black;
-  color: white;
-  border: none;
+const width = ({ width }) => {
+  return width || 300;
+}
 
-  &:hover {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-  }
-`;
-
-const invertedButtonStyles = css`
-  background-color: white;
-  color: black;
-  border: 1px solid white;
-
-  &:hover {
-    background-color: black;
-    color: white;
-    border: none;
-  }
-`;
-
-const getButtonStyles = props => {
-  return props.inverted ? invertedButtonStyles : buttonStyles;
+const height = ({ height }) => {
+  return height || 50;
 }
 
 export const CustomButtonContainer = styled.button`
   min-width: 165px;
-  width: 90%;
-  max-width: 400px;
-  height: 50px;
-  letter-spacing: 0.5px;
-  line-height: 50px;
-  padding: 0 35px 0 35px;
-  font-size: 15px;
-  text-transform: uppercase;
-  font-family: 'Open Sans Condensed';
+  width: 75%;
+  max-width: ${width}px;
+  height: ${height}px;
+  letter-spacing: 1px;
+  font-size: 1rem;
   font-weight: bolder;
   cursor: pointer;
   display: flex;
   justify-content: center;
+  align-items: center;
 
-  ${getButtonStyles}
+  background-color: ${props => props.theme.colors.buttonColor};
+  color: white;
+  border-radius: 50px;
+  border: none;
+
+  &:hover {
+    background-color: #6488ea;
+  }
 `;

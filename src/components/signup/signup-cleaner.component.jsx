@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+import CustomSlider from '../custom-slider/custom-slider.component';
 
-import { SignupContainer, SignupForm } from './signup.styles';
+import { SignupForm, UserTypeTitle, UserTypeContainer, UserTypeSubtitle } from './signup.styles';
 
 const SignupCleaner = ({ value: { signup } }) => {
   // Handle state
@@ -48,28 +49,15 @@ const SignupCleaner = ({ value: { signup } }) => {
   }
 
   return (
-    <SignupContainer>
-      <h3>Create your account</h3>
+    <UserTypeContainer>
+      <UserTypeTitle>Welcome to maemae</UserTypeTitle>
+      <UserTypeSubtitle>Great! Just the last step to be part of our community as cleaner</UserTypeSubtitle>
       <SignupForm onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='off'>
-        <FormInput
-          type='email'
-          name='email'
-          onChange={handleInput}
-          label='email'
-          content={email}
-          register={register}
-          required='this field is required'
-          pattern={{
-            value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
-            message: 'Must be a valid email'
-          }}
-          error={errors.email && errors.email.message}
-        />
         <FormInput
           name='firstName'
           onChange={handleInput}
           label='first name'
-          content={firstName}
+          placeholder='first name'
           register={register}
           required='this field is required'
           error={errors.firstName && errors.firstName.message}
@@ -79,33 +67,26 @@ const SignupCleaner = ({ value: { signup } }) => {
           onChange={handleInput}
           label='last name'
           content={lastName}
+          placeholder='last name'
+          placeholderTextColor='blue'
           register={register}
           required='this field is required'
           error={errors.lastName && errors.lastName.message}
         />
         <FormInput
-          name='city'
+          type='email'
+          name='email'
           onChange={handleInput}
-          label='city'
-          content={city}
+          label='email'
+          content={email}
+          placeholder='email'
           register={register}
           required='this field is required'
-          error={errors.city && errors.city.message}
-        />
-        <FormInput
-          type='number'
-          name='fee'
-          onChange={handleInput}
-          label='fee per hour'
-          content={fee}
-          register={register}
-          required='this field is required'
-          min={{
-            value: 10,
-            message: 'Must be 10 or greater'
+          pattern={{
+            value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/,
+            message: 'Must be a valid email'
           }}
-          defaultValue={fee}
-          error={errors.fee && errors.fee.message}
+          error={errors.email && errors.email.message}
         />
         <FormInput
           type='password'
@@ -113,11 +94,12 @@ const SignupCleaner = ({ value: { signup } }) => {
           content={password}
           onChange={handleInput}
           label='password'
+          placeholder='password'
           register={register}
           required='this field is required'
           pattern={{
             value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
-            message: 'Password must contain: 1 capital letter, 1 lower case letter, 1 number and 1 special character'
+            message: '1 cap. letter | 1 lower case | 1 numb. | 1 sp. character'
           }}
           error={errors.password && errors.password.message}
         />
@@ -126,6 +108,7 @@ const SignupCleaner = ({ value: { signup } }) => {
           name='confirmPassword'
           onChange={handleInput}
           label='repeat password'
+          placeholder='confirm password'
           content={confirmPassword}
           register={register}
           required='this field is required'
@@ -137,9 +120,20 @@ const SignupCleaner = ({ value: { signup } }) => {
           }}
           error={errors.confirmPassword && errors.confirmPassword.message}
         />
-        <CustomButton type='submit'>SIGN UP</CustomButton>
+        <FormInput
+          name='city'
+          onChange={handleInput}
+          label='city'
+          content={city}
+          placeholder='city'
+          register={register}
+          required='this field is required'
+          error={errors.city && errors.city.message}
+        />
+        <CustomSlider type="range" min="10" max="100" name="fee" value={fee} onChange={handleInput} />
+        <CustomButton type='submit'>Sign up</CustomButton>
       </SignupForm>
-    </SignupContainer>
+    </UserTypeContainer>
   );
 
 }

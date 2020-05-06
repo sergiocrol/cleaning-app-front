@@ -1,0 +1,21 @@
+.paging-dot {
+  width: 16px;
+  height: 16px;
+}
+
+.paging-dot > circle {
+  r: 6px;
+  cx: 8px;
+  cy: 8px;
+  fill: transparent;
+  stroke: #4672ed;
+  stroke-width: 2px;
+}
+
+.paging-item.active > button > svg > circle {
+  fill: #4672ed;
+}
+
+.slider-control-bottomcenter {
+  margin-bottom: 30px;
+}

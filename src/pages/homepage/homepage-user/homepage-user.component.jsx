@@ -3,6 +3,8 @@ import React from 'react';
 import OverviewUser from '../../../components/overview/overview-user/overview-user.component';
 import HomepageHeaderUser from '../../../components/homepage-header/homepage-header-user/homepage-header-user.component';
 
+import { HomepageContainer } from './homepage-user.styles';
+
 const HomepageUser = () => {
   // TODO - Implement geolocation
   /*const [city, setCity] = useState('Barcelona');
@@ -14,10 +16,10 @@ const HomepageUser = () => {
   }, []);*/
 
   return (
-    <div>
+    <HomepageContainer>
       <HomepageHeaderUser />
       <OverviewUser />
-    </div>
+    </HomepageContainer>
   );
 }
 

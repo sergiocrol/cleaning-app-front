@@ -6,7 +6,7 @@ import UserType from '../../components/signup/user-type.component';
 import LoginBlock from '../../components/login-block/login-block.component';
 import { AuthContext } from '../../contexts/auth-context';
 
-import { SignupPageContainer } from './signup-page.styles';
+import { SignupPageContainer, SignupPageHeader, HeaderImage } from './signup-page.styles';
 
 const SignupPage = () => {
   const [isCleaner, setCleaner] = useState(null);
@@ -15,14 +15,16 @@ const SignupPage = () => {
 
   return (
     <SignupPageContainer>
-      <h1>m a e ● m a e</h1>
+      <SignupPageHeader isCleaner={isCleaner}>
+        <HeaderImage isCleaner={isCleaner} />
+      </SignupPageHeader>
       {isCleaner === null
         ? <UserType setCleaner={setCleaner} />
         : isCleaner
           ? <SignupCleaner value={value} />
           : <SignupUser value={value} />
       }
-      <LoginBlock to={'/login'}>I already have an account</LoginBlock>
+      <LoginBlock to={'/login'}>login</LoginBlock>
     </SignupPageContainer>
   )
 };

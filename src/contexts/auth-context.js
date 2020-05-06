@@ -48,6 +48,7 @@ const AuthProvider = (props) => {
   const userLogout = () => {
     return authService.logout()
       .then(() => {
+        sessionStorage.clear()
         setUser({});
         setIsLoggedIn(false);
       })

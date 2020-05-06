@@ -1,14 +1,11 @@
 import React from 'react';
 
-import { Bar, BarContainer, OptionLink } from './login-block.styles';
+import { OptionLink, BarContainer } from './login-block.styles';
 
 const LoginBlock = ({ to, children }) => (
-  <>
-    <BarContainer>
-      <Bar />
-    </BarContainer>
-    <OptionLink to={to}>{children}</OptionLink>
-  </>
+  <BarContainer>
+    {`I ${to === '/login' ? 'already' : `don't`} have an account`}<OptionLink to={to}>{children}</OptionLink>
+  </BarContainer>
 );
 
 export default LoginBlock

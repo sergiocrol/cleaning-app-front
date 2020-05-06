@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import { Switch } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 import SigupPage from './pages/signup/signup-page.component';
 import LoginPage from './pages/login/login-page.component';
 import Homepage from './pages/homepage/homepage.component';
 import UserPage from './pages/user/user-page.component';
 import CleanerPage from './pages/cleaner/cleaner-page.component';
-import Header from './components/header/header.component';
+// import Header from './components/header/header.component';
 import PrivateRoute from './components/route/private-route';
 import PublicRoute from './components/route/public-route';
 
 import { GlobalStyle } from './global.styles';
 
+import lightTheme from './themes/light';
+
 class App extends Component {
   render() {
     return (
-      <>
+      <ThemeProvider theme={lightTheme}>
         <GlobalStyle />
-        <Header />
+        {/* <Header /> */}
         <div>
           <Switch>
             <PrivateRoute exact path='/' component={Homepage} />
@@ -27,7 +30,7 @@ class App extends Component {
             <PublicRoute exact path='/login' component={LoginPage} />
           </Switch>
         </div>
-      </>
+      </ThemeProvider>
     )
   }
 }

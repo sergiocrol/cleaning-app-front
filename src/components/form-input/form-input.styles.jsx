@@ -1,11 +1,4 @@
-import styled, { css } from 'styled-components';
-
-const shrink = css`
-  top: 10px;
-  left: 0;
-  font-size: 12px;
-  color: black;
-`;
+import styled from 'styled-components';
 
 const getWidth = ({ width }) => {
   return width
@@ -14,38 +7,19 @@ const getWidth = ({ width }) => {
 }
 
 export const FormInputContainer = styled.div`
-  position: relative;
-  margin: 10px 0;
   width: 90%;
   max-width: 400px;
+  height: 55px;
+  position: relative;
   ${getWidth}
 `;
 
 export const ErrorMessage = styled.span`
   color: red;
   font-size: 13px;
-  margin-left: 5px;
-`;
-
-const getValue = ({ content }) => {
-  return content ? shrink : '';
-}
-
-export const FormInputLabel = styled.label`
-  color: grey;
-  font-size: 16px;
-  font-weight: normal;
+  margin-left: 10px;
   position: absolute;
-  pointer-events: none;
-  left: 5px;
-  top: 30px;
-  transition: 300ms ease all;
-
-  &:focus {
-    outline: none;
-  }
-
-  ${getValue}
+  bottom: -6px;
 `;
 
 export const FormInputItem = styled.input`
@@ -57,15 +31,17 @@ export const FormInputItem = styled.input`
   display: block;
   width: 100%;
   border: none;
-  border-radius: 0;
-  border-bottom: 1px solid grey;
-  margin: 25px 0 5px 0;
+  border-radius: 50px;
+  height: 35px;
+  margin: 10px 0 0 0;
+  padding-left: 10px;
 
   &:focus {
     outline: none;
   }
 
-  &:focus ~ ${FormInputLabel} {
-    ${shrink}
+  ::placeholder {
+    color: grey;
+    opacity: .5;
   }
 `;

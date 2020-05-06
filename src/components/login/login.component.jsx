@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { SignupContainer, SignupForm } from '../signup/signup.styles';
+import { UserTypeContainer, UserTypeTitle, UserTypeSubtitle, SignupForm, FormContainer } from '../signup/signup.styles';
 
 const Login = ({ value: { login } }) => {
   // Handle state
@@ -37,33 +37,38 @@ const Login = ({ value: { login } }) => {
   }
 
   return (
-    <SignupContainer>
-      <h3>Sign in with your email and password</h3>
+    <UserTypeContainer>
+      <UserTypeTitle>Welcome to maemae</UserTypeTitle>
+      <UserTypeSubtitle>Enter your credentials and enjoy being part of our community</UserTypeSubtitle>
       <SignupForm onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='off'>
-        <FormInput
-          type='email'
-          name='email'
-          onChange={handleInput}
-          label='email'
-          content={email}
-          register={register}
-          required='this field is required'
-          pattern={{ value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/, message: 'Must be a valid email' }}
-          error={errors.email && errors.email.message}
-        />
-        <FormInput
-          type='password'
-          name='password'
-          onChange={handleInput}
-          label='password'
-          content={password}
-          register={register}
-          required='this field is required'
-          error={errors.password && errors.password.message}
-        />
-        <CustomButton type='submit'>SIGN IN</CustomButton>
+        <FormContainer>
+          <FormInput
+            type='email'
+            name='email'
+            onChange={handleInput}
+            label='email'
+            content={email}
+            placeholder='email'
+            register={register}
+            required='this field is required'
+            pattern={{ value: /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/, message: 'Must be a valid email' }}
+            error={errors.email && errors.email.message}
+          />
+          <FormInput
+            type='password'
+            name='password'
+            onChange={handleInput}
+            label='password'
+            content={password}
+            placeholder='password'
+            register={register}
+            required='this field is required'
+            error={errors.password && errors.password.message}
+          />
+        </FormContainer>
+        <CustomButton type='submit'>sign in</CustomButton>
       </SignupForm>
-    </SignupContainer>
+    </UserTypeContainer>
   );
 
 }
