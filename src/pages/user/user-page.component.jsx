@@ -11,16 +11,14 @@ import UserProvider from '../../contexts/user-context';
 
 import { WhiteSpace } from './user-page.styles';
 
-const UserPage = ({ match }) => {
-  const { path } = match;
-  console.log(path)
+const UserPage = () => {
   return (
     <div>
       <UserProvider>
-        <UserRoute exact path={`${path}`} component={HomepageUser} />
-        <UserRoute exact path={`${path}/profile`} component={ProfileUser} />
-        <UserRoute exact path={`${path}/new-job`} component={NewJobPage} />
-        <UserRoute exact path={`${path}/cleaner/:cleanerId`} component={CleanerDetailsPage} />
+        <UserRoute exact path={`/user`} component={HomepageUser} />
+        <UserRoute exact path={`/user/profile`} component={ProfileUser} />
+        <UserRoute exact path={`/user/new-job`} component={NewJobPage} />
+        <UserRoute path={`/user/cleaner/:cleanerId`} component={CleanerDetailsPage} />
       </UserProvider>
       <WhiteSpace />
       <MenuUser />

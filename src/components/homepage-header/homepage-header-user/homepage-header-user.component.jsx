@@ -6,10 +6,9 @@ import CarouselComponent from '../../carousel/carousel.component';
 
 import { HeaderContainer, HeaderTitle } from './homepage-header-user.styles';
 
-const HomepageHeaderUser = ({ match }) => {
+const HomepageHeaderUser = () => {
   const { userJobs, changeCurrentJob, currentJob } = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
-  const { path } = match;
 
   useEffect(() => {
     return () => setRedirect(false);

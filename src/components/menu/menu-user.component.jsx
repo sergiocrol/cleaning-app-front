@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { MenuContainer, ProfileIcon, HomeIcon, NewIcon } from './menu.styles';
 
-const MenuUser = ({ match, path, location }) => {
-  const [redirect, setRedirect] = useState('');
+const MenuUser = () => {
   const [isActiveButton, setActive] = useState({ new: false, home: true, profile: false });
 
   const handleActive = (type) => {
@@ -13,15 +12,12 @@ const MenuUser = ({ match, path, location }) => {
   }
 
   return (
-    <>
-      {redirect ? <Redirect to={redirect} /> : null}
-      <MenuContainer>
-        <NewIcon iscurrent={isActiveButton.new.toString()} onClick={() => { setRedirect(`${match.path}/new-job/`); handleActive('new') }} />
-        <HomeIcon iscurrent={isActiveButton.home.toString()} onClick={() => { setRedirect(`${match.path}/`); handleActive('home') }} />
-        <ProfileIcon iscurrent={isActiveButton.profile.toString()} onClick={() => { setRedirect('/user/'); handleActive('profile') }} />
-      </MenuContainer>
-    </>
+    <MenuContainer>
+      <Link to='/user/new-job' onClick={() => handleActive('new')}><NewIcon iscurrent={isActiveButton.new.toString()} /></Link>
+      <Link to='/user' onClick={() => handleActive('home')}><HomeIcon iscurrent={isActiveButton.home.toString()} /></Link>
+      <Link to='/user' onClick={() => handleActive('profile')}><ProfileIcon iscurrent={isActiveButton.profile.toString()} /></Link>
+    </MenuContainer>
   );
 }
 
-export default withRouter(MenuUser);
+export default MenuUser;

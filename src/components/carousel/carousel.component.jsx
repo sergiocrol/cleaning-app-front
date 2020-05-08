@@ -32,8 +32,9 @@ const CarouselComponent = ({ userJobs, changeCurrentJob, currentJob }) => {
         afterSlide={slideIndex => handleSlideChange(slideIndex)}
         renderCenterRightControls={() => <button style={{ display: "none" }}></button>}
         renderCenterLeftControls={() => <button style={{ display: "none" }}></button>}
-        transitionMode='fade'
+        transitionMode='scroll'
         slideIndex={selectedSlide}
+        speed={500}
       >
         {
           userJobs && userJobs.length

@@ -1,13 +1,15 @@
 import styled, { css } from 'styled-components';
 
+const textColorBlue = props => props.theme.colors.textColorBlue;
+
 const commonLineStyles = css`
   display: flex;
   align-items: center;
 
   span {
-    color: darkgrey;
-    font-size: .9rem;
-    font-weight: bolder;
+    color: ${textColorBlue};
+    font-size: 1.2rem;
+    font-weight: lighter;
   }
 `;
 
@@ -24,19 +26,18 @@ export const AddressContainer = styled.div`
 `;
 
 export const SlideHeader = styled.div`
-  padding: 20px;
   display: flex;
-  img{
-    width: 40px;
-    margin: 10px;
-  }
+  border-bottom: 1px solid #d3d3d354;
+  height: 100px;
 `;
 
 export const SlideTitle = styled.h3`
   margin: 20px;
-  font-size: 1.3rem;
-  text-align: center;
-  text-decoration: underline;
+  font-size: 1.2rem;
+  text-align: left;
+  margin: 0;
+  display: flex;
+  color: ${textColorBlue};
 `;
 
 export const AddressLine = styled.div`
@@ -50,31 +51,68 @@ export const DateLine = styled.div`
 export const RequestsLine = styled.div`
   ${commonLineStyles}
   justify-content: center;
-  font-size: 1.4rem;
-  img{
-    width: 35px;
-    margin-right: 10px;
+  font-size: 1.7rem;
+  margin-top: 30px;
+  color: ${textColorBlue};
+  span {
+    font-size: 1.2rem;
+    margin: 5px 0 0 10px;
+  }
+  h3 {
+    margin:0;
+    font-weight: lighter;
   }
 `;
 
 export const RoomsLine = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 50%;
-  flex-wrap: wrap;
 
   div {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    img {
-      width: 30px;
-      margin: 10px;
-    }
+    justify-content: center;
+
     span {
-      font-weight: bold;
-      color: darkgrey;
-      font-size: 1.3;
+      color: ${textColorBlue};
+      font-size: 1.3rem;
+      margin-left: 5px;
+    }
+  }
+`;
+
+export const SlideBody = styled.div`
+  margin-top: 20px;
+`;
+
+export const SlideAddressTime = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 70%;
+  padding: 20px;
+`;
+
+export const SlideTotalTime = styled.div`
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > span {
+    font-size: .7rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 3rem;
+    color: ${textColorBlue};
+
+    span {
+      font-size: 1.2rem;
+      font-weight: lighter;
+      margin-left: 5px;
     }
   }
 `;

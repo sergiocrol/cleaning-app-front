@@ -8,7 +8,7 @@ const calculatePosition = ({ height }) => {
 
 export const CarouselContainer = styled.div`
   width: 90%;
-  height: 400px;
+  height: 300px;
   position: relative;
   border-radius: 10px;
   background-color: white;

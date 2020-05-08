@@ -66,24 +66,26 @@ const isVisible = ({ isvisible }) => {
 }
 
 export const Path = styled.path`
-  fill: transparent;
+  fill: white;
   animation: ${isVisible} .6s ease-in-out 1 forwards;
 
   @keyframes show {
     0% {
-      fill: ${props => props.theme.colors.buttonColor};
+      // fill: ${props => props.theme.colors.buttonColor};
+      fill: white;
     }
     100% {
-      fill: white;
+      // fill: white;
+      fill: ${props => props.theme.colors.buttonColor};
     }
   }
 
   @keyframes disappear {
     0% {
-      fill: white;
+      fill: ${props => props.theme.colors.buttonColor};
     }
     100% {
-      fill: ${props => props.theme.colors.buttonColor};
+      fill: white;
     }
   }
 `;

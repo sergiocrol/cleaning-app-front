@@ -11,7 +11,6 @@ const CleanerDetailsPage = ({ match: { params: { cleanerId } } }) => {
   const [button, setButton] = useState({ action: () => { }, text: 'Send Request' });
   const [redirect, setRedirect] = useState(false);
 
-  console.log(currentJob)
   useEffect(() => {
     getCleaner(cleanerId)
       .then(cleaner => {
@@ -20,7 +19,7 @@ const CleanerDetailsPage = ({ match: { params: { cleanerId } } }) => {
       .catch(error => {
         console.log(error);
       });
-    defineButton()
+    defineButton();
   }, [])
 
   const defineButton = () => {

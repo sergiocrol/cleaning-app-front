@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import authService from '../services/auth-service';
 import withSpinner from '../components/with-spinner/with-spinner.component';
+import Spinner from '../components/spinner/spinner.component';
 
 export const AuthContext = React.createContext();
 
@@ -56,7 +57,7 @@ const AuthProvider = (props) => {
 
   return (
     <>
-      {isLoading ? <p></p> : (
+      {isLoading ? <Spinner /> : (
         <AuthContext.Provider value={
           {
             user,

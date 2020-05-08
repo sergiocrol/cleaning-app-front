@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 
 import userService from '../services/user-service';
 import { AuthContext } from './auth-context';
+import Spinner from '../components/spinner/spinner.component';
 
 export const UserContext = React.createContext();
 
@@ -12,6 +13,7 @@ const UserProvider = (props) => {
   const [currentJob, setCurrentJob] = useState(isCurrentJob);
   const [cleaners, setCleaners] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCleanerLoading, setIsCleanerLoading] = useState(true);
 
   const { user: { _id, addresses } } = useContext(AuthContext);
 
@@ -48,10 +50,12 @@ const UserProvider = (props) => {
   }
 
   const getCleanersByCity = (city) => {
+    setIsCleanerLoading(true);
     return userService.cleanersByCity(city)
       .then(cleaners => {
         setCleaners(cleaners);
         setIsLoading(false);
+        setIsCleanerLoading(false);
       })
   }
 
@@ -92,13 +96,13 @@ const UserProvider = (props) => {
 
   return (
     <>
-      {isLoading ? <p></p> : (
+      {isLoading ? <Spinner /> : (
         <UserContext.Provider value={
           {
             cleaners,
             userJobs,
             currentJob,
-            isLoading,
+            isCleanerLoading,
             changeCurrentJob,
             createJob,
             getCleaner,

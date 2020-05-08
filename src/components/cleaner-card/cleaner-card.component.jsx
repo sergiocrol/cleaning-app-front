@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { CleanerCardContainer } from './cleaner-card.styles';
-import { Cleaner, Rate, StarsOuter, StarsInner, Name, NameContainer, Price } from './cleaner-card.styles';
+import CardLoading from '../card-loading/card-loading.component';
+
+import { Cleaner, Rate, StarsOuter, StarsInner, Name, NameContainer, Price, CleanerCardContainer } from './cleaner-card.styles';
+
+import { UserContext } from '../../contexts/user-context';
 
 const CleanerCard = ({ jobDuration, cleaner: { name, firstName, fee, _id, lastName, rate }, redirect }) => {
-
+  const { isCleanerLoading } = useContext(UserContext);
   const totalPrice = jobDuration ? (jobDuration / 60 * fee) : fee;
 
-  return (
+  return !isCleanerLoading ? (
     <CleanerCardContainer onClick={() => redirect(_id)}>
       <Cleaner />
       <NameContainer>
@@ -24,7 +27,7 @@ const CleanerCard = ({ jobDuration, cleaner: { name, firstName, fee, _id, lastNa
       </NameContainer>
       <Price>{totalPrice}<span>{jobDuration ? '€' : '€/h'}</span></Price>
     </CleanerCardContainer>
-  );
+  ) : <CardLoading />;
 }
 
 export default CleanerCard;

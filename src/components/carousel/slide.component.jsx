@@ -1,29 +1,34 @@
 import React from 'react';
 
-import { SlideContainer, SlideHeader, SlideTitle, AddressLine, DateLine, RoomsLine, RequestsLine, AddressContainer } from './slide.styles';
-import Address from '../../assets/slide/address.png';
-import DateImg from '../../assets/slide/date.png';
-import Kitchen from '../../assets/slide/kitchen.png';
-import Bathroom from '../../assets/slide/bathroom.png';
-import Room from '../../assets/slide/room.png';
-import Terrace from '../../assets/slide/terrace.png';
-import Requests from '../../assets/slide/requests.png';
+import {
+  SlideContainer,
+  SlideHeader,
+  SlideTitle,
+  DateLine,
+  RoomsLine,
+  RequestsLine,
+  AddressContainer,
+  SlideBody,
+  SlideAddressTime,
+  SlideTotalTime
+} from './slide.styles';
+
+import { ReactComponent as Address } from '../../assets/new-job/house-icon.svg';
+import { ReactComponent as Kitchen } from '../../assets/new-job/kitchen-icon.svg';
+import { ReactComponent as Bedroom } from '../../assets/new-job/bedroom-icon.svg';
+import { ReactComponent as Livingroom } from '../../assets/new-job/livingroom-icon.svg';
+import { ReactComponent as Bathroom } from '../../assets/new-job/bathroom-icon.svg';
+import { ReactComponent as Requests } from '../../assets/menu/profile-select.svg';
 
 const Slide = ({ job }) => {
   const { address, date, rooms, duration, requests } = job;
-
-  const getFinishTime = (formatDate) => {
-    let finishDate = new Date(formatDate.getTime() + duration * 60000);
-    finishDate = finishDate.getHours() + ':' + finishDate.getMinutes();
-    return finishDate;
-  }
 
   const getDate = (date) => {
     let formatDate = 'no date';
     if (date !== undefined) {
       formatDate = new Date(date);
-      formatDate = `${formatDate.getFullYear()}/${formatDate.getMonth() + 1}/${formatDate.getDate()} \n
-      ${formatDate.getHours()}:${formatDate.getMinutes()}h - ${getFinishTime(formatDate)}h`;
+      formatDate = `${formatDate.getFullYear()}/${formatDate.getMonth() + 1}/${formatDate.getDate()} 
+      ${formatDate.getHours()}:${formatDate.getMinutes()}h`;
     }
     return formatDate;
   }
@@ -35,21 +40,29 @@ const Slide = ({ job }) => {
 
   return (
     <SlideContainer onClick={() => { }}>
-      <SlideTitle>{address.name}</SlideTitle>
       <SlideHeader>
-        <AddressContainer>
-          <AddressLine><img src={Address} alt='address' /><span>{address.addressStreet}</span></AddressLine>
-          <DateLine><img src={DateImg} alt='date' /><span>{getDate(date)}</span></DateLine>
-        </AddressContainer>
-        <RoomsLine>
-          <div><img src={Kitchen} alt='kitchen' /><span>{getRoomNumber('kitchen')}</span></div>
-          <div><img src={Room} alt='room' /><span>{getRoomNumber('room')}</span></div>
-          <div><img src={Bathroom} alt='bathroom' /><span>{getRoomNumber('bathroom')}</span></div>
-          <div><img src={Terrace} alt='terrace' /><span>{getRoomNumber('terrace')}</span></div>
-        </RoomsLine>
+        <SlideAddressTime>
+          <SlideTitle>
+            <Address style={{ width: '25px', marginRight: '10px' }} />{address.name}
+          </SlideTitle>
+          <AddressContainer>
+            <DateLine><span>{getDate(date)}</span></DateLine>
+          </AddressContainer>
+        </SlideAddressTime>
+        <SlideTotalTime>
+          <span>total time</span>
+          <h1>{duration / 60}<span>h</span></h1>
+        </SlideTotalTime>
       </SlideHeader>
-      <RequestsLine><img src={Requests} alt='requests' />{requests.length} requests</RequestsLine>
-
+      <SlideBody>
+        <RoomsLine>
+          <div><Kitchen style={{ width: '25px' }} /><span>{getRoomNumber('kitchen')}</span></div>
+          <div><Bedroom style={{ width: '25px' }} /><span>{getRoomNumber('room')}</span></div>
+          <div><Bathroom style={{ width: '25px' }} /><span>{getRoomNumber('bathroom')}</span></div>
+          <div><Livingroom style={{ width: '25px' }} /><span>{getRoomNumber('terrace')}</span></div>
+        </RoomsLine>
+        <RequestsLine><Requests style={{ width: '35px', height: '35px', marginRight: '10px', fill: '#37438C', marginBottom: '5px' }} /><h3>{requests.length}</h3> <span>requests</span></RequestsLine>
+      </SlideBody>
     </SlideContainer>
   );
 }
