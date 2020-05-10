@@ -46,7 +46,7 @@ const OverviewUser = () => {
       {
         cleaners && cleaners.length
           ? cleaners.map(cleaner => <CleanerCard key={cleaner._id} cleaner={cleaner} jobDuration={duration} redirect={redirectCleanerPage} />)
-          : <h2>nop</h2>
+          : null
       }
     </OverviewUserContainer>)
 }

@@ -10,6 +10,7 @@ const commonLineStyles = css`
     color: ${textColorBlue};
     font-size: 1.2rem;
     font-weight: lighter;
+    margin-right: 10px;
   }
 `;
 

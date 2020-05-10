@@ -6,12 +6,15 @@ import './index.css';
 
 import App from './App';
 import AuthProvider from './contexts/auth-context';
+import LoadingProvider from './contexts/loading-context';
 
 ReactDOM.render(
   <Router>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <LoadingProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </LoadingProvider>
   </Router>,
   document.getElementById('root')
 );

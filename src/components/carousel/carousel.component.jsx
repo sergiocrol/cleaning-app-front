@@ -39,7 +39,7 @@ const CarouselComponent = ({ userJobs, changeCurrentJob, currentJob }) => {
         {
           userJobs && userJobs.length
             ? userJobs.map(job => <Slide onClick={() => console.log('yippie')} key={job._id} job={job} />)
-            : <h1>There are no jobs Y_Y</h1>
+            : null
         }
       </Carousel>
       <NewJobButton width='170' height='40' onClick={() => setRedirect(true)}>new job</NewJobButton>

@@ -2,8 +2,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 
 import userService from '../services/user-service';
+
 import { AuthContext } from './auth-context';
-import Spinner from '../components/spinner/spinner.component';
+import { LoadingContext } from './loading-context';
 
 export const UserContext = React.createContext();
 
@@ -12,10 +13,10 @@ const UserProvider = (props) => {
   const [userJobs, setUserJobs] = useState(null);
   const [currentJob, setCurrentJob] = useState(isCurrentJob);
   const [cleaners, setCleaners] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isCleanerLoading, setIsCleanerLoading] = useState(true);
+  const [isFirstVisit, setFirstVisit] = useState(true);
 
-  const { user: { _id, addresses } } = useContext(AuthContext);
+  const { user: { _id, addresses }, user } = useContext(AuthContext);
+  const { showLoading, hideLoading, showCleanersLoading, hideCleanersLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     /* TODO - 
@@ -24,11 +25,10 @@ const UserProvider = (props) => {
     > if not check geolocation 
     > if not, random city (Barcelona)
     */
-    if (userJobs === null) {
-      getConfirmedJobs(_id);
-    }
+    getPendingJobs(_id);
     defineCity();
-  }, [currentJob]);
+    setFirstVisit(false)
+  }, [user]);
 
   const defineCity = () => {
     if (currentJob.address) {
@@ -40,22 +40,46 @@ const UserProvider = (props) => {
     }
   }
 
-  const getConfirmedJobs = async (_id) => {
-    const jobList = await userService.jobs();
-    const confirmedJobs = jobList.filter(job => job.status === 'pending');
-    setUserJobs(confirmedJobs);
-    if (!sessionStorage.currentJob) {
-      setCurrentJob(confirmedJobs[0] || {});
+  const getPendingJobs = async (_id) => {
+    try {
+      isFirstVisit && showLoading();
+      const jobList = await userService.jobs();
+      const confirmedJobs = jobList.filter(job => job.status === 'pending');
+      setUserJobs(confirmedJobs);
+      if (!sessionStorage.currentJob) {
+        setCurrentJob(confirmedJobs[0] || {});
+      }
+      isFirstVisit && hideLoading();
+    } catch (error) {
+      // Show error screen
+      console.log(error);
+      isFirstVisit && hideLoading();
+    }
+  }
+
+  const getAllJobs = async () => {
+    try {
+      showLoading();
+      const jobList = await userService.jobs();
+      hideLoading();
+      return jobList;
+    } catch (error) {
+      // Show error screen
+      console.log(error);
+      hideLoading();
     }
   }
 
   const getCleanersByCity = (city) => {
-    setIsCleanerLoading(true);
+    isFirstVisit ? showLoading() : showCleanersLoading();
     return userService.cleanersByCity(city)
       .then(cleaners => {
         setCleaners(cleaners);
-        setIsLoading(false);
-        setIsCleanerLoading(false);
+        isFirstVisit ? hideLoading() : hideCleanersLoading();
+      })
+      .catch(error => {
+        // show error screen
+        console.log(error)
       })
   }
 
@@ -63,7 +87,7 @@ const UserProvider = (props) => {
     const job = userJobs.filter(job => job._id === jobId);
     sessionStorage.setItem('currentJob', JSON.stringify(job[0]));
     setCurrentJob(job[0]);
-    defineCity();
+    defineCity(true);
   }
 
   const createJob = (job) => {
@@ -95,25 +119,21 @@ const UserProvider = (props) => {
   }
 
   return (
-    <>
-      {isLoading ? <Spinner /> : (
-        <UserContext.Provider value={
-          {
-            cleaners,
-            userJobs,
-            currentJob,
-            isCleanerLoading,
-            changeCurrentJob,
-            createJob,
-            getCleaner,
-            cancelRequest,
-            sendRequest,
-          }
-        }>
-          {props.children}
-        </UserContext.Provider>
-      )}
-    </>
+    <UserContext.Provider value={
+      {
+        cleaners,
+        userJobs,
+        currentJob,
+        changeCurrentJob,
+        createJob,
+        getCleaner,
+        getAllJobs,
+        cancelRequest,
+        sendRequest,
+      }
+    }>
+      {props.children}
+    </UserContext.Provider>
   );
 }
 

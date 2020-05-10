@@ -15,7 +15,7 @@ const MenuUser = () => {
     <MenuContainer>
       <Link to='/user/new-job' onClick={() => handleActive('new')}><NewIcon iscurrent={isActiveButton.new.toString()} /></Link>
       <Link to='/user' onClick={() => handleActive('home')}><HomeIcon iscurrent={isActiveButton.home.toString()} /></Link>
-      <Link to='/user' onClick={() => handleActive('profile')}><ProfileIcon iscurrent={isActiveButton.profile.toString()} /></Link>
+      <Link to='/user/profile' onClick={() => handleActive('profile')}><ProfileIcon iscurrent={isActiveButton.profile.toString()} /></Link>
     </MenuContainer>
   );
 }

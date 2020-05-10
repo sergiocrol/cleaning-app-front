@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
-import { ReactComponent as Profile } from '../../assets/menu/profile-unselect.svg';
-import { ReactComponent as Home } from '../../assets/menu/home-unselect.svg';
-import { ReactComponent as New } from '../../assets/menu/new-unselect.svg';
+import { ReactComponent as Profile } from '../../assets/menu/dashboard-nav-icon.svg';
+import { ReactComponent as Home } from '../../assets/menu/logo-nav-icon.svg';
+import { ReactComponent as New } from '../../assets/menu/add-nav-icon.svg';
 
 const iconSize = ({ iscurrent }) => css`
   width: 30px;
@@ -10,11 +10,20 @@ const iconSize = ({ iscurrent }) => css`
   
   path{
     stroke: ${iscurrent === "true" ? '#4672ed' : '#686A9C'};
-    stroke-width: 25px;
+    fill: transparent;
   }
   line{
     stroke: ${iscurrent === "true" ? '#4672ed' : '#686A9C'};
-    stroke-width: 25px;
+    fill: transparent;
+  }
+  circle{
+    stroke: ${iscurrent === "true" ? '#4672ed' : '#686A9C'};
+    fill: transparent;
+  }
+  .logo{
+    stroke: ${iscurrent === "true" ? '#4672ed' : '#686A9C'};
+    fill: ${iscurrent === "true" ? '#4672ed' : '#686A9C'};
+    stroke-width: .2;
   }
 `;
 

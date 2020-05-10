@@ -7,9 +7,9 @@ import LoginPage from './pages/login/login-page.component';
 import Homepage from './pages/homepage/homepage.component';
 import UserPage from './pages/user/user-page.component';
 import CleanerPage from './pages/cleaner/cleaner-page.component';
-// import Header from './components/header/header.component';
 import PrivateRoute from './components/route/private-route';
 import PublicRoute from './components/route/public-route';
+import Spinner from './components/spinner/spinner.component';
 
 import { GlobalStyle } from './global.styles';
 
@@ -20,16 +20,14 @@ class App extends Component {
     return (
       <ThemeProvider theme={lightTheme}>
         <GlobalStyle />
-        {/* <Header /> */}
-        <div>
-          <Switch>
-            <PrivateRoute exact path='/' component={Homepage} />
-            <PrivateRoute path='/user' component={UserPage} />
-            <PrivateRoute exact path='/cleaner' component={CleanerPage} />
-            <PublicRoute exact path='/signup' component={SigupPage} />
-            <PublicRoute exact path='/login' component={LoginPage} />
-          </Switch>
-        </div>
+        <Spinner />
+        <Switch>
+          <PrivateRoute exact path='/' component={Homepage} />
+          <PrivateRoute path='/user' component={UserPage} />
+          <PrivateRoute exact path='/cleaner' component={CleanerPage} />
+          <PublicRoute exact path='/signup' component={SigupPage} />
+          <PublicRoute exact path='/login' component={LoginPage} />
+        </Switch>
       </ThemeProvider>
     )
   }

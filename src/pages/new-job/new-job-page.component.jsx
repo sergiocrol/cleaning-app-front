@@ -40,7 +40,7 @@ import './date-picker.styles.scss';
 const NewJobPage = (props) => {
   const cleaner = props.location.state ? props.location.state.cleaner : '';
   const { register, handleSubmit, errors, setError } = useForm();
-  const { user: { addresses, jobs } } = useContext(AuthContext);
+  const { user: { addresses, jobs }, update } = useContext(AuthContext);
   const { createJob } = useContext(UserContext);
 
   const [pickedAddress, setSelectedAddress] = useState({ selectedAddress: null, selectedIndex: 0 });
@@ -111,6 +111,7 @@ const NewJobPage = (props) => {
       createJob(job)
         .then(res => {
           alert('Yuhuuu');
+          update();
         })
         .catch(error => {
           error.response.status === 409

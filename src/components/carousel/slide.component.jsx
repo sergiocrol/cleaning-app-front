@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getDate, getTime } from '../../helpers/date';
+
 import {
   SlideContainer,
   SlideHeader,
@@ -23,16 +25,6 @@ import { ReactComponent as Requests } from '../../assets/menu/profile-select.svg
 const Slide = ({ job }) => {
   const { address, date, rooms, duration, requests } = job;
 
-  const getDate = (date) => {
-    let formatDate = 'no date';
-    if (date !== undefined) {
-      formatDate = new Date(date);
-      formatDate = `${formatDate.getFullYear()}/${formatDate.getMonth() + 1}/${formatDate.getDate()} 
-      ${formatDate.getHours()}:${formatDate.getMinutes()}h`;
-    }
-    return formatDate;
-  }
-
   const getRoomNumber = (type) => {
     const room = rooms.filter(room => room.type === type)[0];
     return room ? room.number : 0;
@@ -46,7 +38,7 @@ const Slide = ({ job }) => {
             <Address style={{ width: '25px', marginRight: '10px' }} />{address.name}
           </SlideTitle>
           <AddressContainer>
-            <DateLine><span>{getDate(date)}</span></DateLine>
+            <DateLine><span>{getDate(date)}</span><span>{getTime(date)}</span></DateLine>
           </AddressContainer>
         </SlideAddressTime>
         <SlideTotalTime>

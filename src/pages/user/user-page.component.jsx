@@ -2,7 +2,7 @@ import React from 'react';
 
 import MenuUser from '../../components/menu/menu-user.component';
 import HomepageUser from '../homepage/homepage-user/homepage-user.component';
-import ProfileUser from '../profile/profile-user.component';
+import ProfileUser from '../profile/profile-user/profile-user-page.component';
 import NewJobPage from '../new-job/new-job-page.component';
 import CleanerDetailsPage from '../cleaner-details/cleaner-details-page.component';
 import UserRoute from '../../components/route/user-route';
