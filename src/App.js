@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import SigupPage from './pages/signup/signup-page.component';
@@ -23,7 +23,7 @@ class App extends Component {
         <Spinner />
         <Switch>
           <PrivateRoute exact path='/' component={Homepage} />
-          <PrivateRoute path='/user' component={UserPage} />
+          <Route path='/user' component={UserPage} />
           <PrivateRoute exact path='/cleaner' component={CleanerPage} />
           <PublicRoute exact path='/signup' component={SigupPage} />
           <PublicRoute exact path='/login' component={LoginPage} />

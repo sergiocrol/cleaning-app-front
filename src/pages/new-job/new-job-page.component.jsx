@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import DatePicker from "react-datepicker";
 import { setMinutes, setHours } from "date-fns";
@@ -182,7 +183,7 @@ const NewJobPage = (props) => {
                 : <option value={'Add your address'}>Add your address</option>
             }
           </FormSelect>
-          <AddAddressIcon />
+          <Link to='/user/new-address'><AddAddressIcon /></Link>
         </AddressLine>
         <AddressLine>
           <img src={Calendar} style={{ width: '25px', marginRight: '10px' }} alt="calendar" />

@@ -4,6 +4,7 @@ import MenuUser from '../../components/menu/menu-user.component';
 import HomepageUser from '../homepage/homepage-user/homepage-user.component';
 import ProfileUser from '../profile/profile-user/profile-user-page.component';
 import NewJobPage from '../new-job/new-job-page.component';
+import NewAddressPage from '../address/new-address-page.component';
 import CleanerDetailsPage from '../cleaner-details/cleaner-details-page.component';
 import UserRoute from '../../components/route/user-route';
 
@@ -18,7 +19,8 @@ const UserPage = () => {
         <UserRoute exact path={`/user`} component={HomepageUser} />
         <UserRoute exact path={`/user/profile`} component={ProfileUser} />
         <UserRoute exact path={`/user/new-job`} component={NewJobPage} />
-        <UserRoute path={`/user/cleaner/:cleanerId`} component={CleanerDetailsPage} />
+        <UserRoute exact path={`/user/new-address`} component={NewAddressPage} />
+        <UserRoute exact path={`/user/cleaner/:cleanerId`} component={CleanerDetailsPage} />
       </UserProvider>
       <WhiteSpace />
       <MenuUser />
