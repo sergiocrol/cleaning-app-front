@@ -6,9 +6,10 @@ import { Cleaner, Rate, StarsOuter, StarsInner, Name, NameContainer, Price, Clea
 
 import { LoadingContext } from '../../contexts/loading-context';
 
-const CleanerCard = ({ jobDuration, cleaner: { name, firstName, fee, _id, lastName, rate }, redirect }) => {
+const CleanerCard = ({ jobDuration, cleaner: { name, firstName, fee, _id, lastName, rate }, redirect, total, addressDuration }) => {
   const { loadingCleaners } = useContext(LoadingContext);
-  const totalPrice = jobDuration ? (jobDuration / 60 * fee) : fee;
+  const totalPriceJob = jobDuration ? Math.round((jobDuration / 60 * fee)) : fee;
+  const totalPriceAddress = total ? Math.round((addressDuration / 60 * fee)) : fee;
 
   return !loadingCleaners ? (
     <CleanerCardContainer onClick={() => redirect(_id)}>
@@ -25,7 +26,11 @@ const CleanerCard = ({ jobDuration, cleaner: { name, firstName, fee, _id, lastNa
             : null
         }
       </NameContainer>
-      <Price>{totalPrice}<span>{jobDuration ? '€' : '€/h'}</span></Price>
+      {jobDuration
+        ? <Price jobduration={jobDuration}>{totalPriceJob}<span>{jobDuration ? '€' : '€/h'}</span></Price>
+        : <Price addressduration={total}>{totalPriceAddress}<span>{total ? '€' : '€/h'}</span></Price>
+      }
+
     </CleanerCardContainer>
   ) : <CardLoading />;
 }

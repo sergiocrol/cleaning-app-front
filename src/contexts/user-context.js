@@ -10,12 +10,14 @@ export const UserContext = React.createContext();
 
 const UserProvider = (props) => {
   const isCurrentJob = sessionStorage.currentJob ? JSON.parse(sessionStorage.currentJob) : {};
+  const isCurrentAddress = sessionStorage.currentAddress ? JSON.parse(sessionStorage.currentAddress) : {};
   const [userJobs, setUserJobs] = useState(null);
   const [currentJob, setCurrentJob] = useState(isCurrentJob);
   const [cleaners, setCleaners] = useState([]);
+  const [currentAddress, setCurrentAddress] = useState(isCurrentAddress);
   const [isFirstVisit, setFirstVisit] = useState(true);
 
-  const { user: { _id, addresses }, user } = useContext(AuthContext);
+  const { user: { _id }, user } = useContext(AuthContext);
   const { showLoading, hideLoading, showCleanersLoading, hideCleanersLoading } = useContext(LoadingContext);
 
   useEffect(() => {
@@ -25,19 +27,45 @@ const UserProvider = (props) => {
     > if not check geolocation 
     > if not, random city (Barcelona)
     */
-    getPendingJobs(_id);
-    defineCity();
-    setFirstVisit(false)
+    if (user.jobs && user.jobs.length) {
+      getPendingJobs(_id);
+    } else if (user.addresses && user.addresses.length) {
+      setCurrentAddress(user.addresses[0]);
+    } else {
+      defineCityGeo();
+    }
+    setFirstVisit(false);
   }, [user]);
 
-  const defineCity = () => {
+  useEffect(() => {
+    if (user.jobs && user.jobs.length) {
+      defineCityJobs();
+    } else if (user.addresses && user.addresses.length) {
+      defineCityAddress();
+    }
+  }, [currentJob, currentAddress])
+
+  const defineCityJobs = () => {
     if (currentJob.address) {
       const { address: { city } } = currentJob;
       getCleanersByCity(city);
-    } else {
-      const city = addresses.length > 0 ? addresses[0].city : 'Barcelona';
-      getCleanersByCity(city);
     }
+    // else {
+    //   const city = addresses && addresses.length > 0 ? addresses[0].city : 'Barcelona';
+    //   getCleanersByCity(city);
+    // }
+  }
+
+  const defineCityAddress = () => {
+    if (currentAddress.city) {
+      getCleanersByCity(currentAddress.city);
+    }
+  }
+
+  const defineCityGeo = () => {
+    // get city by geolocation or generic one (Barcelona)
+    const city = 'Barcelona';
+    getCleanersByCity(city);
   }
 
   const getPendingJobs = async (_id) => {
@@ -64,8 +92,7 @@ const UserProvider = (props) => {
       hideLoading();
       return jobList;
     } catch (error) {
-      // Show error screen
-      console.log(error);
+      console.log(error)
       hideLoading();
     }
   }
@@ -87,7 +114,12 @@ const UserProvider = (props) => {
     const job = userJobs.filter(job => job._id === jobId);
     sessionStorage.setItem('currentJob', JSON.stringify(job[0]));
     setCurrentJob(job[0]);
-    defineCity(true);
+  }
+
+  const changeCurrentAddress = (addressId) => {
+    const address = user.addresses.filter(address => address._id === addressId);
+    sessionStorage.setItem('currentAddress', JSON.stringify(address[0]));
+    setCurrentAddress(address[0]);
   }
 
   const createJob = (job) => {
@@ -114,7 +146,14 @@ const UserProvider = (props) => {
   const sendRequest = (jobId, cleanerId) => {
     return userService.sendRequest(jobId, cleanerId)
       .then(request => {
-        return request
+        return request;
+      })
+  }
+
+  const createAddress = (address) => {
+    return userService.createAddress(address)
+      .then(request => {
+        return request;
       })
   }
 
@@ -130,6 +169,9 @@ const UserProvider = (props) => {
         getAllJobs,
         cancelRequest,
         sendRequest,
+        createAddress,
+        changeCurrentAddress,
+        currentAddress
       }
     }>
       {props.children}

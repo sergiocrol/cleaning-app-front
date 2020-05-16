@@ -61,6 +61,7 @@ const NewJobPage = (props) => {
   const { selectedIndex } = pickedAddress;
 
   useEffect(() => {
+    update()
     if (!message) {
       configureMessage(true)
     }

@@ -38,6 +38,11 @@ class UserService {
       .then(({ data }) => data)
   }
 
+  createAddress(address) {
+    return this.user.post('/address/add', address)
+      .then(({ data }) => data)
+  }
+
 }
 
 const userService = new UserService();

@@ -12,6 +12,14 @@ export const OverviewUserTitle = styled.h2`
   font-size: 1.2rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  
+  span {
+    font-size: .8rem;
+    color: lightgray;
+    display: flex;
+    align-items: flex-end;
+  }
 `;
 
 const isHidden = ({ ishidden }) => {

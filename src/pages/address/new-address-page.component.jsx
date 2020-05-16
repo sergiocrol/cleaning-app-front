@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { GoogleApiWrapper } from 'google-maps-react';
 
 import FormInput from '../../components/form-input/form-input.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormSelect from '../../components/form-select/form-select.component';
+import Spinner from '../../components/spinner/spinner.component';
+import SpinnerButton from '../../components/spinner-button/spinner-button.component';
 import { ReactComponent as KitchenIcon } from '../../assets/new-job/kitchen-icon.svg';
 import { ReactComponent as BathroomIcon } from '../../assets/new-job/bathroom-icon.svg';
 import { ReactComponent as BedroomIcon } from '../../assets/new-job/bedroom-icon.svg';
 import { ReactComponent as LivingroomIcon } from '../../assets/new-job/livingroom-icon.svg';
 import { ReactComponent as Kids } from '../../assets/new-job/baby-icon.svg';
 import { ReactComponent as Pets } from '../../assets/new-job/pet-icon.svg';
+import { ReactComponent as MapIcon } from '../../assets/new-address/locate.svg';
+
+import { uploadImageFirebase } from '../../helpers/save-image-firebase';
+import { getMapImage } from '../../helpers/get-map-image';
+import { calculateTotalDuration, calculateRoomDuration } from '../../helpers/calculate-duration';
+
+import { AuthContext } from '../../contexts/auth-context';
+import { UserContext } from '../../contexts/user-context';
 
 import {
   NewAddressPageContainer,
@@ -17,31 +29,219 @@ import {
   NewAddressPageForm,
   TwoFieldLine,
   RoomsLine,
-  OthersLine
+  OthersLine,
+  LinkMap,
+  AddressInput
 } from './new-address-page.styles';
 
-const NewAddressPage = () => {
+const NewAddressPage = ({ google, ...otherProps }) => {
   const [formFields, setFormFields] = useState({
-    name: '',
+    addressName: '',
     addressStreet: '',
     addressNumber: '',
     squareMeters: '',
     city: '',
-    zipCode: ''
-  })
-  const { register, handleSubmit, errors, setError, getValues } = useForm();
+    zipCode: '',
+    image: '',
+    lat: '',
+    lng: ''
+  });
+  const [rooms, setRooms] = useState({ kitchen: 0, room: 0, bathroom: 0, terrace: 0 });
+  const [others, setOthers] = useState({ pets: false, kids: false });
+  const [isLoading, setLoading] = useState(false);
+  const { addressName, addressStreet, addressNumber, squareMeters, city, zipCode, lat, lng, image } = formFields;
+  const { user, update } = useContext(AuthContext);
+  const { createAddress } = useContext(UserContext);
+
+  const { register, handleSubmit, errors, setError } = useForm();
+
+  useEffect(() => {
+    if (otherProps.location.state) {
+      setFields(otherProps.location.state);
+    };
+    // renderAutoComplete();
+  }, []);
+
+  console.log(formFields)
+  const setFields = (fields) => {
+    const { street_number, route, locality, postal_code, image, lat, lng } = fields;
+    setFormFields({ ...formFields, addressStreet: route + ', ' + street_number, city: locality, zipCode: postal_code, image, lat, lng });
+  }
 
   const handleInput = event => {
     const { value, name } = event.target;
     setFormFields({ ...formFields, [name]: value });
   }
 
+  const handleAddress = event => {
+    setFormFields({ ...formFields, addressStreet: event.target.value, lat: '', lng: '' });
+  }
+
   const formInputOptions = (selected) => {
     const options = [];
     for (let i = 0; i <= 5; i++) {
-      options.push(<option selected={selected === i} key={i} value={i}>{i}</option>)
+      options.push(<option key={i} value={i}>{i}</option>)
     }
     return options;
+  }
+
+  const onChange = event => {
+    const { value, name } = event.target;
+    setRooms({ ...rooms, [name]: value * 1 });
+  }
+
+  const onChangeOthers = event => {
+    const { name } = event.target;
+    setOthers({ ...others, [name]: !others[name] });
+  }
+
+  const saveImageFirebase = async () => {
+    const url = await uploadImageFirebase({ lat, lng, image, userId: user._id });
+    return url;
+  }
+
+  const onSubmit = event => {
+    const roomsGreaterThanZero = rooms.kitchen + rooms.room + rooms.bathroom + rooms.terrace;
+    if (!roomsGreaterThanZero) {
+      setError('emptyRooms', 'notEmpty', 'Please, add at least one room to your house');
+      console.log('yep')
+    } else {
+      const roomsDuration = calculateRoomDuration(rooms, others, squareMeters);
+      const totalDuration = calculateTotalDuration(roomsDuration);
+      if (lat && lng) {
+        setLoading(true);
+        saveImageFirebase()
+          .then(url => {
+            const address = {
+              name: addressName,
+              addressStreet,
+              addressNumber,
+              city,
+              zipCode,
+              squareMeters,
+              rooms: roomsDuration,
+              duration: totalDuration,
+              lat,
+              long: lng,
+              mapImage: url,
+              pets: others.pets,
+              kids: others.kids
+            }
+            createAddress(address)
+              .then(address => {
+                setLoading(false);
+                update();
+                alert('Address added!');
+              })
+              .catch(error => {
+                console.log(error);
+                setLoading(false);
+              })
+          });
+      } else {
+        const address = `${addressStreet}, ${city}`;
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': address }, function (results, status) {
+          if (status === 'OK') {
+            const address = results[0].address_components;
+            if (address) {
+              const location = results[0].geometry.location;
+              const lat = location.lat();
+              const lng = location.lng();
+              console.log(address);
+              getFields(address, lat, lng);
+              setLoading(true);
+              saveImageFirebase()
+                .then(url => {
+                  const address = {
+                    name: addressName,
+                    addressStreet,
+                    addressNumber,
+                    city,
+                    zipCode,
+                    squareMeters,
+                    rooms: roomsDuration,
+                    duration: totalDuration,
+                    lat,
+                    long: lng,
+                    mapImage: url,
+                    pets: others.pets,
+                    kids: others.kids
+                  }
+                  createAddress(address)
+                    .then(address => {
+                      setLoading(false);
+                      update();
+                      alert('Address added!');
+                    })
+                });
+            }
+          } else {
+            setLoading(true);
+            saveImageFirebase()
+              .then(url => {
+                const address = {
+                  name: addressName,
+                  addressStreet,
+                  addressNumber,
+                  city,
+                  zipCode,
+                  squareMeters,
+                  rooms: roomsDuration,
+                  duration: totalDuration,
+                  pets: others.pets,
+                  kids: others.kids
+                }
+                createAddress(address)
+                  .then(address => {
+                    setLoading(false);
+                    update();
+                    alert('Address added!');
+                  })
+              });
+          }
+        });
+      }
+    }
+  }
+
+  const renderAutoComplete = () => {
+    const input = document.getElementById('locationInput');
+    const options = {
+      types: ['geocode'],
+    };
+    const autocomplete = new google.maps.places.Autocomplete(input, options);
+    autocomplete.setFields(['address_components', 'formatted_address', 'geometry']);
+
+    autocomplete.addListener('place_changed', () => {
+      const addressObject = autocomplete.getPlace();
+      const address = addressObject.address_components;
+
+      if (address) {
+        const location = addressObject.geometry.location;
+        const lat = location.lat();
+        const lng = location.lng();
+        getFields(address, lat, lng)
+      }
+    });
+  }
+
+  const getFields = (address, lat, lng) => {
+    let fields = {
+      street_number: '',
+      route: '',
+      locality: '',
+      postal_code: ''
+    }
+    for (let i = 0; i < address.length; i++) {
+      const addressType = address[i].types[0];
+      const val = address[i]['short_name'];
+      fields[addressType] = val;
+    }
+    if (!fields.route) fields.route = addressStreet;
+    fields = { ...fields, lat, lng };
+    getMapImage(lat, lng)
+      .then(image => setFields({ ...fields, image }));
   }
 
   return (
@@ -50,31 +250,33 @@ const NewAddressPage = () => {
         <h2>Add your house</h2>
         <span>Add detailed info about your house, so that we can manage your services in the best way</span>
       </NewAddressPageHeader>
-      <NewAddressPageForm>
+      <NewAddressPageForm onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='off'>
         <FormInput
-          name='name'
+          name='addressName'
           onChange={handleInput}
           placeholder='My house'
           register={register}
-          required='this field is required'
+          required='*this field is required'
           error={errors.name && errors.name.message}
         />
-        <FormInput
-          name='addressStreet'
-          onChange={handleInput}
-          placeholder='Plaça Catalunya, 31'
-          register={register}
-          required='this field is required'
-          error={errors.addressStreet && errors.addressStreet.message}
-        />
+        <TwoFieldLine>
+          <AddressInput
+            name='googleSearch'
+            onChange={handleAddress}
+            placeholder='Plaça Catalunya, 31'
+            width='187px'
+            defaultValue={addressStreet}
+            id='locationInput'
+            onFocus={renderAutoComplete}
+          />
+          <LinkMap to='/user/new-address/map'><MapIcon style={{ width: '20px', height: '20px', stroke: 'white ', marginRight: '3px' }} />map</LinkMap>
+        </TwoFieldLine>
         <TwoFieldLine>
           <FormInput
             name='addressNumber'
             onChange={handleInput}
             placeholder='2º 3'
             register={register}
-            required='this field is required'
-            error={errors.addressNumber && errors.addressNumber.message}
             width='187px'
           />
           <FormInput
@@ -82,7 +284,7 @@ const NewAddressPage = () => {
             onChange={handleInput}
             placeholder='m2'
             register={register}
-            required='this field is required'
+            required='*required'
             error={errors.squareMeters && errors.squareMeters.message}
             width='80px'
           />
@@ -93,36 +295,55 @@ const NewAddressPage = () => {
             onChange={handleInput}
             placeholder='Barcelona'
             register={register}
-            required='this field is required'
+            required='*this field is required'
             error={errors.city && errors.city.message}
             width='187px'
+            defaultValue={city}
           />
           <FormInput
             name='zipCode'
             onChange={handleInput}
             placeholder='08024'
             register={register}
-            required='this field is required'
+            required='*required'
             error={errors.zipCode && errors.zipCode.message}
             width='80px'
+            defaultValue={zipCode}
           />
         </TwoFieldLine>
         <h2>rooms</h2>
         <RoomsLine>
-          <span><KitchenIcon /> <FormSelect width='40' name='kitchen' register={register} >{formInputOptions()}</FormSelect></span>
-          <span><BedroomIcon /> <FormSelect width='40' name='room' register={register} >{formInputOptions()}</FormSelect></span>
-          <span><BathroomIcon /> <FormSelect width='40' name='bathroom' register={register} >{formInputOptions()}</FormSelect></span>
-          <span><LivingroomIcon /> <FormSelect width='40' name='terrace' register={register} >{formInputOptions()}</FormSelect></span>
+          <span><KitchenIcon /> <FormSelect defaultValue={0} width='40' name='kitchen' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
+          <span><BedroomIcon /> <FormSelect defaultValue={0} width='40' name='room' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
+          <span><BathroomIcon /> <FormSelect defaultValue={0} width='40' name='bathroom' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
+          <span><LivingroomIcon /> <FormSelect defaultValue={0} width='40' name='terrace' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
         </RoomsLine>
         <h2>others</h2>
         <OthersLine>
-          <span><Kids /> <FormSelect width='40' name='kids' register={register} >{formInputOptions()}</FormSelect></span>
-          <span><Pets /> <FormSelect width='40' name='pets' register={register} >{formInputOptions()}</FormSelect></span>
+          <span>
+            <Kids />
+            <FormSelect defaultValue={false} width='50' name='kids' register={register} onChange={onChangeOthers}>
+              <option value={false}>No</option>
+              <option value={true}>Yes</option>
+            </FormSelect>
+          </span>
+          <span>
+            <Pets />
+            <FormSelect defaultValue={false} width='50' name='pets' register={register} onChange={onChangeOthers}>
+              <option value={false}>No</option>
+              <option value={true}>Yes</option>
+            </FormSelect>
+          </span>
         </OthersLine>
-        <CustomButton width='150' fontweight='lighter'>Add Address</CustomButton>
+        <p>{errors.emptyRooms && errors.emptyRooms.message}</p>
+        <CustomButton width='150' fontweight='lighter' type='submit' disabled={isLoading}>{isLoading ? <SpinnerButton /> : 'Add Address'}</CustomButton>
       </NewAddressPageForm>
     </NewAddressPageContainer>
   );
 }
 
-export default NewAddressPage;
+export default GoogleApiWrapper({
+  // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  // libraries: ['places'],
+  LoadingContainer: Spinner
+})(NewAddressPage);

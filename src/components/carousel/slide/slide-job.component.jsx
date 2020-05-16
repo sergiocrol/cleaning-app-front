@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getDate, getTime } from '../../helpers/date';
+import { getDate, getTime } from '../../../helpers/date';
 
 import {
   SlideContainer,
@@ -13,16 +13,16 @@ import {
   SlideBody,
   SlideAddressTime,
   SlideTotalTime
-} from './slide.styles';
+} from './slide-job.styles';
 
-import { ReactComponent as Address } from '../../assets/new-job/house-icon.svg';
-import { ReactComponent as Kitchen } from '../../assets/new-job/kitchen-icon.svg';
-import { ReactComponent as Bedroom } from '../../assets/new-job/bedroom-icon.svg';
-import { ReactComponent as Livingroom } from '../../assets/new-job/livingroom-icon.svg';
-import { ReactComponent as Bathroom } from '../../assets/new-job/bathroom-icon.svg';
-import { ReactComponent as Requests } from '../../assets/menu/profile-select.svg';
+import { ReactComponent as Address } from '../../../assets/new-job/house-icon.svg';
+import { ReactComponent as Kitchen } from '../../../assets/new-job/kitchen-icon.svg';
+import { ReactComponent as Bedroom } from '../../../assets/new-job/bedroom-icon.svg';
+import { ReactComponent as Livingroom } from '../../../assets/new-job/livingroom-icon.svg';
+import { ReactComponent as Bathroom } from '../../../assets/new-job/bathroom-icon.svg';
+import { ReactComponent as Requests } from '../../../assets/menu/profile-select.svg';
 
-const Slide = ({ job }) => {
+const SlideJob = ({ job }) => {
   const { address, date, rooms, duration, requests } = job;
 
   const getRoomNumber = (type) => {
@@ -59,4 +59,4 @@ const Slide = ({ job }) => {
   );
 }
 
-export default Slide;
+export default SlideJob;

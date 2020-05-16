@@ -71,7 +71,7 @@ export const Price = styled.div`
   text-align: right;
 
   span{
-    font-size: 1.4rem;
+  font-size: ${({ jobduration, addressduration }) => jobduration || addressduration ? '1.4rem' : '1.2rem'};
     font-weight: 500;   
   }
 `;
