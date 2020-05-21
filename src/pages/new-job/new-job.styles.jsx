@@ -21,13 +21,8 @@ export const NewJobContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
-`;
-
-export const NewJobTitle = styled.h2`
-  width: 90%;
-  text-align: center;
-  font-size: 1.3rem;
 `;
 
 export const MessageBlock = styled.div`
@@ -142,4 +137,26 @@ export const RoomsLine = styled.div`
   ${line}
   justify-content: space-around;
   margin-top: 20px;
+
+  span {
+    text-align: center;
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+`;
+
+export const PhoneLine = styled.div`
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+
+  img {
+    width: 35px;
+    height: 35px;
+  }
 `;

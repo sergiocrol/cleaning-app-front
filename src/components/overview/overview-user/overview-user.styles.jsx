@@ -7,12 +7,11 @@ export const OverviewUserContainer = styled.div`
 `;
 
 export const OverviewUserTitle = styled.h2`
-  width: 90%;
+  width: 100%;
   margin-top: 30px;
   font-size: 1.2rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   
   span {
     font-size: .8rem;

@@ -7,6 +7,6 @@ export const HeaderContainer = styled.div`
 `;
 
 export const HeaderTitle = styled.h2`
-  width: 90%;
+  width: 100%;
   font-size: 1.2rem;
 `;

@@ -16,22 +16,20 @@ const UserProvider = (props) => {
   const [cleaners, setCleaners] = useState([]);
   const [currentAddress, setCurrentAddress] = useState(isCurrentAddress);
   const [isFirstVisit, setFirstVisit] = useState(true);
+  const [userState, setUserState] = useState(null);
 
   const { user: { _id }, user } = useContext(AuthContext);
   const { showLoading, hideLoading, showCleanersLoading, hideCleanersLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    /* TODO - 
-    > First check if there is any job and get its address 
-    > if not check if there is user address 
-    > if not check geolocation 
-    > if not, random city (Barcelona)
-    */
     if (user.jobs && user.jobs.length) {
+      setUserState('job');
       getPendingJobs(_id);
     } else if (user.addresses && user.addresses.length) {
+      setUserState('address');
       setCurrentAddress(user.addresses[0]);
     } else {
+      setUserState('first');
       defineCityGeo();
     }
     setFirstVisit(false);
@@ -50,10 +48,6 @@ const UserProvider = (props) => {
       const { address: { city } } = currentJob;
       getCleanersByCity(city);
     }
-    // else {
-    //   const city = addresses && addresses.length > 0 ? addresses[0].city : 'Barcelona';
-    //   getCleanersByCity(city);
-    // }
   }
 
   const defineCityAddress = () => {
@@ -63,7 +57,7 @@ const UserProvider = (props) => {
   }
 
   const defineCityGeo = () => {
-    // get city by geolocation or generic one (Barcelona)
+    // TODO - get city by geolocation or generic one (Barcelona)
     const city = 'Barcelona';
     getCleanersByCity(city);
   }
@@ -74,12 +68,11 @@ const UserProvider = (props) => {
       const jobList = await userService.jobs();
       const confirmedJobs = jobList.filter(job => job.status === 'pending');
       setUserJobs(confirmedJobs);
-      if (!sessionStorage.currentJob) {
-        setCurrentJob(confirmedJobs[0] || {});
-      }
+      // if (!sessionStorage.currentJob) {
+      setCurrentJob(confirmedJobs[0] || {});
+      // } 
       isFirstVisit && hideLoading();
     } catch (error) {
-      // Show error screen
       console.log(error);
       isFirstVisit && hideLoading();
     }
@@ -105,7 +98,6 @@ const UserProvider = (props) => {
         isFirstVisit ? hideLoading() : hideCleanersLoading();
       })
       .catch(error => {
-        // show error screen
         console.log(error)
       })
   }
@@ -144,7 +136,15 @@ const UserProvider = (props) => {
   }
 
   const sendRequest = (jobId, cleanerId) => {
+    console.log('noooo')
     return userService.sendRequest(jobId, cleanerId)
+      .then(request => {
+        return request;
+      })
+  }
+
+  const confirmRequest = (jobId, requestId) => {
+    return userService.confirmRequest(jobId, requestId)
       .then(request => {
         return request;
       })
@@ -157,9 +157,24 @@ const UserProvider = (props) => {
       })
   }
 
+  const editAddress = (addressId, address) => {
+    return userService.editAddress(addressId, address)
+      .then(request => {
+        return request;
+      })
+  }
+
+  const deleteAddress = (addressId) => {
+    return userService.deleteAddress(addressId)
+      .then(request => {
+        return request;
+      })
+  }
+
   return (
     <UserContext.Provider value={
       {
+        userState,
         cleaners,
         userJobs,
         currentJob,
@@ -169,7 +184,10 @@ const UserProvider = (props) => {
         getAllJobs,
         cancelRequest,
         sendRequest,
+        confirmRequest,
         createAddress,
+        editAddress,
+        deleteAddress,
         changeCurrentAddress,
         currentAddress
       }

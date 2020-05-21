@@ -23,7 +23,7 @@ class App extends Component {
         <Spinner />
         <Switch>
           <PrivateRoute exact path='/' component={Homepage} />
-          <Route path='/user' component={UserPage} />
+          <PrivateRoute path='/user' component={UserPage} />
           <PrivateRoute exact path='/cleaner' component={CleanerPage} />
           <PublicRoute exact path='/signup' component={SigupPage} />
           <PublicRoute exact path='/login' component={LoginPage} />

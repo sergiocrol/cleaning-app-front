@@ -22,7 +22,7 @@ import { ReactComponent as Livingroom } from '../../../assets/new-job/livingroom
 import { ReactComponent as Bathroom } from '../../../assets/new-job/bathroom-icon.svg';
 import { ReactComponent as Requests } from '../../../assets/menu/profile-select.svg';
 
-const SlideJob = ({ job }) => {
+const SlideJob = ({ job, showRequests }) => {
   const { address, date, rooms, duration, requests } = job;
 
   const getRoomNumber = (type) => {
@@ -35,7 +35,7 @@ const SlideJob = ({ job }) => {
       <SlideHeader>
         <SlideAddressTime>
           <SlideTitle>
-            <Address style={{ width: '25px', marginRight: '10px' }} />{address.name}
+            <Address style={{ width: '25px', marginRight: '10px' }} />{address ? address.name : null}
           </SlideTitle>
           <AddressContainer>
             <DateLine><span>{getDate(date)}</span><span>{getTime(date)}</span></DateLine>
@@ -53,7 +53,11 @@ const SlideJob = ({ job }) => {
           <div><Bathroom style={{ width: '25px' }} /><span>{getRoomNumber('bathroom')}</span></div>
           <div><Livingroom style={{ width: '25px' }} /><span>{getRoomNumber('terrace')}</span></div>
         </RoomsLine>
-        <RequestsLine><Requests style={{ width: '35px', height: '35px', marginRight: '10px', fill: '#37438C', marginBottom: '5px' }} /><h3>{requests.length}</h3> <span>requests</span></RequestsLine>
+        {
+          showRequests
+            ? <RequestsLine><Requests style={{ width: '35px', height: '35px', marginRight: '10px', fill: '#37438C', marginBottom: '5px' }} /><h3>{requests.length}</h3> <span>requests</span></RequestsLine>
+            : null
+        }
       </SlideBody>
     </SlideContainer>
   );

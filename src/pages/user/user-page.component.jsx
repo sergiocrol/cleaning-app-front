@@ -7,6 +7,7 @@ import NewJobPage from '../new-job/new-job-page.component';
 import MapPage from '../map/map-page.component';
 import NewAddressPage from '../address/new-address-page.component';
 import CleanerDetailsPage from '../cleaner-details/cleaner-details-page.component';
+import JobDetailsPage from '../job-details/job-details-page.component';
 import UserRoute from '../../components/route/user-route';
 
 import UserProvider from '../../contexts/user-context';
@@ -23,6 +24,7 @@ const UserPage = () => {
         <UserRoute exact path={`/user/new-address`} component={NewAddressPage} />
         <UserRoute exact path={`/user/new-address/map`} component={MapPage} />
         <UserRoute exact path={`/user/cleaner/:cleanerId`} component={CleanerDetailsPage} />
+        <UserRoute exact path={`/user/job/:jobId`} component={JobDetailsPage} />
       </UserProvider>
       <WhiteSpace />
       <MenuUser />

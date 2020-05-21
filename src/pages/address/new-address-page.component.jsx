@@ -51,18 +51,31 @@ const NewAddressPage = ({ google, ...otherProps }) => {
   const [isLoading, setLoading] = useState(false);
   const { addressName, addressStreet, addressNumber, squareMeters, city, zipCode, lat, lng, image } = formFields;
   const { user, update } = useContext(AuthContext);
-  const { createAddress } = useContext(UserContext);
+  const { createAddress, editAddress } = useContext(UserContext);
+  const addressId = otherProps.location.state ? otherProps.location.state._id : null;
 
   const { register, handleSubmit, errors, setError } = useForm();
 
+  const setAddressFields = addressId => {
+    const address = user.addresses.filter(address => address._id === addressId)[0];
+    const { name, rooms, pets, kids, long, mapImage } = address;
+    const addressRooms = {};
+    rooms.forEach(({ type, number }) => {
+      addressRooms[type] = number;
+    });
+    setFormFields({ ...address, addressName: name, lng: long, image: mapImage });
+    setRooms({ kitchen: addressRooms.kitchen, room: addressRooms.room, bathroom: addressRooms.bathroom, terrace: addressRooms.terrace });
+    setOthers({ pets, kids });
+  }
+
   useEffect(() => {
     if (otherProps.location.state) {
-      setFields(otherProps.location.state);
+      addressId && user.addresses && user.addresses.length
+        ? setAddressFields(addressId)
+        : setFields(otherProps.location.state)
     };
-    // renderAutoComplete();
   }, []);
 
-  console.log(formFields)
   const setFields = (fields) => {
     const { street_number, route, locality, postal_code, image, lat, lng } = fields;
     setFormFields({ ...formFields, addressStreet: route + ', ' + street_number, city: locality, zipCode: postal_code, image, lat, lng });
@@ -104,40 +117,68 @@ const NewAddressPage = ({ google, ...otherProps }) => {
     const roomsGreaterThanZero = rooms.kitchen + rooms.room + rooms.bathroom + rooms.terrace;
     if (!roomsGreaterThanZero) {
       setError('emptyRooms', 'notEmpty', 'Please, add at least one room to your house');
-      console.log('yep')
     } else {
       const roomsDuration = calculateRoomDuration(rooms, others, squareMeters);
       const totalDuration = calculateTotalDuration(roomsDuration);
+      console.log(lat, lng)
       if (lat && lng) {
         setLoading(true);
-        saveImageFirebase()
-          .then(url => {
-            const address = {
-              name: addressName,
-              addressStreet,
-              addressNumber,
-              city,
-              zipCode,
-              squareMeters,
-              rooms: roomsDuration,
-              duration: totalDuration,
-              lat,
-              long: lng,
-              mapImage: url,
-              pets: others.pets,
-              kids: others.kids
-            }
-            createAddress(address)
-              .then(address => {
-                setLoading(false);
-                update();
-                alert('Address added!');
-              })
-              .catch(error => {
-                console.log(error);
-                setLoading(false);
-              })
-          });
+        if (addressId) {
+          const address = {
+            name: addressName,
+            addressStreet,
+            addressNumber,
+            city,
+            zipCode,
+            squareMeters,
+            rooms: roomsDuration,
+            duration: totalDuration,
+            lat,
+            long: lng,
+            mapImage: image,
+            pets: others.pets,
+            kids: others.kids
+          }
+          editAddress(addressId, address)
+            .then(address => {
+              setLoading(false);
+              update();
+              alert('Address edited!');
+            })
+            .catch(error => {
+              console.log(error);
+              setLoading(false);
+            })
+        } else {
+          saveImageFirebase()
+            .then(url => {
+              const address = {
+                name: addressName,
+                addressStreet,
+                addressNumber,
+                city,
+                zipCode,
+                squareMeters,
+                rooms: roomsDuration,
+                duration: totalDuration,
+                lat,
+                long: lng,
+                mapImage: url,
+                pets: others.pets,
+                kids: others.kids
+              }
+              createAddress(address)
+                .then(address => {
+                  setLoading(false);
+                  update();
+                  alert('Address added!');
+                })
+                .catch(error => {
+                  console.log(error);
+                  setLoading(false);
+                })
+            });
+        }
       } else {
         const address = `${addressStreet}, ${city}`;
         const geocoder = new google.maps.Geocoder();
@@ -148,7 +189,6 @@ const NewAddressPage = ({ google, ...otherProps }) => {
               const location = results[0].geometry.location;
               const lat = location.lat();
               const lng = location.lng();
-              console.log(address);
               getFields(address, lat, lng);
               setLoading(true);
               saveImageFirebase()
@@ -168,6 +208,68 @@ const NewAddressPage = ({ google, ...otherProps }) => {
                     pets: others.pets,
                     kids: others.kids
                   }
+                  if (addressId) {
+                    editAddress(addressId, address)
+                      .then(address => {
+                        setLoading(false);
+                        update();
+                        alert('Address edited!');
+                      })
+                      .catch(error => {
+                        console.log(error);
+                        setLoading(false);
+                      })
+                  } else {
+                    createAddress(address)
+                      .then(address => {
+                        setLoading(false);
+                        update();
+                        alert('Address added!');
+                      })
+                  }
+                });
+            }
+          } else {
+            setLoading(true);
+            if (addressId) {
+              const address = {
+                name: addressName,
+                addressStreet,
+                addressNumber,
+                city,
+                zipCode,
+                squareMeters,
+                mapImage: image,
+                rooms: roomsDuration,
+                duration: totalDuration,
+                pets: others.pets,
+                kids: others.kids
+              }
+              editAddress(addressId, address)
+                .then(address => {
+                  setLoading(false);
+                  update();
+                  alert('Address edited!');
+                })
+                .catch(error => {
+                  console.log(error);
+                  setLoading(false);
+                })
+            } else {
+              saveImageFirebase()
+                .then(url => {
+                  const address = {
+                    name: addressName,
+                    addressStreet,
+                    addressNumber,
+                    city,
+                    zipCode,
+                    squareMeters,
+                    rooms: roomsDuration,
+                    duration: totalDuration,
+                    pets: others.pets,
+                    kids: others.kids
+                  }
                   createAddress(address)
                     .then(address => {
                       setLoading(false);
@@ -176,29 +278,6 @@ const NewAddressPage = ({ google, ...otherProps }) => {
                     })
                 });
             }
-          } else {
-            setLoading(true);
-            saveImageFirebase()
-              .then(url => {
-                const address = {
-                  name: addressName,
-                  addressStreet,
-                  addressNumber,
-                  city,
-                  zipCode,
-                  squareMeters,
-                  rooms: roomsDuration,
-                  duration: totalDuration,
-                  pets: others.pets,
-                  kids: others.kids
-                }
-                createAddress(address)
-                  .then(address => {
-                    setLoading(false);
-                    update();
-                    alert('Address added!');
-                  })
-              });
           }
         });
       }
@@ -247,7 +326,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
   return (
     <NewAddressPageContainer>
       <NewAddressPageHeader>
-        <h2>Add your house</h2>
+        <h2>{addressId ? 'Edit your house' : 'Add your house'}</h2>
         <span>Add detailed info about your house, so that we can manage your services in the best way</span>
       </NewAddressPageHeader>
       <NewAddressPageForm onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='off'>
@@ -255,6 +334,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
           name='addressName'
           onChange={handleInput}
           placeholder='My house'
+          defaultValue={addressName}
           register={register}
           required='*this field is required'
           error={errors.name && errors.name.message}
@@ -277,12 +357,14 @@ const NewAddressPage = ({ google, ...otherProps }) => {
             onChange={handleInput}
             placeholder='2º 3'
             register={register}
+            defaultValue={addressNumber}
             width='187px'
           />
           <FormInput
             name='squareMeters'
             onChange={handleInput}
             placeholder='m2'
+            defaultValue={squareMeters}
             register={register}
             required='*required'
             error={errors.squareMeters && errors.squareMeters.message}
@@ -313,30 +395,32 @@ const NewAddressPage = ({ google, ...otherProps }) => {
         </TwoFieldLine>
         <h2>rooms</h2>
         <RoomsLine>
-          <span><KitchenIcon /> <FormSelect defaultValue={0} width='40' name='kitchen' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
-          <span><BedroomIcon /> <FormSelect defaultValue={0} width='40' name='room' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
-          <span><BathroomIcon /> <FormSelect defaultValue={0} width='40' name='bathroom' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
-          <span><LivingroomIcon /> <FormSelect defaultValue={0} width='40' name='terrace' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
+          <span><KitchenIcon /> <FormSelect value={rooms.kitchen} width='40' name='kitchen' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
+          <span><BedroomIcon /> <FormSelect value={rooms.room} width='40' name='room' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
+          <span><BathroomIcon /> <FormSelect value={rooms.bathroom} width='40' name='bathroom' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
+          <span><LivingroomIcon /> <FormSelect value={rooms.terrace} width='40' name='terrace' register={register} onChange={onChange}>{formInputOptions()}</FormSelect></span>
         </RoomsLine>
         <h2>others</h2>
         <OthersLine>
           <span>
             <Kids />
-            <FormSelect defaultValue={false} width='50' name='kids' register={register} onChange={onChangeOthers}>
+            <FormSelect value={others.kids} width='50' name='kids' register={register} onChange={onChangeOthers}>
               <option value={false}>No</option>
               <option value={true}>Yes</option>
             </FormSelect>
           </span>
           <span>
             <Pets />
-            <FormSelect defaultValue={false} width='50' name='pets' register={register} onChange={onChangeOthers}>
+            <FormSelect value={others.pets} width='50' name='pets' register={register} onChange={onChangeOthers}>
               <option value={false}>No</option>
               <option value={true}>Yes</option>
             </FormSelect>
           </span>
         </OthersLine>
         <p>{errors.emptyRooms && errors.emptyRooms.message}</p>
-        <CustomButton width='150' fontweight='lighter' type='submit' disabled={isLoading}>{isLoading ? <SpinnerButton /> : 'Add Address'}</CustomButton>
+        <CustomButton width='150' fontweight='lighter' type='submit' disabled={isLoading}>
+          {isLoading ? <SpinnerButton /> : addressId ? 'Edit Address' : 'Add Address'}
+        </CustomButton>
       </NewAddressPageForm>
     </NewAddressPageContainer>
   );

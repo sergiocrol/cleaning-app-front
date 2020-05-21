@@ -53,6 +53,13 @@ export const UserTypeTitle = styled.h2`
   margin: 0;
   font-size: 1.2rem;
   margin: 5px;
+  display: flex;
+  align-items: center;
+
+  a {
+    font-size: .7rem;
+    margin-right: 5px;
+  }
 `;
 
 export const UserTypeSubtitle = styled.span`

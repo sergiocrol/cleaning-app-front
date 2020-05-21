@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import FormInput from '../form-input/form-input.component';
@@ -40,7 +40,7 @@ const SignupUser = ({ value: { signup } }) => {
 
   return (
     <UserTypeContainer>
-      <UserTypeTitle>Welcome to maemae</UserTypeTitle>
+      <UserTypeTitle><Link to='/'>&#10092;</Link>Welcome to maemae</UserTypeTitle>
       <UserTypeSubtitle>Great! Just the last step to be part of our community as user</UserTypeSubtitle>
       <SignupForm onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='off'>
         <FormContainer>

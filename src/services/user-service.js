@@ -38,8 +38,23 @@ class UserService {
       .then(({ data }) => data)
   }
 
+  confirmRequest(jobId, requestId) {
+    return this.user.patch(`/user/${jobId}/confirm`, { requestId })
+      .then(({ data }) => data)
+  }
+
   createAddress(address) {
     return this.user.post('/address/add', address)
+      .then(({ data }) => data)
+  }
+
+  editAddress(addressId, address) {
+    return this.user.put(`/address/edit/${addressId}`, address)
+      .then(({ data }) => data)
+  }
+
+  deleteAddress(addressId) {
+    return this.user.delete(`/address/delete/${addressId}`)
       .then(({ data }) => data)
   }
 

@@ -4,6 +4,7 @@ export const SwitchButtonContainer = styled.div`
   position: relative;
   display: inline-block;
   margin-left: 3px;
+  height: 18px;
 
   input {
     display: none;
@@ -40,15 +41,11 @@ export const SwitchButtonContainer = styled.div`
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background-color: #fff;
+      background-color: ${props => props.theme.colors.buttonColor};
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
       -webkit-transition: left 0.25s ease;
       transition: left 0.25s ease;
     }
-  }
-
-  input:checked + label::before {
-    background-color: ${props => props.theme.colors.buttonColor};
   }
 
   input:checked + label::after {

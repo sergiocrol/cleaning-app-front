@@ -3,52 +3,20 @@ import styled from 'styled-components';
 import { ReactComponent as CleanerImage } from '../../assets/signup-page/cleaner.svg';
 
 export const CleanerCardContainer = styled.div`
-  width: 90%;
+  width: 100%;
   background-color: white;
   border-radius: 10px;
   display: flex;
   padding: 15px 20px;
-  margin: 10px 0;
+  margin: ${({ button }) => button ? '30px 0' : '10px 0'};
   align-items: center;
+  position: relative;
 `;
 
 export const Cleaner = styled(CleanerImage)`
   width: 65px;
   height: 65px;
 `;
-
-export const StarsOuter = styled.div`
-  display: inline-block;
-  position: relative;
-  &:before {
-    content: "\\2605 \\2605 \\2605 \\2605 \\2605";
-    color: #D9D9D9;
-    font-size: 1.2rem;
-    border-color: #D9D9D9;
-  }
-`;
-
-const calculateRate = ({ rate }) => {
-  return rate * 20;
-}
-
-export const StarsInner = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  width: ${calculateRate}%;
-
-  &:before {
-    content: "\\2605 \\2605 \\2605 \\2605 \\2605";
-    color: #EEB734;
-    font-size: 1.2rem;
-    border-color: #EEB734;
-  }
-`;
-
-export const Rate = styled.div``;
 
 export const NameContainer = styled.div`
   display: flex;
@@ -74,4 +42,21 @@ export const Price = styled.div`
   font-size: ${({ jobduration, addressduration }) => jobduration || addressduration ? '1.4rem' : '1.2rem'};
     font-weight: 500;   
   }
+`;
+
+export const ButtonStatus = styled.span`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+`;
+
+export const ButtonContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  bottom: -15px;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
 `;

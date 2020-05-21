@@ -7,8 +7,8 @@ const CustomSlider = ({ ...props }) => {
     <SliderContainer>
       <Slider {...props} />
       <SliderTextContainer>
-        <SliderText>price per hour</SliderText>
-        <SliderValue>{props.value}</SliderValue>
+        <SliderText>{props.min}{props.isTotalPrice ? '€' : '€/h'}</SliderText>
+        <SliderValue>{props.value}{props.isTotalPrice ? '€' : '€/h'}</SliderValue>
       </SliderTextContainer>
     </SliderContainer>
   )

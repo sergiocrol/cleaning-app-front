@@ -1,45 +1,64 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
-import { ProfileUserFilter, ProfileUserJobs } from './user-history.styles';
-import { ReactComponent as Down } from '../../../assets/slide/down.svg';
+import { AuthContext } from '../../../contexts/auth-context';
+
+import {
+  ProfileUserJobs,
+  UserHistoryFilter,
+  HistoryButton,
+  ProfileUserHeader,
+  ProfileUserImage,
+  ProfileUserInfo,
+  ProfileUserButtonContainer
+} from './user-history.styles';
+
+import GearIcon from '../../../assets/profile/gear.png';
+
 import JobCard from '../../../components/job-card/job-card.component';
 
-const UserHistory = ({ jobs }) => {
-  const [showFilter, setShowFilter] = useState(false);
-  const [status, setStatus] = useState({ pending: true, confirmed: true, finished: true });
+const UserHistory = ({ jobs, name, email, setHistory }) => {
+  const [status, setStatus] = useState({ all: true, pending: false, confirmed: false, finished: false });
+  const { user } = useContext(AuthContext);
 
   const handleChange = event => {
-    const name = event.target.value;
-    setStatus({ ...status, [name]: !status[name] });
+    const name = event.currentTarget.attributes.name.value;
+    setStatus({ pending: false, confirmed: false, finished: false, [name]: true })
   }
+
+  useEffect(() => {
+
+  }, [user])
 
   return (
     <>
-      <ProfileUserFilter showfilter={showFilter.toString()}>
-        <span onClick={() => setShowFilter(!showFilter)}>All your jobs</span> <Down width='20px' height='20px' style={{ marginLeft: '5px', stroke: '#4672ed' }} />
-        <div>
-          <label>
-            <span>pending jobs</span>
-            <input type='checkbox' id='pending' value="pending" defaultChecked onChange={handleChange} />
-            <div></div>
-          </label>
-          <label>
-            <span>confirmed jobs</span>
-            <input type='checkbox' id='confirmed' value="confirmed" defaultChecked onChange={handleChange} />
-            <div></div>
-          </label>
-          <label>
-            <span>finished jobs</span>
-            <input type='checkbox' id='finished' value="finished" defaultChecked onChange={handleChange} />
-            <div></div>
-          </label>
-        </div>
-      </ProfileUserFilter>
+      <ProfileUserHeader>
+        <ProfileUserImage />
+        <ProfileUserInfo>
+          <span>{name || email}</span>
+          <ProfileUserButtonContainer onClick={() => setHistory(false)}>
+            <img src={GearIcon} alt='profile' /> <span>edit profile</span>
+          </ProfileUserButtonContainer>
+        </ProfileUserInfo>
+      </ProfileUserHeader>
+      <UserHistoryFilter>
+        <HistoryButton name='all' onClick={handleChange} isActived={status.all}>
+          <span>{jobs ? jobs.length : 0}</span><span>jobs</span>
+        </HistoryButton>
+        <HistoryButton name='pending' onClick={handleChange} isActived={status.pending}>
+          <span>{jobs ? jobs.filter(job => job.status === 'pending').length : 0}</span><span>pending</span>
+        </HistoryButton>
+        <HistoryButton name='confirmed' onClick={handleChange} isActived={status.confirmed}>
+          <span>{jobs ? jobs.filter(job => job.status === 'confirmed').length : 0}</span><span>confirmed</span>
+        </HistoryButton>
+        <HistoryButton name='finished' onClick={handleChange} isActived={status.finished}>
+          <span>{jobs ? jobs.filter(job => job.status === 'finished').length : 0}</span><span>finished</span>
+        </HistoryButton>
+      </UserHistoryFilter>
       <ProfileUserJobs>
         {
           jobs
-            ? jobs.map(job => status[job.status] ? <JobCard key={job._id} job={job} /> : null)
+            ? jobs.map(job => status[job.status] || status.all ? <JobCard key={job._id} job={job} /> : null)
             : null
         }
       </ProfileUserJobs>

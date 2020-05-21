@@ -34,7 +34,7 @@ export const SlideHeader = styled.div`
 
 export const SlideTitle = styled.h3`
   margin: 20px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   text-align: left;
   margin: 0;
   display: flex;

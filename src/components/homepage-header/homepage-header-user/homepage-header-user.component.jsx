@@ -9,12 +9,13 @@ import CarouselComponent from '../../carousel/carousel.component';
 import { HeaderContainer, HeaderTitle } from './homepage-header-user.styles';
 
 const HomepageHeaderUser = () => {
-  const { userJobs, changeCurrentJob, currentJob, changeCurrentAddress, currentAddress } = useContext(UserContext);
+  const { userJobs, changeCurrentJob, currentJob, changeCurrentAddress, currentAddress, userState } = useContext(UserContext);
   const { user } = useContext(AuthContext);
   const [redirect, setRedirect] = useState(false);
   let isFirstTime = false;
 
-  if (!userJobs && user.addresses === undefined) isFirstTime = true;
+  if (!userJobs && (user.addresses === undefined || !user.addresses.length)) isFirstTime = true;
+
   useEffect(() => {
     return () => setRedirect(false);
   }, [redirect]);

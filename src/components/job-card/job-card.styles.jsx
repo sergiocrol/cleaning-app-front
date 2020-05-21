@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const textColor = props => props.theme.colors.textColorBlue;
-const backgrounColor = { pending: props => props.theme.colors.buttonColor, confirmed: 'blue', finished: 'grey' };
+const backgrounColor = { pending: '#5B9AFF', confirmed: props => props.theme.colors.buttonColor, finished: '#BAB8CA' };
 
 export const JobCardContainer = styled.div`
   width: 100%;
@@ -46,7 +46,6 @@ export const JobCardInfoRooms = styled.div`
   height: 40px;
   border-top: 1px solid #d3d3d35e;
   padding-top: 17px;
-}
 `;
 
 export const JobCardPriceContainer = styled.div`
@@ -91,7 +90,7 @@ export const JobCardCleaners = styled.div`
     align-items: center;
     font-size: 1.3rem;
     span {
-      fon-size: 1rem;
+      font-size: 1rem;
       margin-left: 5px;
     }
   }

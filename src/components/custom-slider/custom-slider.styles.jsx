@@ -9,11 +9,12 @@ export const Slider = styled.input`
   -webkit-appearance: none;
   width: 100%;
   height: 3px;
-  background: #3F4477;
+  background: lightgray;
   border-radius: 3px;
   outline: none;
   -webkit-transition: .2s;
   transition: opacity .2s;
+  margin-bottom: 9px;
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -35,13 +36,14 @@ export const Slider = styled.input`
 
 export const SliderText = styled.span`
   margin: 0 0 0 5px;
-  font-size: 1rem;
+  font-size: .9rem;
+  color: gray;
 `;
 
 export const SliderValue = styled.span`
-  font-size: 1rem;
-  font-weight: bolder;
+  font-size: .9rem;
   margin-right: 5px;
+  font-weight: bolder;
   color: ${props => props.theme.colors.buttonColor};
 `;
 

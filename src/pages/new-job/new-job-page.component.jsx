@@ -16,6 +16,7 @@ import { ReactComponent as BathroomIcon } from '../../assets/new-job/bathroom-ic
 import { ReactComponent as BedroomIcon } from '../../assets/new-job/bedroom-icon.svg';
 import { ReactComponent as LivingroomIcon } from '../../assets/new-job/livingroom-icon.svg';
 import { ReactComponent as DateBookingError } from '../../assets/new-job/date-error.svg';
+import PhoneIcon from '../../assets/new-job/cellphone.png';
 import Calendar from '../../assets/new-job/calendar-icon.png';
 import bcg from '../../assets/backgrounds/bg1-alpha.svg';
 
@@ -24,7 +25,6 @@ import { UserContext } from '../../contexts/user-context';
 
 import {
   NewJobContainer,
-  NewJobTitle,
   MessageBlock,
   PrivatePublicIcon,
   Path,
@@ -34,14 +34,15 @@ import {
   AddressLine,
   RoomsLine,
   AddAddressIcon,
-  NewJobSubtitle
+  NewJobSubtitle,
+  PhoneLine
 } from './new-job.styles';
 import './date-picker.styles.scss';
 
 const NewJobPage = (props) => {
   const cleaner = props.location.state ? props.location.state.cleaner : '';
   const { register, handleSubmit, errors, setError } = useForm();
-  const { user: { addresses, jobs }, update } = useContext(AuthContext);
+  const { user: { addresses }, update } = useContext(AuthContext);
   const { createJob } = useContext(UserContext);
 
   const [pickedAddress, setSelectedAddress] = useState({ selectedAddress: null, selectedIndex: 0 });
@@ -50,14 +51,15 @@ const NewJobPage = (props) => {
   const [isDateError, setDateError] = useState(false);
   const [message, setMessage] = useState('');
   const [jobData, setJobData] = useState({
-    selectedDate: new Date(),
+    selectedDate: new Date(new Date().setHours(new Date().getHours() + 1)),
+    phoneNumber: '',
     room: 0,
     kitchen: 0,
     bathroom: 0,
     terrace: 0
   });
 
-  const { selectedDate, kitchen, room, bathroom, terrace } = jobData;
+  const { selectedDate, kitchen, room, bathroom, terrace, phoneNumber } = jobData;
   const { selectedIndex } = pickedAddress;
 
   useEffect(() => {
@@ -68,14 +70,16 @@ const NewJobPage = (props) => {
     if (addresses && addresses.length > 0) {
       const rooms = { kitchen: 0, room: 0, bathroom: 0, terrace: 0 };
       const address = addresses[selectedIndex];
-      const jobsAddress = jobs.filter(job => job.address === address._id);
-      jobsAddress.length > 0 && jobsAddress[jobsAddress.length - 1].rooms.forEach(room => rooms[room.type] = room.number);
+      address.rooms.forEach(room => {
+        rooms[room.type] = room.number;
+      });
       setJobData({ ...jobData, ...rooms });
     }
   }, [selectedIndex]);
 
   const handleChange = event => {
-    const { value, name } = event.target;
+    let { value, name } = event.target;
+    if (name === 'kitchen' || name === 'bathroom' || name === 'room' || name === 'terrace') value = value * 1;
     setJobData({ ...jobData, [name]: value });
   }
 
@@ -88,6 +92,14 @@ const NewJobPage = (props) => {
     setIsPrivate(!isPrivate);
     configureMessage(!isPrivate);
     setToggleIcon(!isPrivate);
+  }
+
+  const formInputOptions = (selected) => {
+    const options = [];
+    for (let i = 0; i <= 5; i++) {
+      options.push(<option key={i} value={i}>{i}</option>)
+    }
+    return options;
   }
 
   const onSubmit = () => {
@@ -108,6 +120,7 @@ const NewJobPage = (props) => {
         date: selectedDate,
         duration: 120,
         rooms,
+        phoneNumber,
         status: 'pending'
       }
       createJob(job)
@@ -126,7 +139,7 @@ const NewJobPage = (props) => {
 
   const minTime = () => {
     return selectedDate.getDay() === (new Date()).getDay()
-      ? setHours(setMinutes(new Date(), (new Date()).getMinutes()), (new Date()).getHours())
+      ? setHours(setMinutes(new Date(), (new Date()).getMinutes()), (new Date()).getHours() + 1)
       : setHours(setMinutes(new Date(), 0), 0)
   }
 
@@ -160,7 +173,6 @@ const NewJobPage = (props) => {
         </div>
         : null
       }
-      <NewJobTitle>Create a new job</NewJobTitle>
       <MessageBlock>
         <h3>This is a <span>{isPrivate ? 'private' : 'public'}</span> request{message}</h3>
         <PublicButtonContainer onClick={handleTypeChange} >
@@ -173,7 +185,7 @@ const NewJobPage = (props) => {
           <PublicMessage>Make it {isPrivate ? 'public' : 'private'}</PublicMessage>
         </PublicButtonContainer>
       </MessageBlock>
-      <NewJobSubtitle>What do you need</NewJobSubtitle>
+      <NewJobSubtitle>Create an offer</NewJobSubtitle>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <AddressLine>
           <HouseIcon style={{ width: '25px', marginRight: '10px' }} />
@@ -212,12 +224,26 @@ const NewJobPage = (props) => {
             }}
           />
         </AddressLine>
+        <NewJobSubtitle>What do you need?</NewJobSubtitle>
         <RoomsLine>
-          <span><KitchenIcon /> <FormInput onChange={handleChange} name='kitchen' register={register} width='30px' value={kitchen} /></span>
-          <span><BedroomIcon /> <FormInput onChange={handleChange} name='room' register={register} width='30px' value={room} /></span>
-          <span><BathroomIcon /> <FormInput onChange={handleChange} name='bathroom' register={register} width='30px' value={bathroom} /></span>
-          <span><LivingroomIcon /> <FormInput onChange={handleChange} name='terrace' register={register} width='30px' value={terrace} /></span>
+          <span><KitchenIcon /> <FormSelect value={kitchen} width='40' name='kitchen' register={register} onChange={handleChange}>{formInputOptions()}</FormSelect></span>
+          <span><BedroomIcon /> <FormSelect value={room} width='40' name='room' register={register} onChange={handleChange}>{formInputOptions()}</FormSelect></span>
+          <span><BathroomIcon /> <FormSelect value={bathroom} width='40' name='bathroom' register={register} onChange={handleChange}>{formInputOptions()}</FormSelect></span>
+          <span><LivingroomIcon /> <FormSelect value={terrace} width='40' name='terrace' register={register} onChange={handleChange}>{formInputOptions()}</FormSelect></span>
         </RoomsLine>
+        <PhoneLine>
+          <img src={PhoneIcon} alt='phone number' />
+          <FormInput
+            register={register}
+            onChange={handleChange}
+            name='phoneNumber'
+            width='180px'
+            height='30px'
+            placeholder='contact number'
+            required='*this field is required'
+            error={errors.phoneNumber && errors.phoneNumber.message}
+          />
+        </PhoneLine>
         <p>{errors.duplicated && errors.duplicated.message}</p>
         <p>{errors.emptyAddress && errors.emptyAddress.message}</p>
         <CustomButton width='100' type='submit'>create</CustomButton>

@@ -48,7 +48,7 @@ const CarouselComponent = ({ userJobs, changeCurrentJob, currentJob, user, chang
       >
         {
           userJobs && userJobs.length
-            ? userJobs.map(job => <SlideJob onClick={() => console.log('jobs')} key={job._id} job={job} />)
+            ? userJobs.map(job => <SlideJob onClick={() => console.log('jobs')} key={job._id} job={job} showRequests={true} />)
             : user.addresses && user.addresses.length
               ? user.addresses.map(address => <SlideAddress onClick={() => console.log('addresses')} key={address._id} address={address} />)
               : [1, 2, 3].map((slide, idx) => <SlideFirst onClick={() => console.log('first steps')} key={idx} />)

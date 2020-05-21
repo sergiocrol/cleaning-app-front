@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import Spinner from '../../components/spinner/spinner.component';
 
-import usePosition from '../../helpers/geolocation';
+import usePosition from '../../hooks/geolocation';
 import { getMapImage } from '../../helpers/get-map-image';
 
 import { MapPageContainer, MapPageForm, Button } from './map-page.styles';
