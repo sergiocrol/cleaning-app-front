@@ -1,5 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+
+import Empty from '../../../assets/modals/empty.png';
 
 import { AuthContext } from '../../../contexts/auth-context';
 
@@ -10,7 +13,8 @@ import {
   ProfileUserHeader,
   ProfileUserImage,
   ProfileUserInfo,
-  ProfileUserButtonContainer
+  ProfileUserButtonContainer,
+  JobEmpty
 } from './user-history.styles';
 
 import GearIcon from '../../../assets/profile/gear.png';
@@ -56,10 +60,18 @@ const UserHistory = ({ jobs, name, email, setHistory }) => {
         </HistoryButton>
       </UserHistoryFilter>
       <ProfileUserJobs>
+        {console.log(jobs)}
         {
-          jobs
-            ? jobs.map(job => status[job.status] || status.all ? <JobCard key={job._id} job={job} /> : null)
-            : null
+          jobs && jobs.length
+            ? jobs.map(job => status[job.status] || status.all
+              ? <JobCard key={job._id} job={job} />
+              : null)
+            : <JobEmpty>
+              <img src={Empty} alt='empty jobs' />
+              <h3>You don't have jobs yet</h3>
+              <span>Let's create a new service and find cleaners!</span>
+              <Link to='/user/new-job'>new job</Link>
+            </JobEmpty>
         }
       </ProfileUserJobs>
     </>

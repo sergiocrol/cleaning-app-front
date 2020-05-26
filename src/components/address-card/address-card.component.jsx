@@ -14,6 +14,7 @@ import { ReactComponent as PetsIcon } from '../../assets/new-job/pet-icon.svg';
 import SpinnerButton from '../spinner-button/spinner-button.component';
 
 import { UserContext } from '../../contexts/user-context';
+import { AuthContext } from '../../contexts/auth-context';
 
 import {
   AddressCardContainer,
@@ -26,6 +27,7 @@ import {
 
 const AddressCard = ({ address, deleteAddressFromList }) => {
   const { deleteAddress } = useContext(UserContext);
+  const { update } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState(false);
   const { name, city, addressStreet, addressNumber, rooms, pets, kids, _id } = address;
@@ -39,6 +41,8 @@ const AddressCard = ({ address, deleteAddressFromList }) => {
     deleteAddress(_id)
       .then(res => {
         deleteAddressFromList(_id);
+        update();
+        sessionStorage.clear();
         setIsLoading(false);
       })
       .catch(res => {

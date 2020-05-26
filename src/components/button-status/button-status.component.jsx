@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import SpinnerButton from '../../components/spinner-button/spinner-button.component';
 
@@ -7,7 +8,8 @@ import { AuthContext } from '../../contexts/auth-context';
 
 import { ButtonStatus } from './button-status.styles';
 
-export const ButtonPending = ({ job, request }) => {
+// Pending button of user history
+export const ButtonPending = () => {
   return (
     <ButtonStatus status={'pending'}>
       Waiting
@@ -15,32 +17,41 @@ export const ButtonPending = ({ job, request }) => {
   );
 }
 
+// Confirmed button of user history
 export const ButtonConfirmed = () => {
   return (
-    <ButtonStatus status={'confirmed'}>Confirmed</ButtonStatus>
+    <ButtonStatus status={'confirmed'}>
+      Confirmed
+    </ButtonStatus>
   );
 }
 
+// Rejected button of user history
 export const ButtonRejected = () => {
   return (
-    <ButtonStatus status={'rejected'}>Rejected</ButtonStatus>
+    <ButtonStatus status={'rejected'}>
+      Rejected
+    </ButtonStatus>
   );
 }
 
-export const ButtonHire = ({ job, request, message }) => {
+// Hire button for user history and request modal of homepage
+export const ButtonHire = ({ job, request, message, confirmation }) => {
   const [loading, setLoading] = useState(false);
   const { confirmRequest } = useContext(UserContext);
   const { update } = useContext(AuthContext);
 
   const hireCleaner = () => {
+    setLoading(true);
     confirmRequest(job, request)
       .then(res => {
-        setLoading(true);
         update();
         setLoading(false);
+        confirmation && confirmation(true);
       })
       .catch(error => {
         console.log('Something went wrong', error);
+        setLoading(false);
       })
   }
 
@@ -51,45 +62,52 @@ export const ButtonHire = ({ job, request, message }) => {
   );
 }
 
-export const ButtonConfirm = ({ jobId, cleanerId }) => {
+// Button Send request, for requests of homepage
+export const ButtonSendRequest = ({ jobId, cleanerId, confirmation }) => {
   const [loading, setLoading] = useState(false);
   const { sendRequest } = useContext(UserContext);
+  const { update } = useContext(AuthContext);
 
   const newRequest = () => {
-    console.log('Request sent');
+    setLoading(true);
     sendRequest(jobId, cleanerId)
       .then(request => {
-        setLoading(true);
         console.log('Request sent');
+        update();
         setLoading(false);
+        confirmation && confirmation(true);
       })
       .catch(error => {
+        setLoading(false);
         console.log('Not able to send the request')
       })
   }
 
   return (
-    <ButtonStatus status={'confirmed'} onClick={newRequest}>
-      {loading ? <SpinnerButton /> : 'Accept'}
+    <ButtonStatus status={'hire'} onClick={newRequest}>
+      {loading ? <SpinnerButton /> : 'Send'}
     </ButtonStatus>
   );
 }
 
-export const ButtonReject = ({ job, request, message }) => {
+// Reject button for the request modal of homepage
+export const ButtonReject = ({ job, request, message, confirmation }) => {
   const [loading, setLoading] = useState(false);
   const { cancelRequest } = useContext(UserContext);
   const { update } = useContext(AuthContext);
 
   const removeRequest = () => {
+    setLoading(true);
     cancelRequest(job, request)
       .then(request => {
-        setLoading(true);
         console.log('Request sent');
         update();
         setLoading(false);
+        confirmation && confirmation(true);
       })
       .catch(error => {
         console.log('Not able to cancel the request');
+        setLoading(false);
       })
   }
 

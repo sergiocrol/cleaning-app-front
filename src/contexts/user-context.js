@@ -136,7 +136,6 @@ const UserProvider = (props) => {
   }
 
   const sendRequest = (jobId, cleanerId) => {
-    console.log('noooo')
     return userService.sendRequest(jobId, cleanerId)
       .then(request => {
         return request;

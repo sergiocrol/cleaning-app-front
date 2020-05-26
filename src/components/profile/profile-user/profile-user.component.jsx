@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import AddressCard from '../../address-card/address-card.component';
 
 import { ReactComponent as Down } from '../../../assets/slide/down.svg';
+import { ReactComponent as Map } from '../../../assets/modals/map.svg';
 
 import {
   UserProfileTitle,
@@ -13,7 +15,8 @@ import {
   UserProfileName,
   UserProfileEmail,
   LogoutButton,
-  UserProfileBody
+  UserProfileBody,
+  AddressEmpty
 } from './profile-user.styles';
 
 const UserProfile = ({ setHistory, name, email, addresses, logout }) => {
@@ -43,7 +46,14 @@ const UserProfile = ({ setHistory, name, email, addresses, logout }) => {
       </UserProfileHeader>
       <UserProfileBody>
         {
-          addressesList.map(address => <AddressCard key={address._id} address={address} deleteAddressFromList={deleteAddressFromList} />)
+          addressesList && addressesList.length
+            ? addressesList.map(address => <AddressCard key={address._id} address={address} deleteAddressFromList={deleteAddressFromList} />)
+            : <AddressEmpty>
+              <Map />
+              <h3>You don't have any address yet</h3>
+              <span>Let's add an address</span>
+              <Link to='/user/new-address'>Add</Link>
+            </AddressEmpty>
         }
       </UserProfileBody>
     </UserProfileContainer>

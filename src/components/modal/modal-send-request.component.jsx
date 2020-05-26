@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Rate from '../rate/rate.component';
-import { ButtonHire, ButtonReject } from '../../components/button-status/button-status.component';
+import { ButtonSendRequest } from '../../components/button-status/button-status.component';
 
 import { getDate, getTime } from '../../helpers/date';
 
@@ -11,7 +11,7 @@ import { ReactComponent as Kitchen } from '../../assets/new-job/kitchen-icon.svg
 import { ReactComponent as Bedroom } from '../../assets/new-job/bedroom-icon.svg';
 import { ReactComponent as Livingroom } from '../../assets/new-job/livingroom-icon.svg';
 import { ReactComponent as Bathroom } from '../../assets/new-job/bathroom-icon.svg';
-import Success from '../../assets/modals/success.png';
+import Send from '../../assets/modals/send.png';
 
 import {
   ModalRequestContainer,
@@ -25,12 +25,11 @@ import {
   ModalRequestConfirmation
 } from './modal-cleaner-request.styles';
 
-const ModalCleanerRequest = ({
-  request: { _id: requestId, cleaner: { firstName, lastName, _id: cleanerId, rate, fee } },
+const ModalSendRequest = ({
+  cleaner: { firstName, lastName, _id: cleanerId, rate, fee },
   job: { duration, date, rooms, _id: jobId }
 }) => {
   const [messageConfirmation, setMessageConfirmation] = useState(false);
-  const [redirect, setRedirect] = useState(false);
 
   const getRoomNumber = (type) => {
     const room = rooms.filter(room => room.type === type)[0];
@@ -41,25 +40,19 @@ const ModalCleanerRequest = ({
     setMessageConfirmation(res);
   }
 
-  const reject = (res) => {
-    setRedirect(res);
-  }
-
-  if (redirect) { return <Redirect to='/' /> }
-
   return (
     messageConfirmation
       ? <ModalRequestConfirmation>
-        <img src={Success} alt='confirmed' />
-        <h3>Congratulations!</h3>
-        <span>You have a cleaner :)</span>
-        <span>Remember you can see all the details of your confirmed job in your profile</span>
+        <img src={Send} alt='sent' />
+        <h3>Great!</h3>
+        <span>You have sent the request :)</span>
+        <span>Remember you can see all the details of your job in your profile</span>
         <Link to='/user/profile'>profile</Link>
       </ModalRequestConfirmation>
       : cleanerId
         ? <ModalRequestContainer>
           <ModalRequestHeader>
-            <h4>Do you want to accept this request?</h4>
+            <h4>Do you want to send a request?</h4>
             <ProfileCleanerImage />
             <span>{firstName + ' ' + lastName}</span>
             <Rate rate={rate} />
@@ -80,12 +73,11 @@ const ModalCleanerRequest = ({
             <div><Livingroom style={{ width: '25px' }} /><span>{getRoomNumber('terrace')}</span></div>
           </ModalRequestFooter>
           <ModalRequestButtons>
-            <ButtonHire job={jobId} request={requestId} confirmation={confirmation} message='Accept' />
-            <ButtonReject job={jobId} request={requestId} confirmation={reject} message='Reject' />
+            <ButtonSendRequest jobId={jobId} cleanerId={cleanerId} confirmation={confirmation} />
           </ModalRequestButtons>
         </ModalRequestContainer>
         : null
   );
 }
 
-export default ModalCleanerRequest; 
+export default ModalSendRequest;

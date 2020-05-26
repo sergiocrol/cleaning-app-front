@@ -6,6 +6,7 @@ export const calculateRoomDuration = (rooms, others, squareMeters) => {
   const { kitchen, terrace, room, bathroom } = rooms;
   const { pets, kids } = others;
   const minutesRoom = squareMeters / 2;
+  console.log(kitchen, terrace, room, bathroom, pets, kids, minutesRoom, squareMeters);
   const baseTime = !pets && !kids ? minutesRoom : pets ? kids ? minutesRoom + 10 : minutesRoom + 5 : minutesRoom + 5;
   return [
     { type: 'kitchen', duration: (kitchen * 1.5) * baseTime, number: kitchen },

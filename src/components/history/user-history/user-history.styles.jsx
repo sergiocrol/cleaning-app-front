@@ -103,3 +103,43 @@ export const ProfileUserHeader = styled.div`
   width: 100%;
   height: 100px;
 `;
+
+export const JobEmpty = styled.div`
+  width: 100%;
+  background-color: white;
+  opacity: .7;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: ${props => props.theme.colors.textColorBlue};
+  }
+
+  a {
+    width: 100px;
+    height: 30px;
+    background-color: ${props => props.theme.colors.buttonColor};
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  span {
+    width: 90%;
+    text-align: center;
+  }
+
+  img {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+`; 

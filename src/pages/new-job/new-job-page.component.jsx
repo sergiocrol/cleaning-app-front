@@ -9,6 +9,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import FormInput from '../../components/form-input/form-input.component';
 import FormSelect from '../../components/form-select/form-select.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
+import Modal from '../../components/modal/modal.component';
+import ModalConfirmJob from '../../components/modal/modal-confirm-job.component';
+import ModalDuplicatedDate from '../../components/modal/modal-duplicated-date.component';
+import SpinnerButton from '../../components/spinner-button/spinner-button.component';
+
+import { calculateRoomDuration, calculateTotalDuration } from '../../helpers/calculate-duration';
+
+import useModal from '../../hooks/modal'
 
 import { ReactComponent as HouseIcon } from '../../assets/new-job/house-icon.svg';
 import { ReactComponent as KitchenIcon } from '../../assets/new-job/kitchen-icon.svg';
@@ -35,7 +43,9 @@ import {
   RoomsLine,
   AddAddressIcon,
   NewJobSubtitle,
-  PhoneLine
+  PhoneLine,
+  JobPriceBlock,
+  ProfileCleanerImage
 } from './new-job.styles';
 import './date-picker.styles.scss';
 
@@ -43,13 +53,15 @@ const NewJobPage = (props) => {
   const cleaner = props.location.state ? props.location.state.cleaner : '';
   const { register, handleSubmit, errors, setError } = useForm();
   const { user: { addresses }, update } = useContext(AuthContext);
-  const { createJob } = useContext(UserContext);
+  const { createJob, currentAddress: { _id: addressId, pets, kids, squareMeters } } = useContext(UserContext);
 
-  const [pickedAddress, setSelectedAddress] = useState({ selectedAddress: null, selectedIndex: 0 });
-  const [isPrivate, setIsPrivate] = useState(true);
+  const [pickedAddress, setSelectedAddress] = useState({ selectedAddress: '', selectedIndex: 0 });
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [toggleIcon, setToggleIcon] = useState(null);
   const [isDateError, setDateError] = useState(false);
   const [message, setMessage] = useState('');
+  const [isJobConfirmed, setJobConfirmed] = useState(null);
   const [jobData, setJobData] = useState({
     selectedDate: new Date(new Date().setHours(new Date().getHours() + 1)),
     phoneNumber: '',
@@ -59,14 +71,21 @@ const NewJobPage = (props) => {
     terrace: 0
   });
 
+  const { isShowing, toggle } = useModal();
+
   const { selectedDate, kitchen, room, bathroom, terrace, phoneNumber } = jobData;
   const { selectedIndex } = pickedAddress;
 
   useEffect(() => {
+    const addressIndex = addresses.reduce((res, currentAddress, idx) => {
+      return res = currentAddress._id === addressId ? { selectedAddress: currentAddress.name, selectedIndex: idx } : res
+    }, { selectedAddress: '', selectedIndex: 0 });
+    setSelectedAddress(addressIndex);
+    setIsPrivate(cleaner ? true : false);
+  }, []);
+
+  useEffect(() => {
     update()
-    if (!message) {
-      configureMessage(true)
-    }
     if (addresses && addresses.length > 0) {
       const rooms = { kitchen: 0, room: 0, bathroom: 0, terrace: 0 };
       const address = addresses[selectedIndex];
@@ -76,6 +95,10 @@ const NewJobPage = (props) => {
       setJobData({ ...jobData, ...rooms });
     }
   }, [selectedIndex]);
+
+  useEffect(() => {
+    configureMessage(isPrivate)
+  }, [isPrivate])
 
   const handleChange = event => {
     let { value, name } = event.target;
@@ -102,17 +125,17 @@ const NewJobPage = (props) => {
     return options;
   }
 
+  const showError = () => {
+    setLoading(false);
+    toggle(!isShowing);
+    setJobConfirmed(false);
+  }
+
   const onSubmit = () => {
     if (!addresses.length) {
       setError('emptyAddress', 'notEmpty', 'Please, add an address before to follow');
     } else {
-      const rooms = [
-        { type: 'kitchen', duration: 60, number: kitchen },
-        { type: 'room', duration: 15, number: room },
-        { type: 'bathroom', duration: 30, number: bathroom },
-        { type: 'terrace', duration: 15, number: terrace }
-      ]
-
+      const rooms = calculateRoomDuration(jobData, { pets, kids }, addresses[selectedIndex].squareMeters);
       const job = {
         address: addresses[selectedIndex]._id,
         city: addresses[selectedIndex].city,
@@ -120,19 +143,22 @@ const NewJobPage = (props) => {
         date: selectedDate,
         duration: 120,
         rooms,
-        phoneNumber,
-        status: 'pending'
+        phoneNumber: phoneNumber + '',
+        status: 'pending',
+        cleanerId: cleaner ? cleaner._id : null
       }
+      setLoading(true);
       createJob(job)
         .then(res => {
-          alert('Yuhuuu');
+          setLoading(false);
           update();
+          toggle(!isShowing);
+          setJobConfirmed(true);
         })
         .catch(error => {
           error.response.status === 409
-            ? setDateError(!isDateError)
-            // ? setError('duplicated', 'alreadyExists', 'You already have a job for this date. Please, select another one')
-            : console.log(error)
+            ? showError()
+            : setLoading(false); console.log(error)
         })
     }
   }
@@ -148,21 +174,36 @@ const NewJobPage = (props) => {
 
     if (isPrivate) {
       const isName = cleaner
-        ? ` for ${cleaner.name || cleaner.firstName}, 
-      it can only by seen by the cleaner, but you can change this whenever you want`
-        : '. You can send requests to any cleaner you want, but only them can see your offer';
+        ? <h3>This is a <span>private</span> request for <span>{cleaner.name || cleaner.firstName}</span>, and only can be seen by the cleaner</h3>
+        : <h3>This is a <span>private</span> request. Only those cleaners you choose can see your offer</h3>
       text = isName;
     } else {
       const isName = cleaner
-        ? `, you will send a request to ${cleaner.name || cleaner.firstName}, but other cleaners can also see your offer`
-        : ', any cleaner will be able to see your offer and contact you';
+        ? <h3>This is a <span>public</span> request for <span>{cleaner.name || cleaner.firstName}</span>, but any other cleaners can see your offer</h3>
+        : <h3>This is a <span>public</span> request, any cleaner will be able to see your offer and contact you</h3>
       text = isName;
     }
     setMessage(text);
   }
 
+  const jobDuration = () => {
+    const time = calculateTotalDuration(calculateRoomDuration(jobData, { pets, kids }, squareMeters));
+    const hours = Math.floor(time / 60);
+    const minutes = Math.round(time % 60);
+    return <span>{hours + ':' + minutes + 'h x ' + cleaner.fee + ' €/h = '}<span className='mama'>{Math.round((time / 60) * cleaner.fee)}€</span></span>;
+  }
+
   return (
     <NewJobContainer>
+      <Modal isShowing={isShowing} hide={toggle}>
+        {
+          isJobConfirmed === null
+            ? null
+            : isJobConfirmed
+              ? <ModalConfirmJob />
+              : <ModalDuplicatedDate />
+        }
+      </Modal>
       {isDateError
         ? <div style={{ width: '100%', height: '100%', backgroundColor: 'rgba(7, 0, 0, 0.77)', position: 'absolute', zIndex: 999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div style={{ width: '80%', height: '400px', backgroundColor: 'white', borderRadius: '10px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundImage: `url(${bcg})`, backgroundSize: 'auto', backgroundRepeat: 'no-repeat' }}>
@@ -174,7 +215,8 @@ const NewJobPage = (props) => {
         : null
       }
       <MessageBlock>
-        <h3>This is a <span>{isPrivate ? 'private' : 'public'}</span> request{message}</h3>
+        {/* <h3>This is a <span>{isPrivate ? 'private' : 'public'}</span> request{message}</h3> */}
+        {message}
         <PublicButtonContainer onClick={handleTypeChange} >
           <PrivatePublicIcon xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
             <path fill='white' d='M336,256c-20.56,0-40.44-9.18-56-25.84-15.13-16.25-24.37-37.92-26-61-1.74-24.62,5.77-47.26,21.14-63.76S312,80,336,80c23.83,0,45.38,9.06,60.7,25.52,15.47,16.62,23,39.22,21.26,63.63h0c-1.67,23.11-10.9,44.77-26,61C376.44,246.82,356.57,256,336,256Zm66-88h0Z' />
@@ -189,7 +231,7 @@ const NewJobPage = (props) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <AddressLine>
           <HouseIcon style={{ width: '25px', marginRight: '10px' }} />
-          <FormSelect width='200' name='selectedAddress' onChange={handleAddressChange}>
+          <FormSelect width='200' name='selectedAddress' value={pickedAddress.selectedAddress} onChange={handleAddressChange}>
             {
               addresses && addresses.length > 0
                 ? addresses.map((address, idx) => <option key={idx} value={address.name}>{address.name}</option>)
@@ -244,9 +286,16 @@ const NewJobPage = (props) => {
             error={errors.phoneNumber && errors.phoneNumber.message}
           />
         </PhoneLine>
-        <p>{errors.duplicated && errors.duplicated.message}</p>
+        {
+          cleaner
+            ? <JobPriceBlock>
+              <ProfileCleanerImage />
+              <span>{jobDuration()}</span>
+            </JobPriceBlock>
+            : null
+        }
         <p>{errors.emptyAddress && errors.emptyAddress.message}</p>
-        <CustomButton width='100' type='submit'>create</CustomButton>
+        <CustomButton width='100' type='submit'>{isLoading ? <SpinnerButton /> : 'create '}</CustomButton>
       </Form>
     </NewJobContainer >
   );

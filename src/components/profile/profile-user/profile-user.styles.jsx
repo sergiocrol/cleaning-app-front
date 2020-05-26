@@ -69,3 +69,43 @@ export const UserProfileBody = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+
+export const AddressEmpty = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  opacity: .7;
+  border-radius: 10px;
+  height: 210px;
+  padding: 20px;
+
+  svg {
+    width: 130px;
+  }
+
+  h3 {
+    color: ${props => props.theme.colors.textColorBlue};
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+  }
+
+  span {
+    width: 90%;
+    text-align: center;
+  }
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.theme.colors.buttonColor};
+    width: 80px;
+    height: 30px;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+`;

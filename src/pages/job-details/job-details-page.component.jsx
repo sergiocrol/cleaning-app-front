@@ -29,9 +29,9 @@ const JobDetailsPage = ({ match: { params: { jobId } } }) => {
   const [cleanerFee, setCleanerFee] = useState(0);
   const [filteredCleaners, setFilteredCleaners] = useState(cleaners);
 
-
   useEffect(() => {
     if (user.jobs) {
+      console.log('set job: ', user.jobs.filter(job => job._id === jobId)[0].requests);
       setJob(user.jobs.filter(job => job._id === jobId)[0]);
     }
   }, [user.jobs, user]);
@@ -42,6 +42,7 @@ const JobDetailsPage = ({ match: { params: { jobId } } }) => {
       job.requests.forEach(req => {
         cleaners.push(req.cleaner);
       });
+      console.log('set cleaners: ', cleaners);
       setCleaners(cleaners);
       cleaners.length && setCleanerFee(CleanersPriceRange(cleaners, isTotalPrice, job.duration, null)[1]);
     }
@@ -94,7 +95,7 @@ const JobDetailsPage = ({ match: { params: { jobId } } }) => {
                   <CleanerCard
                     key={idx}
                     cleaner={request}
-                    jobDuration={job.duration}
+                    job={job}
                     isTotalPrice={isTotalPrice}
                     button={getButtonStatus(job, idx)}
                   />

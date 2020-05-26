@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 import background from '../../assets/backgrounds/bg4-alpha.svg';
 import { ReactComponent as AddIcon } from '../../assets/new-job/add-icon.svg';
+import { ReactComponent as UserImage } from '../../assets/signup-page/cleaner-avatar.svg';
 
 const line = css`
   display: flex;
@@ -18,6 +19,7 @@ export const NewJobContainer = styled.div`
   background-attachment: fixed;
   height: calc(100vh - 60px);
   width: 100vw;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,19 +31,20 @@ export const MessageBlock = styled.div`
   width: 90%;
   background-color: #ffffffc4;
   border-radius: 10px;
-  height: 175px;
+  height: 130px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   h3{
-    width: 80%;
+    width: 90%;
     text-align: center;
     font-weight: lighter;
     letter-spacing: 1px;
     font-size: .9rem;
     height: 50%;
-    padding: 10px;
+    padding: 0 10px;
+    margin: 10px 0 0 5px;
 
     span{
       color: ${props => props.theme.colors.buttonColor};
@@ -103,7 +106,7 @@ export const PublicMessage = styled.span`
   `;
 
 export const Form = styled.form`
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 20px;
@@ -126,7 +129,7 @@ export const AddAddressIcon = styled(AddIcon)`
 `;
 
 export const NewJobSubtitle = styled.h2`
-  width: 90%;
+  width: 100%;
   font-size: larger;
   color: gray;
   text-align: center;
@@ -149,7 +152,7 @@ export const RoomsLine = styled.div`
 `;
 
 export const PhoneLine = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,4 +162,45 @@ export const PhoneLine = styled.div`
     width: 35px;
     height: 35px;
   }
+`;
+
+export const JobPriceBlock = styled.div`
+  width: 90%;
+  height: 70px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+
+  svg {
+    margin-right: 10px;
+  }
+
+  span {
+    font-size: 1.1rem;
+    color: 'black';
+    .mama {
+      color: ${props => props.theme.colors.buttonColor};
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+  }
+`;
+
+export const ImageBackground = styled.img`
+  min-height: calc(100vh - 60px);
+  z-index: -99;
+  width: 105%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+`;
+
+export const ProfileCleanerImage = styled(UserImage)`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: ${props => props.theme.colors.buttonColor};
 `;

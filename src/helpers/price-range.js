@@ -1,4 +1,5 @@
 export const CleanersPriceRange = (cleaners, isTotalPrice, jobDuration, addressDuration) => {
+  console.log(cleaners, isTotalPrice, jobDuration, addressDuration)
   let pricesHour = null;
   let totalPrices = null;
 

@@ -8,6 +8,9 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import FormSelect from '../../components/form-select/form-select.component';
 import Spinner from '../../components/spinner/spinner.component';
 import SpinnerButton from '../../components/spinner-button/spinner-button.component';
+import ModalNewAddress from '../../components/modal/modal-new-address.component';
+import Modal from '../../components/modal/modal.component';
+
 import { ReactComponent as KitchenIcon } from '../../assets/new-job/kitchen-icon.svg';
 import { ReactComponent as BathroomIcon } from '../../assets/new-job/bathroom-icon.svg';
 import { ReactComponent as BedroomIcon } from '../../assets/new-job/bedroom-icon.svg';
@@ -19,6 +22,8 @@ import { ReactComponent as MapIcon } from '../../assets/new-address/locate.svg';
 import { uploadImageFirebase } from '../../helpers/save-image-firebase';
 import { getMapImage } from '../../helpers/get-map-image';
 import { calculateTotalDuration, calculateRoomDuration } from '../../helpers/calculate-duration';
+
+import useModal from '../../hooks/modal';
 
 import { AuthContext } from '../../contexts/auth-context';
 import { UserContext } from '../../contexts/user-context';
@@ -35,6 +40,10 @@ import {
 } from './new-address-page.styles';
 
 const NewAddressPage = ({ google, ...otherProps }) => {
+  const [rooms, setRooms] = useState({ kitchen: 0, room: 0, bathroom: 0, terrace: 0 });
+  const [others, setOthers] = useState({ pets: false, kids: false });
+  const [isLoading, setLoading] = useState(false);
+  const [isAddressAdded, setAddressAdded] = useState(false);
   const [formFields, setFormFields] = useState({
     addressName: '',
     addressStreet: '',
@@ -46,12 +55,11 @@ const NewAddressPage = ({ google, ...otherProps }) => {
     lat: '',
     lng: ''
   });
-  const [rooms, setRooms] = useState({ kitchen: 0, room: 0, bathroom: 0, terrace: 0 });
-  const [others, setOthers] = useState({ pets: false, kids: false });
-  const [isLoading, setLoading] = useState(false);
+
   const { addressName, addressStreet, addressNumber, squareMeters, city, zipCode, lat, lng, image } = formFields;
   const { user, update } = useContext(AuthContext);
   const { createAddress, editAddress } = useContext(UserContext);
+  const { isShowing, toggle } = useModal();
   const addressId = otherProps.location.state ? otherProps.location.state._id : null;
 
   const { register, handleSubmit, errors, setError } = useForm();
@@ -143,7 +151,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
             .then(address => {
               setLoading(false);
               update();
-              alert('Address edited!');
+              toggle(!isShowing);
             })
             .catch(error => {
               console.log(error);
@@ -171,7 +179,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
                 .then(address => {
                   setLoading(false);
                   update();
-                  alert('Address added!');
+                  toggle(!isShowing);
                 })
                 .catch(error => {
                   console.log(error);
@@ -213,7 +221,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
                       .then(address => {
                         setLoading(false);
                         update();
-                        alert('Address edited!');
+                        toggle(!isShowing);
                       })
                       .catch(error => {
                         console.log(error);
@@ -224,7 +232,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
                       .then(address => {
                         setLoading(false);
                         update();
-                        alert('Address added!');
+                        toggle(!isShowing);
                       })
                   }
                 });
@@ -249,7 +257,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
                 .then(address => {
                   setLoading(false);
                   update();
-                  alert('Address edited!');
+                  toggle(!isShowing);
                 })
                 .catch(error => {
                   console.log(error);
@@ -274,7 +282,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
                     .then(address => {
                       setLoading(false);
                       update();
-                      alert('Address added!');
+                      toggle(!isShowing);
                     })
                 });
             }
@@ -325,6 +333,9 @@ const NewAddressPage = ({ google, ...otherProps }) => {
 
   return (
     <NewAddressPageContainer>
+      <Modal isShowing={isShowing} hide={toggle}>
+        <ModalNewAddress />
+      </Modal>
       <NewAddressPageHeader>
         <h2>{addressId ? 'Edit your house' : 'Add your house'}</h2>
         <span>Add detailed info about your house, so that we can manage your services in the best way</span>
@@ -427,7 +438,7 @@ const NewAddressPage = ({ google, ...otherProps }) => {
 }
 
 export default GoogleApiWrapper({
-  // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-  // libraries: ['places'],
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  libraries: ['places'],
   LoadingContainer: Spinner
 })(NewAddressPage);
