@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Carousel from 'nuka-carousel';
 
-import SlideJob from './slide/slide-job.component';
+import SlideJobUser from './slide/slide-job-user.component';
 import SlideAddress from './slide/slide-address.component';
 import SlideFirst from './slide/slide-first.component';
 
-import { NewJobButton, CarouselContainer } from './carousel.styles';
-import './carousel-dots.styles.scss';
+import { CarouselButton, CarouselContainer } from '../carousel.styles';
+import '../carousel-dots.styles.scss';
 
-const CarouselComponent = ({ userJobs, changeCurrentJob, currentJob, user, changeCurrentAddress, currentAddress, isFirstTime }) => {
+const CarouselUserComponent = ({ userJobs, changeCurrentJob, currentJob, user, changeCurrentAddress, currentAddress, isFirstTime }) => {
   const [redirect, setRedirect] = useState('');
   const [selectedSlide, setSelectedSlide] = useState(0);
 
@@ -48,15 +48,15 @@ const CarouselComponent = ({ userJobs, changeCurrentJob, currentJob, user, chang
       >
         {
           userJobs && userJobs.length
-            ? userJobs.map(job => <SlideJob onClick={() => console.log('jobs')} key={job._id} job={job} showRequests={true} />)
+            ? userJobs.map(job => <SlideJobUser onClick={() => console.log('jobs')} key={job._id} job={job} showRequests={true} />)
             : user.addresses && user.addresses.length
               ? user.addresses.map(address => <SlideAddress onClick={() => console.log('addresses')} key={address._id} address={address} />)
               : [1, 2, 3].map((slide, idx) => <SlideFirst onClick={() => console.log('first steps')} key={idx} />)
         }
       </Carousel>
-      <NewJobButton width='170' height='40' onClick={() => isFirstTime ? setRedirect('/user/new-address/') : setRedirect('/user/new-job/')}>{isFirstTime ? 'start' : 'new job'}</NewJobButton>
+      <CarouselButton width='170' height='40' onClick={() => isFirstTime ? setRedirect('/user/new-address/') : setRedirect('/user/new-job/')}>{isFirstTime ? 'start' : 'new job'}</CarouselButton>
     </CarouselContainer >
   );
 }
 
-export default CarouselComponent;
+export default CarouselUserComponent;

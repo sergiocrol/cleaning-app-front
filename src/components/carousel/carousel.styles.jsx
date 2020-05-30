@@ -8,13 +8,13 @@ const calculatePosition = ({ height }) => {
 
 export const CarouselContainer = styled.div`
   width: 100%;
-  height: 300px;
+  height: ${({ height }) => height ? height + 'px' : '300px'};
   position: relative;
   border-radius: 10px;
   background-color: white;
 `;
 
-export const NewJobButton = styled(CustomButton)`
+export const CarouselButton = styled(CustomButton)`
   position: absolute;
   bottom: -${calculatePosition}px;
   left: 50%;

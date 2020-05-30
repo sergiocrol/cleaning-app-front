@@ -8,15 +8,6 @@ import BackgroundImage from '../../../assets/backgrounds/bg2-alpha.svg';
 import { HomepageContainer, ImageBackground } from './homepage-user.styles';
 
 const HomepageUser = () => {
-  // TODO - Implement geolocation
-  /*const [city, setCity] = useState('Barcelona');
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log(position);
-    });
-  }, []);*/
-
   return (
     <HomepageContainer>
       <ImageBackground src={BackgroundImage} />

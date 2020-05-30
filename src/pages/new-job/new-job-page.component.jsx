@@ -14,7 +14,7 @@ import ModalConfirmJob from '../../components/modal/modal-confirm-job.component'
 import ModalDuplicatedDate from '../../components/modal/modal-duplicated-date.component';
 import SpinnerButton from '../../components/spinner-button/spinner-button.component';
 
-import { calculateRoomDuration, calculateTotalDuration } from '../../helpers/calculate-duration';
+import { calculateRoomDuration, calculateTotalDuration, jobDuration } from '../../helpers/calculate-duration';
 
 import useModal from '../../hooks/modal'
 
@@ -52,7 +52,7 @@ import './date-picker.styles.scss';
 const NewJobPage = (props) => {
   const cleaner = props.location.state ? props.location.state.cleaner : '';
   const { register, handleSubmit, errors, setError } = useForm();
-  const { user: { addresses }, update } = useContext(AuthContext);
+  const { user: { addresses, _id: userId }, update } = useContext(AuthContext);
   const { createJob, currentAddress: { _id: addressId, pets, kids, squareMeters } } = useContext(UserContext);
 
   const [pickedAddress, setSelectedAddress] = useState({ selectedAddress: '', selectedIndex: 0 });
@@ -137,6 +137,7 @@ const NewJobPage = (props) => {
     } else {
       const rooms = calculateRoomDuration(jobData, { pets, kids }, addresses[selectedIndex].squareMeters);
       const job = {
+        user: userId,
         address: addresses[selectedIndex]._id,
         city: addresses[selectedIndex].city,
         isPrivate,
@@ -186,11 +187,10 @@ const NewJobPage = (props) => {
     setMessage(text);
   }
 
-  const jobDuration = () => {
+  const jobTotalDuration = () => {
     const time = calculateTotalDuration(calculateRoomDuration(jobData, { pets, kids }, squareMeters));
-    const hours = Math.floor(time / 60);
-    const minutes = Math.round(time % 60);
-    return <span>{hours + ':' + minutes + 'h x ' + cleaner.fee + ' €/h = '}<span className='mama'>{Math.round((time / 60) * cleaner.fee)}€</span></span>;
+    const totalTime = jobDuration(time);
+    return <span>{totalTime + 'h x ' + cleaner.fee + ' €/h = '}<span className='mama'>{Math.round((time / 60) * cleaner.fee)}€</span></span>;
   }
 
   return (
@@ -290,7 +290,7 @@ const NewJobPage = (props) => {
           cleaner
             ? <JobPriceBlock>
               <ProfileCleanerImage />
-              <span>{jobDuration()}</span>
+              <span>{jobTotalDuration()}</span>
             </JobPriceBlock>
             : null
         }

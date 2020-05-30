@@ -26,7 +26,6 @@ const SignupCleaner = ({ value: { signup } }) => {
 
   const handleInput = event => {
     const { value, name } = event.target;
-    console.log(value)
     setCredentials({ ...userCredentials, [name]: value });
   }
 

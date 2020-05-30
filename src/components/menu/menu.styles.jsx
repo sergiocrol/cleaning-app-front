@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { ReactComponent as Profile } from '../../assets/menu/dashboard-nav-icon.svg';
 import { ReactComponent as Home } from '../../assets/menu/logo-nav-icon.svg';
 import { ReactComponent as New } from '../../assets/menu/add-nav-icon.svg';
+import { ReactComponent as Calendar } from '../../assets/menu/calendar.svg';
 
 const iconSize = ({ iscurrent }) => css`
   width: 30px;
@@ -51,4 +52,10 @@ export const HomeIcon = styled(Home)`
 
 export const NewIcon = styled(New)`
   ${iconSize}
+`;
+
+export const CalendarIcon = styled(Calendar)`
+  width: 30px;
+  height: 30px;
+  fill: #686A9C;
 `;

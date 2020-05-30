@@ -29,7 +29,6 @@ const OverviewUser = () => {
   const { isShowing, toggle } = useModal();
 
   useEffect(() => {
-    console.log(cleaners)
     if (cleaners && cleaners.length) {
       setCleanerFee(CleanersPriceRange(cleaners, statusTotalPrice(), duration, currentAddress.duration)[1]);
     }
@@ -42,7 +41,6 @@ const OverviewUser = () => {
       const roundedPrice = (fee, duration) => {
         return Math.round((duration / 60 * fee));
       }
-      console.log(cleaners);
       if (isTotalPrice) {
         if (duration) {
           cleanersFiltered = cleaners.filter(cleaner => roundedPrice(cleaner.fee, duration) <= cleanerFee);

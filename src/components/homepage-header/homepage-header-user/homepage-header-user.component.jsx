@@ -4,7 +4,8 @@ import { Redirect, withRouter } from 'react-router-dom';
 
 import { UserContext } from '../../../contexts/user-context';
 import { AuthContext } from '../../../contexts/auth-context';
-import CarouselComponent from '../../carousel/carousel.component';
+
+import CarouselUserComponent from '../../carousel/carousel-user/carousel-user.component';
 
 import { HeaderContainer, HeaderTitle } from './homepage-header-user.styles';
 
@@ -29,7 +30,7 @@ const HomepageHeaderUser = () => {
           ? 'Your address'
           : 'First steps'}
       </HeaderTitle>
-      <CarouselComponent
+      <CarouselUserComponent
         userJobs={userJobs}
         changeCurrentJob={changeCurrentJob}
         currentJob={currentJob}

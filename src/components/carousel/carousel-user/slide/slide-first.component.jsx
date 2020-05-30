@@ -1,6 +1,6 @@
 import React from 'react';
 
-import StartImage from '../../../assets/slide/start-image.png'
+import StartImage from '../../../../assets/slide/start-image.png'
 
 import { SlideFirstContainer, SlideFirstBody } from './slide-first.styles';
 

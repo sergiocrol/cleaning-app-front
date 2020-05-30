@@ -38,7 +38,7 @@ const CleanerCard = ({
       : null
   }
 
-  if (redirect) { return <Redirect to={{ pathname: `/user/${request}`, state: { cleaner } }} /> }
+  if (redirect) { return <Redirect to={{ pathname: `/user/${request}`, state: request === 'new-job' ? { cleaner } : null }} /> }
 
   return !loadingCleaners ? (
     <CleanerCardContainer onClick={determineRoute} button={button}>

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { getDate, getTime } from '../../helpers/date';
+import { getDate, getTime } from '../../../helpers/date';
 
-import { ReactComponent as Address } from '../../assets/new-job/house-icon.svg';
-import { ReactComponent as Kitchen } from '../../assets/new-job/kitchen-icon.svg';
-import { ReactComponent as Bedroom } from '../../assets/new-job/bedroom-icon.svg';
-import { ReactComponent as Livingroom } from '../../assets/new-job/livingroom-icon.svg';
-import { ReactComponent as Bathroom } from '../../assets/new-job/bathroom-icon.svg';
-import { ReactComponent as Cleaners } from '../../assets/menu/profile-select.svg';
-import { ReactComponent as CleanerImage } from '../../assets/signup-page/cleaner-avatar.svg';
+import { ReactComponent as Address } from '../../../assets/new-job/house-icon.svg';
+import { ReactComponent as Kitchen } from '../../../assets/new-job/kitchen-icon.svg';
+import { ReactComponent as Bedroom } from '../../../assets/new-job/bedroom-icon.svg';
+import { ReactComponent as Livingroom } from '../../../assets/new-job/livingroom-icon.svg';
+import { ReactComponent as Bathroom } from '../../../assets/new-job/bathroom-icon.svg';
+import { ReactComponent as Cleaners } from '../../../assets/menu/profile-select.svg';
+import { ReactComponent as CleanerImage } from '../../../assets/signup-page/cleaner-avatar.svg';
 
 import {
   JobCardContainer,
@@ -20,9 +20,9 @@ import {
   JobCardPriceContainer,
   JobCardPriceDuration,
   JobCardCleaners
-} from './job-card.styles';
+} from './job-card-user.styles';
 
-const JobCard = ({ job: { status, address, date, rooms, duration, requests, _id } }) => {
+const JobCardUser = ({ job: { status, address, date, rooms, duration, requests, _id } }) => {
   const getRoomNumber = (type) => {
     const room = rooms.filter(room => room.type === type)[0];
     return room ? room.number : 0;
@@ -86,4 +86,4 @@ const JobCard = ({ job: { status, address, date, rooms, duration, requests, _id 
   );
 }
 
-export default JobCard;
+export default JobCardUser;

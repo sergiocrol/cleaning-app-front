@@ -5,6 +5,9 @@ export default {
     textColorBlue: "#39438A",
     buttonColor: "#4672ed",
     confirmButtonColor: "#3EA09B",
-    cancelButtonColor: "#F2788B"
+    cancelButtonColor: "#F2788B",
+    confirmedJobColor: '#466DF1',
+    canceledJobColor: '#F2788B',
+    pendingJobColor: '#5b9aff'
   }
 };

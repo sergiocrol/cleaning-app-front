@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { USER, CLEANER } from '../constants/index';
+
 import {
   ButtonPending,
   ButtonConfirmed,
@@ -12,15 +15,15 @@ const getButtonStatus = (job, idx) => {
   const jobId = job._id;
   const requestId = job.requests[idx]._id;
   let button = null;
-  if (status === null && sender === 'user') {
+  if (status === null && sender === USER) {
     button = <ButtonPending job={jobId} request={requestId} />;
-  } else if (status === false && sender === 'user') {
+  } else if (status === false && sender === USER) {
     button = <ButtonRejected job={jobId} request={requestId} />;
-  } else if (status === true && sender === 'user') {
+  } else if (status === true && sender === USER) {
     button = <ButtonConfirmed job={jobId} request={requestId} />;
-  } else if (status === null && sender === 'cleaner') {
+  } else if (status === null && sender === CLEANER) {
     button = <ButtonHire job={jobId} request={requestId} />;
-  } else if (status === false && sender === 'cleaner') {
+  } else if (status === false && sender === CLEANER) {
     button = <ButtonRejected job={jobId} request={requestId} />;
   } else {
     button = <ButtonConfirmed job={jobId} request={requestId} />;

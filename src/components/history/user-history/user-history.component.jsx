@@ -19,7 +19,7 @@ import {
 
 import GearIcon from '../../../assets/profile/gear.png';
 
-import JobCard from '../../../components/job-card/job-card.component';
+import JobCardUser from '../../job-card/job-card-user/job-card-user.component';
 
 const UserHistory = ({ jobs, name, email, setHistory }) => {
   const [status, setStatus] = useState({ all: true, pending: false, confirmed: false, finished: false });
@@ -60,11 +60,10 @@ const UserHistory = ({ jobs, name, email, setHistory }) => {
         </HistoryButton>
       </UserHistoryFilter>
       <ProfileUserJobs>
-        {console.log(jobs)}
         {
           jobs && jobs.length
             ? jobs.map(job => status[job.status] || status.all
-              ? <JobCard key={job._id} job={job} />
+              ? <JobCardUser key={job._id} job={job} />
               : null)
             : <JobEmpty>
               <img src={Empty} alt='empty jobs' />

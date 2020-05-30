@@ -2,7 +2,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import SlideJob from '../../components/carousel/slide/slide-job.component';
+import SlideJob from '../../components/carousel/carousel-user/slide/slide-job-user.component';
 import FilterPrice from '../../components/filter-price/filter-price.component';
 import CleanerCard from '../../components/cleaner-card/cleaner-card.component';
 
@@ -31,7 +31,6 @@ const JobDetailsPage = ({ match: { params: { jobId } } }) => {
 
   useEffect(() => {
     if (user.jobs) {
-      console.log('set job: ', user.jobs.filter(job => job._id === jobId)[0].requests);
       setJob(user.jobs.filter(job => job._id === jobId)[0]);
     }
   }, [user.jobs, user]);
@@ -42,7 +41,6 @@ const JobDetailsPage = ({ match: { params: { jobId } } }) => {
       job.requests.forEach(req => {
         cleaners.push(req.cleaner);
       });
-      console.log('set cleaners: ', cleaners);
       setCleaners(cleaners);
       cleaners.length && setCleanerFee(CleanersPriceRange(cleaners, isTotalPrice, job.duration, null)[1]);
     }

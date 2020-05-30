@@ -72,7 +72,6 @@ export const ButtonSendRequest = ({ jobId, cleanerId, confirmation }) => {
     setLoading(true);
     sendRequest(jobId, cleanerId)
       .then(request => {
-        console.log('Request sent');
         update();
         setLoading(false);
         confirmation && confirmation(true);

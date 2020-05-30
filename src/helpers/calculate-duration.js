@@ -6,7 +6,6 @@ export const calculateRoomDuration = (rooms, others, squareMeters) => {
   const { kitchen, terrace, room, bathroom } = rooms;
   const { pets, kids } = others;
   const minutesRoom = squareMeters / 2;
-  console.log(kitchen, terrace, room, bathroom, pets, kids, minutesRoom, squareMeters);
   const baseTime = !pets && !kids ? minutesRoom : pets ? kids ? minutesRoom + 10 : minutesRoom + 5 : minutesRoom + 5;
   return [
     { type: 'kitchen', duration: (kitchen * 1.5) * baseTime, number: kitchen },
@@ -14,4 +13,10 @@ export const calculateRoomDuration = (rooms, others, squareMeters) => {
     { type: 'bathroom', duration: (bathroom * 1.5) * baseTime, number: bathroom },
     { type: 'room', duration: room * baseTime, number: room }
   ]
+}
+
+export const jobDuration = (duration) => {
+  const hours = Math.floor(duration / 60);
+  const minutes = Math.round(duration % 60);
+  return hours + (minutes === 0 ? '' : ':' + minutes);
 }

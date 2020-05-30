@@ -107,7 +107,7 @@ export const SlideTotalTime = styled.div`
 
   h1 {
     margin: 0;
-    font-size: 3rem;
+    font-size: 2.6rem;
     color: ${textColorBlue};
 
     span {

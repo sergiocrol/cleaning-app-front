@@ -3,6 +3,8 @@ import React, { useState, useContext } from 'react';
 import CleanerCard from '../../components/cleaner-card/cleaner-card.component';
 import EmptyCard from '../../components/empty-card/empty-card.component';
 
+import { CLEANER } from '../../constants/index';
+
 import { ReactComponent as Up } from '../../assets/slide/up.svg';
 import { ReactComponent as Down } from '../../assets/slide/down.svg';
 
@@ -15,7 +17,7 @@ const RequestsDropdown = ({ currentRequest, toggle }) => {
   const { currentJob } = useContext(UserContext);
 
   const pendingRequests = () => {
-    return currentJob.requests.filter(request => request.confirmed === null && request.sender === 'cleaner');
+    return currentJob.requests.filter(request => request.confirmed === null && request.sender === CLEANER);
   }
 
   const showModal = (request) => {

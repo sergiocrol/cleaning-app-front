@@ -1,5 +1,4 @@
 export const CleanersPriceRange = (cleaners, isTotalPrice, jobDuration, addressDuration) => {
-  console.log(cleaners, isTotalPrice, jobDuration, addressDuration)
   let pricesHour = null;
   let totalPrices = null;
 
@@ -22,6 +21,16 @@ export const CleanersPriceRange = (cleaners, isTotalPrice, jobDuration, addressD
   return isTotalPrice ? totalPrices : pricesHour;
 }
 
-export const JobsPriceRange = jobs => {
-
+export const JobsPriceRange = (jobs, fee) => {
+  if (jobs.length) {
+    const jobPrice = Math.round((jobs[0].duration / 60) * fee);
+    const prices = jobs.reduce((totalValue, currentValue) => {
+      const value = Math.round((currentValue.duration / 60) * fee);
+      if (value < totalValue[0]) totalValue[0] = value;
+      if (value > totalValue[1]) totalValue[1] = value;
+      return totalValue;
+    }, [jobPrice, jobPrice]);
+    return prices;
+  }
+  return [0, 0];
 }

@@ -1,16 +1,19 @@
 import React from 'react';
 
-import MenuCleaner from '../../../components/menu/menu-cleaner.component';
+import HomepageHeaderCleaner from '../../../components/homepage-header/homepage-header-cleaner/homepage-header-cleaner.component';
+import OverviewCleaner from '../../../components/overview/overview-cleaner/overview-cleaner.component';
+
+import BackgroundImage from '../../../assets/backgrounds/bg4-alpha.svg';
+
+import { HomepageContainer, ImageBackground } from '../homepage-user/homepage-user.styles';
 
 const HomepageCleaner = () => {
   return (
-    <div>
-      <h2>Cleaner Homepage</h2>
-      <MenuCleaner />
-      {/*<AddJob />
-      <CleanersOverview />
-      <UserMenu />*/}
-    </div>
+    <HomepageContainer>
+      <ImageBackground src={BackgroundImage} />
+      <HomepageHeaderCleaner />
+      <OverviewCleaner />
+    </HomepageContainer>
   );
 }
 
