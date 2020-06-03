@@ -33,6 +33,21 @@ class CleanerService {
       .then(({ data }) => data)
   }
 
+  deleteAddress(addressId) {
+    return this.cleaner.delete(`/address/delete/${addressId}`)
+      .then(({ data }) => data)
+  }
+
+  createAddress(address) {
+    return this.cleaner.post('/address/add', address)
+      .then(({ data }) => data)
+  }
+
+  editAddress(addressId, address) {
+    return this.cleaner.put(`/address/edit/${addressId}`, address)
+      .then(({ data }) => data)
+  }
+
 }
 
 const cleanerService = new CleanerService();

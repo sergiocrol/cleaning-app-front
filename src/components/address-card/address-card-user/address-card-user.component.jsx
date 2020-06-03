@@ -1,20 +1,20 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import EditIcon from '../../assets/profile/edit.png';
-import DeleteIcon from '../../assets/profile/delete.png';
-import { ReactComponent as HouseIcon } from '../../assets/new-job/house-icon.svg';
-import { ReactComponent as KitchenIcon } from '../../assets/new-job/kitchen-icon.svg';
-import { ReactComponent as BedroomIcon } from '../../assets/new-job/bedroom-icon.svg';
-import { ReactComponent as BathroomIcon } from '../../assets/new-job/bathroom-icon.svg';
-import { ReactComponent as LivingroomIcon } from '../../assets/new-job/livingroom-icon.svg';
-import { ReactComponent as KidsIcon } from '../../assets/new-job/baby-icon.svg';
-import { ReactComponent as PetsIcon } from '../../assets/new-job/pet-icon.svg';
+import EditIcon from '../../../assets/profile/edit.png';
+import DeleteIcon from '../../../assets/profile/delete.png';
+import { ReactComponent as HouseIcon } from '../../../assets/new-job/house-icon.svg';
+import { ReactComponent as KitchenIcon } from '../../../assets/new-job/kitchen-icon.svg';
+import { ReactComponent as BedroomIcon } from '../../../assets/new-job/bedroom-icon.svg';
+import { ReactComponent as BathroomIcon } from '../../../assets/new-job/bathroom-icon.svg';
+import { ReactComponent as LivingroomIcon } from '../../../assets/new-job/livingroom-icon.svg';
+import { ReactComponent as KidsIcon } from '../../../assets/new-job/baby-icon.svg';
+import { ReactComponent as PetsIcon } from '../../../assets/new-job/pet-icon.svg';
 
-import SpinnerButton from '../spinner-button/spinner-button.component';
+import SpinnerButton from '../../spinner-button/spinner-button.component';
 
-import { UserContext } from '../../contexts/user-context';
-import { AuthContext } from '../../contexts/auth-context';
+import { UserContext } from '../../../contexts/user-context';
+import { AuthContext } from '../../../contexts/auth-context';
 
 import {
   AddressCardContainer,
@@ -23,9 +23,9 @@ import {
   AddressCardHeaderName,
   AddressCardHeaderAddress,
   DeleteMessage
-} from './address-card.styles';
+} from './address-card-user.styles';
 
-const AddressCard = ({ address, deleteAddressFromList }) => {
+const AddressCardUser = ({ address, deleteAddressFromList }) => {
   const { deleteAddress } = useContext(UserContext);
   const { update } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,4 +84,4 @@ const AddressCard = ({ address, deleteAddressFromList }) => {
   );
 }
 
-export default AddressCard;
+export default AddressCardUser;

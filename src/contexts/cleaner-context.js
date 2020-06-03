@@ -20,12 +20,12 @@ const CleanerProvider = props => {
   const { showLoading, hideLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    if (user.confirmedJobs.length || user.pendingJobs.length) {
+    if (user?.confirmedJobs?.length || user?.pendingJobs?.length) {
       getCleanerJobs();
       setCleanerStatus(JOBS);
     } else {
       // No pending/confirmed jobs: We show info slides -> 1) No address -> FIRST_TIME, 2) Address -> WITH_ADDRESS
-      user.address.length ? setCleanerStatus(WITH_ADDRESS) : setCleanerStatus(FIRST_TIME);
+      user?.addresses?.length ? setCleanerStatus(WITH_ADDRESS) : setCleanerStatus(FIRST_TIME);
     }
     getNearJobs();
   }, [user]);
@@ -33,7 +33,7 @@ const CleanerProvider = props => {
   const getNearJobs = async () => {
     // TODO - Look for jobs by 1) lat/long of the address 2) geolocation is no address 3) city
     showLoading()
-    const location = user.city.name;
+    const location = user?.city?.name;
     const jobs = await cleanerService.getNearJobs(location);
     setJobList(jobs);
     hideLoading();
@@ -76,6 +76,27 @@ const CleanerProvider = props => {
       });
   }
 
+  const deleteAddress = (addressId) => {
+    return cleanerService.deleteAddress(addressId)
+      .then(request => {
+        return request;
+      })
+  }
+
+  const createAddress = (address) => {
+    return cleanerService.createAddress(address)
+      .then(request => {
+        return request;
+      })
+  }
+
+  const editAddress = (addressId, address) => {
+    return cleanerService.editAddress(addressId, address)
+      .then(request => {
+        return request;
+      })
+  }
+
   return (
     <CleanerContext.Provider value={
       {
@@ -85,7 +106,10 @@ const CleanerProvider = props => {
         removeRejectedJob,
         cancelJob,
         confirmJob,
-        sendRequest
+        sendRequest,
+        deleteAddress,
+        createAddress,
+        editAddress
       }
     }>
       {props.children}

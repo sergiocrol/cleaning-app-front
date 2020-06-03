@@ -46,6 +46,7 @@ export const UserProfileName = styled.span`
   svg {
     width: 15px;
     height: 15px;
+    margin-left: 5px;
   }
 `;
 
@@ -58,6 +59,7 @@ export const LogoutButton = styled.span`
   padding: 8px 20px;
   border-radius: 8px;
   color: ${(props) => props.theme.colors.buttonColor};
+  z-index: 999;
 `;
 
 export const UserProfileEmail = styled.span`

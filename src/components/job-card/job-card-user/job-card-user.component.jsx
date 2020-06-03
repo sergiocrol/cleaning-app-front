@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { getDate, getTime } from '../../../helpers/date';
+import { jobDuration } from '../../../helpers/calculate-duration';
 
 import { ReactComponent as Address } from '../../../assets/new-job/house-icon.svg';
 import { ReactComponent as Kitchen } from '../../../assets/new-job/kitchen-icon.svg';
@@ -63,7 +64,7 @@ const JobCardUser = ({ job: { status, address, date, rooms, duration, requests, 
               ? <>
                 <JobCardPriceDuration>
                   <span>Total time</span>
-                  <span>{duration / 60}<span>h</span></span>
+                  <span>{jobDuration(duration)}<span>h</span></span>
                 </JobCardPriceDuration>
                 <JobCardCleaners>
                   <span><Cleaners style={{ width: '25px', height: '25px', marginRight: '5px', fill: 'white' }} />{requests.length}</span>

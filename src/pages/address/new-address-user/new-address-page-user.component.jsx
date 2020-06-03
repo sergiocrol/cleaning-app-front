@@ -3,30 +3,30 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { GoogleApiWrapper } from 'google-maps-react';
 
-import FormInput from '../../components/form-input/form-input.component';
-import CustomButton from '../../components/custom-button/custom-button.component';
-import FormSelect from '../../components/form-select/form-select.component';
-import Spinner from '../../components/spinner/spinner.component';
-import SpinnerButton from '../../components/spinner-button/spinner-button.component';
-import ModalNewAddress from '../../components/modal/modal-new-address.component';
-import Modal from '../../components/modal/modal.component';
+import FormInput from '../../../components/form-input/form-input.component';
+import CustomButton from '../../../components/custom-button/custom-button.component';
+import FormSelect from '../../../components/form-select/form-select.component';
+import Spinner from '../../../components/spinner/spinner.component';
+import SpinnerButton from '../../../components/spinner-button/spinner-button.component';
+import ModalNewAddress from '../../../components/modal/modal-new-address.component';
+import Modal from '../../../components/modal/modal.component';
 
-import { ReactComponent as KitchenIcon } from '../../assets/new-job/kitchen-icon.svg';
-import { ReactComponent as BathroomIcon } from '../../assets/new-job/bathroom-icon.svg';
-import { ReactComponent as BedroomIcon } from '../../assets/new-job/bedroom-icon.svg';
-import { ReactComponent as LivingroomIcon } from '../../assets/new-job/livingroom-icon.svg';
-import { ReactComponent as Kids } from '../../assets/new-job/baby-icon.svg';
-import { ReactComponent as Pets } from '../../assets/new-job/pet-icon.svg';
-import { ReactComponent as MapIcon } from '../../assets/new-address/locate.svg';
+import { ReactComponent as KitchenIcon } from '../../../assets/new-job/kitchen-icon.svg';
+import { ReactComponent as BathroomIcon } from '../../../assets/new-job/bathroom-icon.svg';
+import { ReactComponent as BedroomIcon } from '../../../assets/new-job/bedroom-icon.svg';
+import { ReactComponent as LivingroomIcon } from '../../../assets/new-job/livingroom-icon.svg';
+import { ReactComponent as Kids } from '../../../assets/new-job/baby-icon.svg';
+import { ReactComponent as Pets } from '../../../assets/new-job/pet-icon.svg';
+import { ReactComponent as MapIcon } from '../../../assets/new-address/locate.svg';
 
-import { uploadImageFirebase } from '../../helpers/save-image-firebase';
-import { getMapImage } from '../../helpers/get-map-image';
-import { calculateTotalDuration, calculateRoomDuration } from '../../helpers/calculate-duration';
+import { uploadImageFirebase } from '../../../helpers/save-image-firebase';
+import { getMapImage } from '../../../helpers/get-map-image';
+import { calculateTotalDuration, calculateRoomDuration } from '../../../helpers/calculate-duration';
 
-import useModal from '../../hooks/modal';
+import useModal from '../../../hooks/modal';
 
-import { AuthContext } from '../../contexts/auth-context';
-import { UserContext } from '../../contexts/user-context';
+import { AuthContext } from '../../../contexts/auth-context';
+import { UserContext } from '../../../contexts/user-context';
 
 import {
   NewAddressPageContainer,
@@ -37,7 +37,7 @@ import {
   OthersLine,
   LinkMap,
   AddressInput
-} from './new-address-page.styles';
+} from './new-address-page-user.styles';
 
 const NewAddressPage = ({ google, ...otherProps }) => {
   const [rooms, setRooms] = useState({ kitchen: 0, room: 0, bathroom: 0, terrace: 0 });

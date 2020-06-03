@@ -6,6 +6,7 @@ export const CONFIRMED = 'confirmed';
 export const FINISHED = 'finished';
 export const PENDING = 'pending';
 export const CANCELED = 'canceled';
+export const REJECTED = 'rejected';
 
 export const USER = 'user';
 export const CLEANER = 'cleaner';

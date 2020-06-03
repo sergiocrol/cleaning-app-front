@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import AddressCard from '../../address-card/address-card.component';
+import AddressCard from '../../address-card/address-card-user/address-card-user.component';
 
 import { ReactComponent as Down } from '../../../assets/slide/down.svg';
 import { ReactComponent as Map } from '../../../assets/modals/map.svg';

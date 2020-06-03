@@ -5,7 +5,7 @@ import HomepageUser from '../homepage/homepage-user/homepage-user.component';
 import ProfileUser from '../profile/profile-user/profile-user-page.component';
 import NewJobPage from '../new-job/new-job-page.component';
 import MapPage from '../map/map-page.component';
-import NewAddressPage from '../address/new-address-page.component';
+import NewAddressPage from '../address/new-address-user/new-address-page-user.component';
 import CleanerDetailsPage from '../cleaner-details/cleaner-details-page.component';
 import JobDetailsPage from '../job-details/job-details-page.component';
 import UserRoute from '../../components/route/user-route';

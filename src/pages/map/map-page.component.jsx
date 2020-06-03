@@ -21,7 +21,6 @@ const MapPage = ({ google, map, ...other }) => {
 
   const { route, street_number } = locationFields;
 
-  console.log(activeMarker, selectedPlace, showingInfoWindow)
   useEffect(() => {
     setCurrentLocation({ lat: latitude, lng: longitude });
     renderAutoComplete();
@@ -149,7 +148,7 @@ const MapPage = ({ google, map, ...other }) => {
 }
 
 export default GoogleApiWrapper({
-  // apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-  // libraries: ['places'],
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  libraries: ['places'],
   LoadingContainer: Spinner
 })(MapPage);

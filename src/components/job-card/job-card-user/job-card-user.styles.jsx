@@ -68,7 +68,7 @@ export const JobCardPriceDuration = styled.div`
     font-size: .9rem;
   }
   span:nth-child(2) {
-    font-size: 3.3rem;
+    font-size: 2.6rem;
     font-weight: bold;
     span {
       font-size: 1.6rem;

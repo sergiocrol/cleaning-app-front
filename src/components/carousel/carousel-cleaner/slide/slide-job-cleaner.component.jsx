@@ -11,7 +11,7 @@ import useJobRequest from '../../../../hooks/job-request';
 
 import { SlideJobCleanerContainer, SlideButton } from './slide-job-cleaner.styles';
 
-const SlideJobCleaner = ({ job, selectedJob }) => {
+const SlideJobCleaner = ({ job, selectedJob, elRef }) => {
   const { requests, _id: jobId } = job;
   const [request, setRequest] = useState({});
   const [isLoading, setLoading] = useState(false);
@@ -36,17 +36,19 @@ const SlideJobCleaner = ({ job, selectedJob }) => {
     <SlideJobCleanerContainer>
       <JobCardCleaner job={job} showStatus />
       {
-        ReactDOM.createPortal(
-          <SlideButton
-            disabled={isLoading}
-            width='150'
-            height='40'
-            buttonColor={requestStatus.buttonColor}
-            selectedJob={selectedJob}
-            onClick={() => buttonAction()}>
-            {isLoading ? <SpinnerButton /> : requestStatus.buttonText}
-          </SlideButton>,
-          document.getElementById('carousel-cleaner'))
+        elRef.current
+          ? ReactDOM.createPortal(
+            <SlideButton
+              disabled={isLoading}
+              width='150'
+              height='40'
+              buttonColor={requestStatus.buttonColor}
+              selectedJob={selectedJob}
+              onClick={() => buttonAction()}>
+              {isLoading ? <SpinnerButton /> : requestStatus.buttonText}
+            </SlideButton>,
+            elRef.current)
+          : null
       }
     </SlideJobCleanerContainer>
   );
