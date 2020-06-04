@@ -15,6 +15,7 @@ export const getFields = async (address, lat, lng, addressSelected) => {
   // if (!fields.route) fields.route = addressStreet;
   fields = { ...fields, lat, lng, addressSelected };
   const image = await getMapImage(lat, lng);
+  console.log(image, { ...fields })
   return { ...fields, image };
   // .then(image => setFields({ ...fields, image }));
 }
@@ -57,11 +58,13 @@ export const getAddress = fields => {
               }
             });
           } else {
+            console.log('si, aqui')
             const location = results[0].geometry.location;
+            console.log(location.lat(), location.lng())
             const lat = location.lat();
             const lng = location.lng();
             getFields(address, lat, lng, true)
-              .then(res => resolve(res))
+              .then(res => resolve({ ...fields, ...res }))
           }
         } else {
           const address = { ...fields, lat: '', lng: '' };

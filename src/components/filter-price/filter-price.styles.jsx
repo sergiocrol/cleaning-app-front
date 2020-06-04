@@ -32,7 +32,9 @@ export const SwitchButtonContainer = styled.div`
 `;
 
 export const CustomSliderContainer = styled.div`
-  width: 80%;
+  width: ${({ isTotalPrice }) => isTotalPrice ? '80%' : '100%'};
+  display: flex;
+  justify-content: center;
 
   div {
     margin: 0;

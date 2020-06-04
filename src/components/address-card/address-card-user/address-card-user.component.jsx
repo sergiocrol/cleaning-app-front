@@ -57,7 +57,7 @@ const AddressCardUser = ({ address, deleteAddressFromList }) => {
         <AddressCardHeaderName>
           <span><HouseIcon />{name}</span>
           <span>
-            <Link to={{ pathname: '/user/new-address', state: { _id } }}><img src={EditIcon} alt='Edit Address' /></Link>
+            <Link to={{ pathname: '/user/new-address', state: { address: { address } } }}><img src={EditIcon} alt='Edit Address' /></Link>
             <img src={DeleteIcon} alt='Delete Address' onClick={() => setDeleteMessage(true)} />
           </span>
         </AddressCardHeaderName>

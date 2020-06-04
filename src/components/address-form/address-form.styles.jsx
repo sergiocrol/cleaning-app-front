@@ -21,7 +21,7 @@ export const NewAddressPageForm = styled.form`
 export const TwoFieldLine = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 90%;
   justify-content: center;
   height: 55px;
   
@@ -107,7 +107,7 @@ export const AddressInput = styled.input`
   font-size: 18px;
   padding: 10px 0;
   display: block;
-  width: 100%;
+  width: ${({ isCleaner }) => isCleaner ? '100%' : '70%'};
   border: none;
   border-radius: 50px;
   height: 35px;

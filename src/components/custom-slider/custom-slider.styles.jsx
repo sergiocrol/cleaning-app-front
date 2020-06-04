@@ -5,11 +5,18 @@ export const SliderContainer = styled.div`
     margin-bottom: 15px;
 `;
 
+const color = props => props.theme.colors.buttonColor;
+
+const sliderShadow = ({ value, max, min }) => {
+  const val = ((value - min) * 100) / (max - min);
+  return `linear-gradient(to right, #4672ed 0%, #4672ed ${val}%, lightgray 0%, lightgray 100%);`;
+}
+
 export const Slider = styled.input`
   -webkit-appearance: none;
   width: 100%;
   height: 3px;
-  background: lightgray;
+  background: ${sliderShadow};
   border-radius: 3px;
   outline: none;
   -webkit-transition: .2s;
@@ -22,14 +29,14 @@ export const Slider = styled.input`
     width: 20px;
     height: 20px;
     border-radius: 50px;
-    background: ${props => props.theme.colors.buttonColor};
+    background: ${color};
     cursor: pointer;
   }
 
   &::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: ${props => props.theme.colors.buttonColor};
+    width: 20px;
+    height: 20px;
+    background: ${color};
     cursor: pointer;
   }
 `;

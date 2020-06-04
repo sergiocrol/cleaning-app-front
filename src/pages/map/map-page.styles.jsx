@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const MapPageContainer = styled.div`
   position: relative;
@@ -6,14 +7,19 @@ export const MapPageContainer = styled.div`
   height: calc(100vh - 60px);
 `;
 
-export const MapPageForm = styled.form`
+export const Map = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const InputContainer = styled.div`
   position: absolute;
   z-index: 999;
   display: flex;
   top: 15px;
   left: 15px;
 
-  input:first-child {
+  input {
     width: 80vw;
     height: 40px;
     border-radius: 5px 0 0 5px;
@@ -25,7 +31,7 @@ export const MapPageForm = styled.form`
     border-left: 1px solid lightgray;
   }
 
-  input:nth-child(2) {
+  span {
     height: 40px;
     border-radius: 0 5px 5px 0;
     border: none;
@@ -33,11 +39,14 @@ export const MapPageForm = styled.form`
     background-color: ${props => props.theme.colors.buttonColor};
     color: white;
     font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
-export const Button = styled.button`
-  display: ${({ showbutton }) => showbutton ? 'flex' : 'none'};
+export const Button = styled(Link)`
+  display: ${({ showbutton }) => showbutton === 'true' ? 'flex' : 'none'};
   position: absolute;
   width: 150px;
   height: 50px;
@@ -45,8 +54,8 @@ export const Button = styled.button`
   bottom: 30px;
   border: none;
   background-color: ${props => props.theme.colors.buttonColor};
-  text-align: center;
   justify-content: center;
+  align-items: center;
   color: white;
   font-size: 1rem;
   font-weight: bolder;

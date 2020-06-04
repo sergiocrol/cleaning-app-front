@@ -11,7 +11,6 @@ const useMapLocation = (lat, lng) => {
   const infoWindow = useRef(null);
   const [infoWindowContent, setInfoWindowContent] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-
   const { showLoading, hideLoading } = useContext(LoadingContext);
 
   const createGoogleMap = () => {
@@ -44,7 +43,6 @@ const useMapLocation = (lat, lng) => {
     geocoder.geocode({ 'location': new window.google.maps.LatLng(lat, lng) }, function (results, status) {
       if (status == 'OK') {
         if (results[0]) {
-          console.log(results[0].formatted_address)
           setInfoWindowContent(results[0].formatted_address);
         } else {
           console.log('No results found');
@@ -72,15 +70,16 @@ const useMapLocation = (lat, lng) => {
 
   useEffect(() => {
     if (mapLoaded) {
+      getGeocodeLocation();
       googleMap.current = createGoogleMap();
       marker.current = createMarker();
       infoWindow.current = createInfoWindow();
     }
   }, [lat, mapLoaded, infoWindowContent]);
 
-  useEffect(() => {
-    mapLoaded && getGeocodeLocation();
-  }, [lat]);
+  // useEffect(() => {
+  //   mapLoaded && getGeocodeLocation();
+  // }, [lat, mapLoaded]);
 
   return {
     googleMapRef

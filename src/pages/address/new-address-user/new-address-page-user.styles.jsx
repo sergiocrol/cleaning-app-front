@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import Background from '../../../assets/backgrounds/bg4-alpha.svg';
 
@@ -22,6 +21,13 @@ export const NewAddressPageContainer = styled.div`
     margin: 10px 0;
     font-size: 1.3rem;
   }
+
+  p {
+    width: 90%;
+    text-align: center;
+    font-size: .8rem;
+    color: red;
+  }
 `;
 
 export const NewAddressPageHeader = styled.div`
@@ -40,35 +46,6 @@ export const NewAddressPageHeader = styled.div`
   span {
     font-size: 1.1rem;
     text-align: center;
-  }
-`;
-
-export const NewAddressPageForm = styled.form`
-  width: 90%;
-  max-width: 310px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  p {
-    margin: 0;
-    font-size: .84rem;
-    text-align: center;
-    color: red;
-    margin-bottom: 10px;
-  }
-`;
-
-export const TwoFieldLine = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-  height: 55px;
-  
-  div:first-child {
-    margin-right: 10px;
   }
 `;
 
@@ -113,36 +90,5 @@ export const OthersLine = styled.div`
     svg {
       width: 35px;
     }
-  }
-`;
-
-export const LinkMap = styled(Link)`
-  background-color: ${props => props.theme.colors.buttonColor};
-  height: 33px;
-  width: 80px;
-  border-radius: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-`;
-
-export const AddressInput = styled.input`
-  background: none;
-  background-color: white;
-  color: grey;
-  font-size: 18px;
-  padding: 10px 0;
-  display: block;
-  width: 187px;
-  border: none;
-  border-radius: 50px;
-  height: 35px;
-  padding-left: 10px;
-  margin-right: 10px;
-
-  ::placeholder {
-    color: grey;
-    opacity: .5;
   }
 `;

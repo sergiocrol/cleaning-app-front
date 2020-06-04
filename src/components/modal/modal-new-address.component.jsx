@@ -5,12 +5,12 @@ import Success from '../../assets/modals/success.png';
 
 import { ModalAddress } from './modal-new-address.styles';
 
-const ModalNewAddress = () => {
+const ModalNewAddress = ({ isEdit }) => {
   return (
     <ModalAddress>
-      <img src={Success} alt='Error' />
+      <img src={Success} alt='Success' />
       <h3>Great!</h3>
-      <span>You have added a new address</span>
+      <span>You have {isEdit ? 'edited the ' : 'added a new '} address</span>
       <span>Remember you can manage your addresses from your profile</span>
       <Link to='/user/profile'>profile</Link>
     </ModalAddress>

@@ -120,6 +120,7 @@ const AddressForm = ({ user, address, setFormFields, formFields, setSubmitForm }
         />
         <FormInput
           name='squareMeters'
+          type='number'
           placeholder='m2'
           defaultValue={squareMeters}
           register={register}

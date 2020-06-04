@@ -4,9 +4,12 @@ import React, { useState, useContext, useEffect } from 'react';
 import AddressForm from '../../../components/address-form/address-form.component';
 import CustomButton from '../../../components/custom-button/custom-button.component';
 import SpinnerButton from '../../../components/spinner-button/spinner-button.component';
+import ModalNewAddress from '../../../components/modal/modal-new-address.component';
+import Modal from '../../../components/modal/modal.component';
 
 import usePosition from '../../../hooks/geolocation';
 import useMapLocation from '../../../hooks/map-location';
+import useModal from '../../../hooks/modal';
 
 import { uploadImageFirebase } from '../../../helpers/save-image-firebase';
 import { getAddress } from '../../../helpers/get-address-fields';
@@ -22,6 +25,7 @@ import {
 
 const NewAddresPage = props => {
   const { latitude, longitude } = usePosition();
+  const { isShowing, toggle } = useModal();
   const { user, update } = useContext(AuthContext);
   const { createAddress, editAddress } = useContext(CleanerContext);
 
@@ -72,6 +76,7 @@ const NewAddresPage = props => {
                   .then(res => {
                     setLoading(false);
                     update();
+                    toggle(!isShowing);
                   })
                   .catch(error => {
                     console.log(error);
@@ -81,6 +86,7 @@ const NewAddresPage = props => {
                   .then(res => {
                     setLoading(false);
                     update();
+                    toggle(!isShowing);
                   })
                   .catch(error => {
                     console.log(error);
@@ -97,6 +103,9 @@ const NewAddresPage = props => {
 
   return (
     <NewAddressPageContainer>
+      <Modal isShowing={isShowing} hide={toggle}>
+        <ModalNewAddress isEdit={isEdit} />
+      </Modal>
       <NewAddressPageHeader>
         <h2>{isEdit ? 'Edit your house' : 'Add your house'}</h2>
         <span>Add detailed info about your house, so that we can manage your services in the best way</span>

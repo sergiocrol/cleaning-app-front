@@ -8,7 +8,7 @@ import { FilterPriceContainer, SwitchButtonContainer, CustomSliderContainer } fr
 const FilterPrice = ({ value, min, max, isTotalPrice, togglePrice, noSwitchButton, onChange }) => {
   return (
     <FilterPriceContainer>
-      <CustomSliderContainer>
+      <CustomSliderContainer isTotalPrice={isTotalPrice}>
         <CustomSlider type="range" min={min} max={max} value={value} name="fee" isTotalPrice={isTotalPrice} onChange={onChange} />
       </CustomSliderContainer>
       {
