@@ -15,18 +15,22 @@ import useModal from '../../../hooks/modal';
 
 import { UserContext } from '../../../contexts/user-context';
 
+import { JOB, WITH_ADDRESS } from '../../../constants/index';
+
 import { OverviewUserContainer, OverviewUserTitle } from './overview-user.styles';
+import { CustomSliderContainer } from '../overview-cleaner/overview-cleaner.styles';
 
 const OverviewUser = () => {
   const [redirect, setRedirect] = useState('');
   const [isTotalPrice, setTotalPrice] = useState(false);
   const [hireButton, setHireButton] = useState(false);
-  const { cleaners, currentJob, currentJob: { duration }, currentAddress, userState } = useContext(UserContext);
+  const { cleaners, currentJob, currentJob: { duration, requests }, currentAddress, userState } = useContext(UserContext);
   const [cleanerFee, setCleanerFee] = useState(0);
   const [currentRequest, setCurrentRequest] = useState({});
   const [currentCleaner, setCurrentCleaner] = useState({});
   const [filteredCleaners, setFilteredCleaners] = useState(cleaners);
   const { isShowing, toggle } = useModal();
+  console.log(requests)
 
   useEffect(() => {
     if (cleaners && cleaners.length) {
@@ -51,6 +55,7 @@ const OverviewUser = () => {
         cleanersFiltered = cleaners.filter(cleaner => cleaner.fee <= cleanerFee);
       }
 
+      // cleanersFiltered = cleanersFiltered.filter(cleaner => )
       setFilteredCleaners(cleanersFiltered);
     }
   }, [cleanerFee]);
@@ -78,9 +83,9 @@ const OverviewUser = () => {
   }
 
   const statusUser = (cleaner) => {
-    return userState === 'job'
+    return userState === JOB
       ? cleaner
-      : userState === 'address'
+      : userState === WITH_ADDRESS
         ? 'new-job'
         : 'new-address'
   }
@@ -96,7 +101,7 @@ const OverviewUser = () => {
       </Modal>
       {redirect ? <Redirect to={redirect} /> : null}
       {
-        userState === 'job'
+        userState === JOB
           ? <RequestsDropdown currentRequest={(request) => setCurrentRequest(request)} toggle={() => toggle(!isShowing)} />
           : null
       }
@@ -129,7 +134,9 @@ const OverviewUser = () => {
                 />)
             }
           </>
-          : null
+          : <CustomSliderContainer>
+            <h3><span>&#8709;</span> there are no cleaners</h3>
+          </CustomSliderContainer>
       }
     </OverviewUserContainer>)
 }

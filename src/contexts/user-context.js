@@ -3,6 +3,8 @@ import React, { useEffect, useState, useContext } from 'react';
 
 import userService from '../services/user-service';
 
+import { JOB, WITH_ADDRESS, FIRST_TIME, PENDING } from '../constants/index';
+
 import { AuthContext } from './auth-context';
 import { LoadingContext } from './loading-context';
 
@@ -23,13 +25,13 @@ const UserProvider = (props) => {
 
   useEffect(() => {
     if (user.jobs && user.jobs.length) {
-      setUserState('job');
+      setUserState(JOB);
       getPendingJobs(_id);
     } else if (user.addresses && user.addresses.length) {
-      setUserState('address');
+      setUserState(WITH_ADDRESS);
       setCurrentAddress(user.addresses[0]);
     } else {
-      setUserState('first');
+      setUserState(FIRST_TIME);
       defineCityGeo();
     }
     setFirstVisit(false);
@@ -66,7 +68,7 @@ const UserProvider = (props) => {
     try {
       isFirstVisit && showLoading();
       const jobList = await userService.jobs();
-      const confirmedJobs = jobList.filter(job => job.status === 'pending');
+      const confirmedJobs = jobList.filter(job => job.status === PENDING);
       setUserJobs(confirmedJobs);
       // if (!sessionStorage.currentJob) {
       setCurrentJob(confirmedJobs[0] || {});
@@ -170,6 +172,13 @@ const UserProvider = (props) => {
       })
   }
 
+  const editUser = (image) => {
+    return userService.editUser(image)
+      .then(request => {
+        return request;
+      })
+  }
+
   return (
     <UserContext.Provider value={
       {
@@ -188,6 +197,7 @@ const UserProvider = (props) => {
         editAddress,
         deleteAddress,
         changeCurrentAddress,
+        editUser,
         currentAddress
       }
     }>

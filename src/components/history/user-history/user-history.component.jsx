@@ -19,7 +19,7 @@ import {
 import GearIcon from '../../../assets/profile/gear.png';
 
 
-const UserHistory = ({ jobs, name, email, setHistory }) => {
+const UserHistory = ({ jobs, name, email, setHistory, picture }) => {
   const [status, setStatus] = useState({ all: true, pending: false, confirmed: false, finished: false });
 
   const handleChange = event => {
@@ -30,7 +30,9 @@ const UserHistory = ({ jobs, name, email, setHistory }) => {
   return (
     <>
       <ProfileUserHeader>
-        <ProfileUserImage />
+        <ProfileUserImage
+          picture={picture}
+        />
         <ProfileUserInfo>
           <span>{name || email}</span>
           <ProfileUserButtonContainer onClick={() => setHistory(false)}>

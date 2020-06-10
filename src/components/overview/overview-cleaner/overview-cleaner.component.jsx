@@ -32,7 +32,7 @@ const OverviewCleaner = () => {
   }, [max]);
 
   useEffect(() => {
-    setJobFilteredList(jobList.filter(job => !rejectedRequests(job).length && Math.round(job.duration / 60 * fee) <= value));
+    jobList.length && setJobFilteredList(jobList.filter(job => !rejectedRequests(job).length && Math.round(job.duration / 60 * fee) <= value));
   }, [value, jobList]);
 
   const rejectedRequests = job => {
@@ -64,14 +64,20 @@ const OverviewCleaner = () => {
       </Modal>
       <OverviewUserTitle>Jobs near to you</OverviewUserTitle>
       <CustomSliderContainer>
-        <CustomSlider type="range" min={min} max={max} value={value} onChange={onChange} name="fee" isTotalPrice={true} />
+        {
+          jobFilteredList.length
+            ? <CustomSlider type="range" min={min} max={max} value={value} onChange={onChange} name="fee" isTotalPrice={true} />
+            : <h3><span>&#8709;</span> there are no jobs</h3>
+        }
       </CustomSliderContainer>
       {
-        jobFilteredList.map(job =>
-          <JobCardContainer key={job._id} onClick={() => showJobModal(job)}>
-            <JobCardCleaner job={job} showStatus />
-          </JobCardContainer>
-        )
+        jobFilteredList.length
+          ? jobFilteredList.map(job =>
+            <JobCardContainer key={job._id} onClick={() => showJobModal(job)}>
+              <JobCardCleaner job={job} showStatus />
+            </JobCardContainer>
+          )
+          : null
       }
     </OverviewUserContainer>
   );

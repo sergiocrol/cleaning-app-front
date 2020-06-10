@@ -1,3 +1,4 @@
+export const JOB = 'job';
 export const JOBS = 'jobs';
 export const FIRST_TIME = 'first';
 export const WITH_ADDRESS = 'address';

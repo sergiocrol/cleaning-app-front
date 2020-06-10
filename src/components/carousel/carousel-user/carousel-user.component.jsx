@@ -48,10 +48,10 @@ const CarouselUserComponent = ({ userJobs, changeCurrentJob, currentJob, user, c
       >
         {
           userJobs && userJobs.length
-            ? userJobs.map(job => <SlideJobUser onClick={() => console.log('jobs')} key={job._id} job={job} showRequests={true} />)
+            ? userJobs.map(job => <SlideJobUser key={job._id} job={job} showRequests={true} />)
             : user.addresses && user.addresses.length
-              ? user.addresses.map(address => <SlideAddress onClick={() => console.log('addresses')} key={address._id} address={address} />)
-              : [1, 2, 3].map((slide, idx) => <SlideFirst onClick={() => console.log('first steps')} key={idx} />)
+              ? user.addresses.map(address => <SlideAddress key={address._id} address={address} />)
+              : [1, 2, 3].map((slide, idx) => <SlideFirst key={idx} />)
         }
       </Carousel>
       <CarouselButton width='170' height='40' onClick={() => isFirstTime ? setRedirect('/user/new-address/') : setRedirect('/user/new-job/')}>{isFirstTime ? 'start' : 'new job'}</CarouselButton>

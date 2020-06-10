@@ -5,11 +5,12 @@ import { useForm } from 'react-hook-form';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 import CustomSlider from '../custom-slider/custom-slider.component';
+import SpinnerButton from '../spinner-button/spinner-button.component';
 
 import { SignupForm, UserTypeTitle, UserTypeContainer, UserTypeSubtitle } from './signup.styles';
 
 const SignupCleaner = ({ value: { signup } }) => {
-  // Handle state
+  const [isLoading, setLoading] = useState(false);
   const [userCredentials, setCredentials] = useState({
     email: '',
     password: '',
@@ -33,15 +34,21 @@ const SignupCleaner = ({ value: { signup } }) => {
   const { register, handleSubmit, errors, setError, getValues } = useForm();
 
   const onSubmit = event => {
+    setLoading(true);
     signup({ email, password, firstName, lastName, fee, city, isCleaner })
       .then(res => {
         if (res.message) {
+          setLoading(false);
           setError('email', 'alreadyExists', 'This email already exists');
           return;
         };
+        setLoading(false);
         setRedirect('/login');
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        setLoading(false);
+        console.log(error);
+      })
   }
 
   if (redirect) {
@@ -131,7 +138,7 @@ const SignupCleaner = ({ value: { signup } }) => {
           error={errors.city && errors.city.message}
         />
         <CustomSlider type="range" min="10" max="100" name="fee" value={fee} onChange={handleInput} />
-        <CustomButton type='submit'>Sign up</CustomButton>
+        <CustomButton type='submit'>{isLoading ? <SpinnerButton /> : 'sign up'}</CustomButton>
       </SignupForm>
     </UserTypeContainer>
   );

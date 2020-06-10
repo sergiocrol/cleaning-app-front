@@ -58,6 +58,11 @@ class UserService {
       .then(({ data }) => data)
   }
 
+  editUser(picture) {
+    return this.user.put('/user/edit', { picture })
+      .then(({ data }) => data)
+  }
+
 }
 
 const userService = new UserService();

@@ -18,5 +18,6 @@ export const calculateRoomDuration = (rooms, others, squareMeters) => {
 export const jobDuration = (duration) => {
   const hours = Math.floor(duration / 60);
   const minutes = Math.round(duration % 60);
-  return hours + (minutes === 0 ? '' : ':' + minutes);
+  // return hours + (minutes === 0 ? '' : ':' + minutes);
+  return { hours, minutes };
 }

@@ -4,15 +4,23 @@ import { useForm } from 'react-hook-form';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+import SpinnerButton from '../spinner-button/spinner-button.component';
 
 import { UserTypeContainer, UserTypeTitle, UserTypeSubtitle, SignupForm, FormContainer } from './signup.styles';
 
 const SignupUser = ({ value: { signup } }) => {
-  // Handle state
-  const [userCredentials, setCredentials] = useState({ email: '', password: '', confirmPassword: '', isCleaner: false });
+  const [isLoading, setLoading] = useState(false);
+  const [userCredentials, setCredentials] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    confirmPassword: '',
+    isCleaner: false
+  });
   const [redirect, setRedirect] = useState(null);
 
-  const { email, password, confirmPassword, isCleaner } = userCredentials;
+  const { email, password, confirmPassword, firstName, lastName, isCleaner } = userCredentials;
 
   const handleInput = event => {
     const { value, name } = event.target;
@@ -23,15 +31,21 @@ const SignupUser = ({ value: { signup } }) => {
   const { register, handleSubmit, errors, setError, getValues } = useForm();
 
   const onSubmit = event => {
-    signup({ email, password, isCleaner })
+    setLoading(true);
+    signup({ email, password, firstName, lastName, isCleaner })
       .then(res => {
         if (res.message) {
+          setLoading(false);
           setError('email', 'alreadyExists', 'This email already exists');
           return;
         };
+        setLoading(false);
         setRedirect('/login');
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        setLoading(false);
+        console.log(error)
+      })
   }
 
   if (redirect) {
@@ -44,6 +58,27 @@ const SignupUser = ({ value: { signup } }) => {
       <UserTypeSubtitle>Great! Just the last step to be part of our community as user</UserTypeSubtitle>
       <SignupForm onSubmit={handleSubmit(onSubmit)} noValidate autoComplete='off'>
         <FormContainer>
+          <FormInput
+            name='firstName'
+            onChange={handleInput}
+            label='first name'
+            content={firstName}
+            placeholder='first name'
+            register={register}
+            required='this field is required'
+            error={errors.firstName && errors.firstName.message}
+          />
+          <FormInput
+            name='lastName'
+            onChange={handleInput}
+            label='last name'
+            content={lastName}
+            placeholder='last name'
+            placeholderTextColor='blue'
+            register={register}
+            required='this field is required'
+            error={errors.lastName && errors.lastName.message}
+          />
           <FormInput
             type='email'
             name='email'
@@ -92,7 +127,7 @@ const SignupUser = ({ value: { signup } }) => {
             error={errors.confirmPassword && errors.confirmPassword.message}
           />
         </FormContainer>
-        <CustomButton type='submit'>sign up</CustomButton>
+        <CustomButton type='submit'>{isLoading ? <SpinnerButton /> : 'sign up'}</CustomButton>
       </SignupForm>
     </UserTypeContainer>
   );

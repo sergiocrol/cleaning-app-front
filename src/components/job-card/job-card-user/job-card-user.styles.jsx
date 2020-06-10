@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import CleanerAvatar from '../../../assets/signup-page/cleaner-avatar.svg';
+
 const textColor = props => props.theme.colors.textColorBlue;
 const backgrounColor = { pending: '#5B9AFF', confirmed: props => props.theme.colors.buttonColor, finished: '#BAB8CA' };
 
@@ -56,6 +58,7 @@ export const JobCardPriceContainer = styled.div`
   align-items: center;
   padding: 10px 15px;
   border-radius: 0 10px 10px 0;
+  justify-content: space-around;
 `;
 
 export const JobCardPriceDuration = styled.div`
@@ -64,17 +67,32 @@ export const JobCardPriceDuration = styled.div`
   color: white;
   width: 90%;
 
-  span:nth-child(1) {
+  > span:nth-child(1) {
     font-size: .9rem;
   }
-  span:nth-child(2) {
-    font-size: 2.6rem;
-    font-weight: bold;
+
+  h1 {
+    margin: 0;
+    text-align: center;
+    font-size: ${({ minutes }) => minutes > 0 ? '2rem' : '2.8rem'};
+
     span {
-      font-size: 1.6rem;
+      font-size: ${({ minutes }) => minutes > 0 ? '.8rem' : '1.2rem'};
       font-weight: lighter;
-      margin-left: 5px;
+      margin: 0 3px;
     }
+  }
+`;
+
+export const JobDurationTitle = styled.h1`
+  margin: 0;
+  text-align: center;
+  font-size: ${({ minutes }) => minutes > 0 ? '2rem' : '2.8rem'};
+
+  span {
+    font-size: .8rem; 
+    font-weight: lighter;
+    margin: 0 3px;
   }
 `;
 
@@ -89,12 +107,45 @@ export const JobCardCleaners = styled.div`
     display: flex;
     align-items: center;
     font-size: 1.3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
     span {
-      font-size: 1rem;
+      font-size: .8rem;
       margin-left: 5px;
     }
   }
   span:nth-child(2) {
     font-size: .9rem;
+  }
+`;
+
+export const CleanerImage = styled.div`
+  width: 25px;
+  height: 25px;
+  background-color: ${(props) => props.theme.colors.buttonColor};
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  background-image: url(${({ picture }) => picture ? picture : CleanerAvatar});
+  background-size: cover;
+  background-position:50% 50%;
+  background-repeat:no-repeat; 
+  position: relative;
+  margin-right: ${({ requests }) => requests && requests > 1 ? '10px' : '0px'};
+
+  div {
+    position: absolute;
+    right: -12px;
+    width: 25px;
+    height: 25px;
+    background-color: #37418A;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    font-size: .9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;

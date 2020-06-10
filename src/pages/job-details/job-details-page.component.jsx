@@ -39,7 +39,7 @@ const JobDetailsPage = ({ match: { params: { jobId } } }) => {
     if (job) {
       const cleaners = [];
       job.requests.forEach(req => {
-        cleaners.push(req.cleaner);
+        req.cleaner && cleaners.push(req.cleaner);
       });
       setCleaners(cleaners);
       cleaners.length && setCleanerFee(CleanersPriceRange(cleaners, isTotalPrice, job.duration, null)[1]);

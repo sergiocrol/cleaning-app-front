@@ -69,7 +69,11 @@ export const SlideTitle = styled.div`
   display: flex;
   color: ${props => props.theme.colors.textColorBlue};
 
-  span {
+  > span {
     margin-left: 15px;
+
+    span {
+      font-size: .8rem;
+    }
   }
 `;

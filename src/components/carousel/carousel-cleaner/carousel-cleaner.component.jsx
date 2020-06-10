@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from 'react';
 import Carousel from 'nuka-carousel';
 
-import SlideFirst from '../carousel-user/slide/slide-first.component';
+import SlideFirst from '../carousel-cleaner/slide/slide-first-cleaner.component';
 import SlideJobCleaner from './slide/slide-job-cleaner.component';
 
 import { CleanerContext } from '../../../contexts/cleaner-context';
@@ -29,8 +29,8 @@ const CarouselCleanerComponent = () => {
           cleanerStatus === JOBS
             ? cleanerJobs.map((job, idx) => <SlideJobCleaner key={job._id} job={job} selectedJob={idx === selectedSlide} elRef={elRef} />)
             : cleanerStatus === FIRST_TIME
-              ? [1, 2, 3].map((slide, idx) => <SlideFirst onClick={() => console.log('first steps')} key={idx} />)
-              : [1, 2, 3].map((slide, idx) => <SlideFirst onClick={() => console.log('first steps')} key={idx} />)
+              ? [1, 2, 3].map((slide, idx) => <SlideFirst key={idx} elRef={elRef} />)
+              : [1, 2, 3].map((slide, idx) => <SlideFirst key={idx} elRef={elRef} />)
         }
       </Carousel>
     </CarouselContainer>

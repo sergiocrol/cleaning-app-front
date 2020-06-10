@@ -48,6 +48,11 @@ class CleanerService {
       .then(({ data }) => data)
   }
 
+  editCleaner(picture) {
+    return this.cleaner.put('/cleaner/edit', { picture })
+      .then(({ data }) => data)
+  }
+
 }
 
 const cleanerService = new CleanerService();

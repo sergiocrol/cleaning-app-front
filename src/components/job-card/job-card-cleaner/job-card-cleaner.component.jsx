@@ -14,8 +14,6 @@ import { AuthContext } from '../../../contexts/auth-context';
 
 import useJobRequest from '../../../hooks/job-request';
 
-import { ReactComponent as UserImage } from '../../../assets/signup-page/user-avatar.svg';
-
 import {
   SlideContainer,
   SlideHeader,
@@ -30,7 +28,8 @@ import { JobCardTotalPrice, RequestStatus, SlideTitle } from './job-card-cleaner
 
 const JobCardCleaner = ({ job, showStatus }) => {
   const { address, date, rooms, duration } = job;
-  const { user, user: { fee, _id } } = useContext(AuthContext);
+  const { hours, minutes } = jobDuration(duration);
+  const { user: { fee, _id } } = useContext(AuthContext);
 
   const [request, setRequest] = useState({});
   const { requestStatus } = useJobRequest(request);
@@ -50,7 +49,7 @@ const JobCardCleaner = ({ job, showStatus }) => {
         <SlideAddressTime>
           <SlideTitle>
             <Address style={{ width: '25px', marginRight: '10px' }} />{address ? address.city : null}
-            <span>{jobDuration(duration)}h</span>
+            <span>{hours}<span>h</span>{minutes > 0 ? minutes : null}<span>{minutes > 0 ? 'm' : ''}</span></span>
           </SlideTitle>
           <AddressContainer>
             <DateLine>

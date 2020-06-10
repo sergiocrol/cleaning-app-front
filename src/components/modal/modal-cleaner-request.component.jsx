@@ -5,6 +5,7 @@ import Rate from '../rate/rate.component';
 import { ButtonHire, ButtonReject } from '../../components/button-status/button-status.component';
 
 import { getDate, getTime } from '../../helpers/date';
+import { jobDuration } from '../../helpers/calculate-duration';
 
 import { ReactComponent as HouseIcon } from '../../assets/new-job/house-icon.svg';
 import { ReactComponent as Kitchen } from '../../assets/new-job/kitchen-icon.svg';
@@ -22,13 +23,15 @@ import {
   PriceInfo,
   ModalRequestFooter,
   ModalRequestButtons,
-  ModalRequestConfirmation
+  ModalRequestConfirmation,
+  Kilometers
 } from './modal-cleaner-request.styles';
 
 const ModalCleanerRequest = ({
-  request: { _id: requestId, cleaner: { firstName, lastName, _id: cleanerId, rate, fee } },
+  request: { _id: requestId, cleaner: { firstName, lastName, _id: cleanerId, rate, fee, picture } },
   job: { duration, date, rooms, _id: jobId }
 }) => {
+  const { hours, minutes } = jobDuration(duration);
   const [messageConfirmation, setMessageConfirmation] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
@@ -60,13 +63,16 @@ const ModalCleanerRequest = ({
         ? <ModalRequestContainer>
           <ModalRequestHeader>
             <h4>Do you want to accept this request?</h4>
-            <ProfileCleanerImage />
+            <ProfileCleanerImage picture={picture} />
             <span>{firstName + ' ' + lastName}</span>
             <Rate rate={rate} />
           </ModalRequestHeader>
           <ModalRequestBody>
             <DataInfo>
-              <div><HouseIcon /><span>0,3km</span> {duration / 60}h</div>
+              <div>
+                <HouseIcon />
+                0,3<Kilometers>km</Kilometers> {hours}<span>h</span>{minutes ? minutes : null}<span>{minutes ? 'm' : null}</span>
+              </div>
               <div>{getDate(date) + '-' + getTime(date)}</div>
             </DataInfo>
             <PriceInfo>

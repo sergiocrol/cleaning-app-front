@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ReactComponent as CleanerImage } from '../../assets/signup-page/cleaner.svg';
+import CleanerImage from '../../assets/signup-page/cleaner-avatar.svg';
 
 export const CleanerCardContainer = styled.div`
   width: 100%;
@@ -13,9 +13,18 @@ export const CleanerCardContainer = styled.div`
   position: relative;
 `;
 
-export const Cleaner = styled(CleanerImage)`
+export const Cleaner = styled.div`
   width: 65px;
   height: 65px;
+  background-color: ${(props) => props.theme.colors.buttonColor};
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  background-image: url(${({ picture }) => picture ? picture : CleanerImage});
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat; 
+  overflow: hidden;
 `;
 
 export const NameContainer = styled.div`

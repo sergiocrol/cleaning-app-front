@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { getDate, getTime } from '../../../helpers/date';
 import { jobDuration } from '../../../helpers/calculate-duration';
 
+import { CONFIRMED } from '../../../constants/index';
+
 import { ReactComponent as Address } from '../../../assets/new-job/house-icon.svg';
 import { ReactComponent as Kitchen } from '../../../assets/new-job/kitchen-icon.svg';
 import { ReactComponent as Bedroom } from '../../../assets/new-job/bedroom-icon.svg';
 import { ReactComponent as Livingroom } from '../../../assets/new-job/livingroom-icon.svg';
 import { ReactComponent as Bathroom } from '../../../assets/new-job/bathroom-icon.svg';
-import { ReactComponent as Cleaners } from '../../../assets/menu/profile-select.svg';
-import { ReactComponent as CleanerImage } from '../../../assets/signup-page/cleaner-avatar.svg';
 
 import {
   JobCardContainer,
@@ -20,10 +20,13 @@ import {
   JobCardInfoRooms,
   JobCardPriceContainer,
   JobCardPriceDuration,
-  JobCardCleaners
+  JobCardCleaners,
+  CleanerImage
 } from './job-card-user.styles';
 
 const JobCardUser = ({ job: { status, address, date, rooms, duration, requests, _id } }) => {
+  const { hours, minutes } = jobDuration(duration);
+
   const getRoomNumber = (type) => {
     const room = rooms.filter(room => room.type === type)[0];
     return room ? room.number : 0;
@@ -35,11 +38,14 @@ const JobCardUser = ({ job: { status, address, date, rooms, duration, requests, 
     return price;
   }
 
-  const getCleanerInfo = () => {
-    const request = requests.filter(req => req.confirmed);
-    const info = request.cleaner ? request.cleaner.firstName + ' ' + request.cleaner.lastName : 'name';
+  const getCleanerInfo = (status) => {
+    const request = requests.filter(req => status === CONFIRMED ? req.confirmed : req)[0];
+    const info = request && request.cleaner
+      ? { name: request.cleaner.firstName, picture: request.cleaner.picture }
+      : { name: 'name', picture: null };
     return info;
   }
+
 
   return (
     <Link to={`/user/job/${_id}`} style={{ width: '100%' }}>
@@ -62,22 +68,33 @@ const JobCardUser = ({ job: { status, address, date, rooms, duration, requests, 
           {
             status === 'pending'
               ? <>
-                <JobCardPriceDuration>
+                <JobCardPriceDuration minutes={minutes}>
                   <span>Total time</span>
-                  <span>{jobDuration(duration)}<span>h</span></span>
+                  <h1>{hours}<span>h</span>{minutes > 0 ? minutes : null}<span>{minutes > 0 ? 'm' : ''}</span></h1>
                 </JobCardPriceDuration>
                 <JobCardCleaners>
-                  <span><Cleaners style={{ width: '25px', height: '25px', marginRight: '5px', fill: 'white' }} />{requests.length}</span>
-                  <span>cleaners</span>
+                  <span>
+                    <CleanerImage picture={getCleanerInfo().picture} requests={requests.length}>
+                      {
+                        requests.length > 1
+                          ? <div>+{(requests.length - 1).toString()}</div>
+                          : null
+                      }
+                    </CleanerImage>
+                    <span>{requests.length ? getCleanerInfo().name : '0 cleaners'}</span>
+                  </span>
                 </JobCardCleaners>
               </>
               : <>
                 <JobCardPriceDuration>
                   <span>Total price</span>
-                  <span>{getTotalPrice()}<span>€</span></span>
+                  <h1>{getTotalPrice()}<span>€</span></h1>
                 </JobCardPriceDuration>
                 <JobCardCleaners>
-                  <span><CleanerImage style={{ width: '25px', height: '25px', borderRadius: '50%', backgroundColor: '#4672ed' }} /><span>{getCleanerInfo()}</span></span>
+                  <span>
+                    <CleanerImage picture={getCleanerInfo(CONFIRMED).picture} />
+                    <span>{getCleanerInfo(CONFIRMED).name}</span>
+                  </span>
                 </JobCardCleaners>
               </>
           }

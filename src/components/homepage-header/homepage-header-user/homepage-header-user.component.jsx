@@ -10,7 +10,7 @@ import CarouselUserComponent from '../../carousel/carousel-user/carousel-user.co
 import { HeaderContainer, HeaderTitle } from './homepage-header-user.styles';
 
 const HomepageHeaderUser = () => {
-  const { userJobs, changeCurrentJob, currentJob, changeCurrentAddress, currentAddress, userState } = useContext(UserContext);
+  const { userJobs, changeCurrentJob, currentJob, changeCurrentAddress, currentAddress } = useContext(UserContext);
   const { user } = useContext(AuthContext);
   const [redirect, setRedirect] = useState(false);
   let isFirstTime = false;

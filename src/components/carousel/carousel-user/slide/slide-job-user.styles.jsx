@@ -107,13 +107,13 @@ export const SlideTotalTime = styled.div`
 
   h1 {
     margin: 0;
-    font-size: 2.6rem;
     color: ${textColorBlue};
+    font-size: ${({ minutes }) => minutes > 0 ? '1.8rem' : '2.6rem'};
 
     span {
-      font-size: 1.2rem;
+      font-size: ${({ minutes }) => minutes > 0 ? '.8rem' : '1.2rem'};
       font-weight: lighter;
-      margin-left: 5px;
+      margin: 0 3px;
     }
   }
 `;

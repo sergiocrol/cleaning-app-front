@@ -29,7 +29,7 @@ const CleanerHistory = ({ setHistory }) => {
   const [selectedJob, setSelectedJob] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(null);
 
-  const { user: { confirmedJobs, pendingJobs, firstName, lastName, rate } } = useContext(AuthContext);
+  const { user: { confirmedJobs, pendingJobs, firstName, lastName, rate, picture, isCleaner } } = useContext(AuthContext);
 
   const { isShowing, toggle } = useModal();
 
@@ -60,7 +60,10 @@ const CleanerHistory = ({ setHistory }) => {
         }
       </Modal>
       <ProfileUserHeader>
-        <ProfileUserImage />
+        <ProfileUserImage
+          picture={picture}
+          isCleaner={isCleaner}
+        />
         <ProfileUserInfo>
           <span>{firstName} {lastName}</span>
           {

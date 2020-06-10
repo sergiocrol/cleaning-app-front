@@ -18,6 +18,19 @@ export const CustomSliderContainer = styled.div`
   align-items: center;
   margin-bottom: 10px;
 
+  h3 {
+    color: ${props => props.theme.colors.textColorBlue};
+    display: flex;
+    align-items: center;
+
+    span {
+      font-size: 1.6rem;
+      font-weight: lighter;
+      margin-right: 8px;
+      color: gray;
+    }
+  }
+
   > div {
     margin-bottom: 0;
   }

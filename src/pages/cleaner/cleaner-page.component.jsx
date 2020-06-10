@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 
 import MenuCleaner from '../../components/menu/menu-cleaner.component';
 import HomepageCleaner from '../homepage/homepage-cleaner/homepage-cleaner.component';
@@ -17,7 +16,7 @@ const CleanerPage = () => {
       <CleanerProvider>
         <CleanerRoute exact path='/cleaner' component={HomepageCleaner} />
         <CleanerRoute exact path='/cleaner/profile' component={ProfileCleaner} />
-        <Route exact path='/cleaner/new-address' component={NewAddressPage} />
+        <CleanerRoute exact path='/cleaner/new-address' component={NewAddressPage} />
       </CleanerProvider>
       <WhiteSpace />
       <MenuCleaner />

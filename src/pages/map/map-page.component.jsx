@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import useMapLocation from '../../hooks/map-location';
 import usePosition from '../../hooks/geolocation';
@@ -24,8 +23,6 @@ const MapPage = () => {
     addressSelected: false
   });
   const { googleMapRef } = useMapLocation(formFields.lat, formFields.lng);
-
-  console.log(formFields);
 
   const setFields = (fields) => {
     const { street_number, route, locality, postal_code, image, lat, lng, addressSelected } = fields;

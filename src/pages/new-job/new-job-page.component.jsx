@@ -189,8 +189,9 @@ const NewJobPage = (props) => {
 
   const jobTotalDuration = () => {
     const time = calculateTotalDuration(calculateRoomDuration(jobData, { pets, kids }, squareMeters));
-    const totalTime = jobDuration(time);
-    return <span>{totalTime + 'h x ' + cleaner.fee + ' €/h = '}<span className='mama'>{Math.round((time / 60) * cleaner.fee)}€</span></span>;
+    const { hours, minutes } = jobDuration(time);
+    const totalTime = <span>{hours}<span>h</span>{minutes > 0 ? minutes : null}<span>{minutes > 0 ? 'm' : ''}</span></span>;
+    return <span>{totalTime}<span style={{ margin: '0 5px' }}>x</span>{cleaner.fee + ' €/h = '}<span className='mama'>{Math.round((time / 60) * cleaner.fee)}€</span></span>;
   }
 
   return (

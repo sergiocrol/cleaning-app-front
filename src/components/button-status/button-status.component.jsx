@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import SpinnerButton from '../../components/spinner-button/spinner-button.component';
 
@@ -99,7 +98,6 @@ export const ButtonReject = ({ job, request, message, confirmation }) => {
     setLoading(true);
     cancelRequest(job, request)
       .then(request => {
-        console.log('Request sent');
         update();
         setLoading(false);
         confirmation && confirmation(true);

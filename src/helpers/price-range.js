@@ -1,4 +1,6 @@
 export const CleanersPriceRange = (cleaners, isTotalPrice, jobDuration, addressDuration) => {
+  // console.log(cleaners);
+  // const cleaners = cleaners.filter(cleaner => cleaner !== null);
   let pricesHour = null;
   let totalPrices = null;
 

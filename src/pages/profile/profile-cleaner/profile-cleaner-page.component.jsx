@@ -1,12 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import CleanerHistory from '../../../components/history/cleaner-history/cleaner-history.component';
 import CleanerProfile from '../../../components/profile/profile-cleaner/profile-cleaner.component';
 
 import BackgroundImage from '../../../assets/backgrounds/bg2-alpha.svg';
-
-import { AuthContext } from '../../../contexts/auth-context';
-import { CleanerContext } from '../../../contexts/cleaner-context';
 
 import {
   ProfileUserContainer,
@@ -16,8 +13,6 @@ import {
 
 const ProfileCleaner = () => {
   const [isHistory, setHistory] = useState(true);
-
-  const { user, logout } = useContext(AuthContext);
 
   return (
     <ProfileUserContainer>

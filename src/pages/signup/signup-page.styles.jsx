@@ -1,40 +1,35 @@
 import styled from 'styled-components';
 
-import Header from '../../assets/signup-page/header.png';
+import Background from '../../assets/backgrounds/bg1.svg';
+import BackgroundForm from '../../assets/backgrounds/bg2-alpha.svg';
 
 export const SignupPageContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-image: url(${({ isCleaner }) => isCleaner === null ? Background : BackgroundForm});
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: top;
 `;
-
-const height = (props) => {
-  return props.isCleaner
-    ? 28
-    : 34;
-}
-const backgroundPosition = (props) => {
-  return props.isCleaner
-    ? 'background-position: bottom'
-    : null;
-}
 
 export const SignupPageHeader = styled.div`
   width: 100vw;
-  height: ${height}vh;
+  height: ${({ isCleaner }) => isCleaner === null ? '38vh' : '20vh'};
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-`;
 
-export const HeaderImage = styled.div`
-  width: 100%;
-  height: 100%;
-  background-image: url(${Header});
-  background-size: cover;
-  ${backgroundPosition}
+  > svg {
+    width: ${({ isCleaner }) => isCleaner === null ? '28%' : '100px'};
+    height: 90px;
+    position: absolute;
+    top: ${({ isCleaner }) => isCleaner === null ? '20vh' : '5vh'};
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;

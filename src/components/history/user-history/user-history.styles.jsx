@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { ReactComponent as UserImage } from '../../../assets/signup-page/user-avatar.svg';
+import UserImage from '../../../assets/signup-page/user-avatar.svg';
+import CleanerImage from '../../../assets/signup-page/cleaner-avatar.svg';
 
 export const ProfileUserJobs = styled.div`
   display: flex;
@@ -8,13 +9,19 @@ export const ProfileUserJobs = styled.div`
   align-items: center;
 `;
 
-const buttonColor = props => props.theme.colors.buttonColor;
-
-export const ProfileUserImage = styled(UserImage)`
+export const ProfileUserImage = styled.div`
   width: 90px;
   height: 90px;
+  background-color: ${(props) => props.theme.colors.buttonColor};
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
   border-radius: 50%;
-  background-color: ${buttonColor};
+  background-image: url(${({ picture, isCleaner }) => picture ? picture : isCleaner ? CleanerImage : UserImage});
+  background-size: cover;
+  background-position:50% 50%;
+  background-repeat:no-repeat; 
+  position: relative;
+  overflow: hidden;
 `;
 
 export const ProfileUserInfo = styled.div`

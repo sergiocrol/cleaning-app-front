@@ -97,6 +97,13 @@ const CleanerProvider = props => {
       })
   }
 
+  const editCleaner = (image) => {
+    return cleanerService.editCleaner(image)
+      .then(request => {
+        return request;
+      })
+  }
+
   return (
     <CleanerContext.Provider value={
       {
@@ -109,7 +116,8 @@ const CleanerProvider = props => {
         sendRequest,
         deleteAddress,
         createAddress,
-        editAddress
+        editAddress,
+        editCleaner
       }
     }>
       {props.children}

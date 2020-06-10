@@ -24,7 +24,7 @@ const CleanerCard = ({
   button,
   showModal
 }) => {
-  const { name, firstName, fee, lastName, rate } = cleaner;
+  const { name, firstName, fee, lastName, rate, picture } = cleaner;
   const { loadingCleaners } = useContext(LoadingContext);
   const [redirect, setRedirect] = useState(false);
   const totalPriceJob = jobDuration ? isTotalPrice ? Math.round((jobDuration / 60 * fee)) : fee : fee;
@@ -42,7 +42,7 @@ const CleanerCard = ({
 
   return !loadingCleaners ? (
     <CleanerCardContainer onClick={determineRoute} button={button}>
-      <Cleaner />
+      <Cleaner picture={picture} />
       <NameContainer>
         <Name>{name || firstName + ' ' + lastName}</Name>
         {

@@ -4,17 +4,17 @@ import { useForm } from 'react-hook-form';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+import SpinnerButton from '../spinner-button/spinner-button.component';
 
 import { UserTypeContainer, UserTypeTitle, UserTypeSubtitle, SignupForm, FormContainer } from '../signup/signup.styles';
 
 const Login = ({ value: { login } }) => {
-  // Handle state
   const [userCredentials, setCredentials] = useState({ email: '', password: '' });
   const [redirect, setRedirect] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   const { email, password } = userCredentials;
 
-  // Handle form validations
   const { register, handleSubmit, errors, setError } = useForm();
 
   const handleInput = event => {
@@ -23,11 +23,14 @@ const Login = ({ value: { login } }) => {
   }
 
   const onSubmit = event => {
+    setLoading(true);
     login({ email, password })
       .then(res => {
+        setLoading(false);
         setRedirect('/');
       })
       .catch(error => {
+        setLoading(false);
         setError('email', 'notMatch', 'Incorrect email and/or password');
       })
   }
@@ -66,7 +69,7 @@ const Login = ({ value: { login } }) => {
             error={errors.password && errors.password.message}
           />
         </FormContainer>
-        <CustomButton type='submit'>sign in</CustomButton>
+        <CustomButton type='submit'>{isLoading ? <SpinnerButton /> : 'sign in'}</CustomButton>
       </SignupForm>
     </UserTypeContainer>
   );

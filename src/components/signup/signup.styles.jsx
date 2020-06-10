@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
 
-import { ReactComponent as UserAvatar } from '../../assets/signup-page/user.svg';
-import { ReactComponent as CleanerAvatar } from '../../assets/signup-page/cleaner.svg';
+import { ReactComponent as UserAvatar } from '../../assets/signup-page/user-avatar.svg';
+import { ReactComponent as CleanerAvatar } from '../../assets/signup-page/cleaner-avatar.svg';
 
 const colors = {
-  text: props => props.theme.colors.textColor
+  text: props => props.theme.colors.textColor,
+  background: props => props.theme.colors.buttonColor
 }
 
 const selectionCard = css`
@@ -17,6 +18,12 @@ const selectionCard = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const avatar = css`
+  width: 70%;
+  background-color: ${colors.background};
+  border-radius: 50%;
 `;
 
 export const SignupContainer = styled.div`
@@ -99,11 +106,11 @@ export const SelectionUser = styled.div`
 `;
 
 export const UserImg = styled(UserAvatar)`
-  width: 80%;
+  ${avatar};
 `;
 
 export const CleanerImg = styled(CleanerAvatar)`
-  width: 80%;
+  ${avatar};
 `;
 
 export const UserDescription = styled.span`
@@ -111,4 +118,9 @@ export const UserDescription = styled.span`
   text-align: center;
   font-size: .8rem;
   margin: 0 8px;
+`;
+
+export const CarouselContainer = styled.div`
+  width: 100%;
+  height: 80vh;
 `;

@@ -73,7 +73,6 @@ const NewAddressPage = props => {
       hideLoading();
     });
     if (address && address.address.name) {
-      console.log(address)
       const { rooms, pets, kids } = address.address;
       const addressRooms = {};
       rooms.forEach(({ type, number }) => {
@@ -96,7 +95,6 @@ const NewAddressPage = props => {
         const allFields = { ...formFields, rooms, pets: others.pets, kids: others.kids };
         getAddress(allFields)
           .then(fields => {
-            console.log(fields);
             let addressFields = fields;
             if (fields.lat && fields.locality) {
               addressFields = setFields(fields);
@@ -119,7 +117,6 @@ const NewAddressPage = props => {
               kids: addressFields.kids,
               pets: addressFields.pets
             };
-            console.log(newAddress)
 
             setSubmitForm(false);
             uploadImageFirebase({ lat, lng, image, userId: user._id })

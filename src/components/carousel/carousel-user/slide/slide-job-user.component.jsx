@@ -25,6 +25,7 @@ import { ReactComponent as Requests } from '../../../../assets/menu/profile-sele
 
 const SlideJobUser = ({ job, showRequests }) => {
   const { address, date, rooms, duration, requests } = job;
+  const { hours, minutes } = jobDuration(duration);
 
   const getRoomNumber = (type) => {
     const room = rooms.filter(room => room.type === type)[0];
@@ -42,9 +43,9 @@ const SlideJobUser = ({ job, showRequests }) => {
             <DateLine><span>{getDate(date)}</span><span>{getTime(date)}</span></DateLine>
           </AddressContainer>
         </SlideAddressTime>
-        <SlideTotalTime>
+        <SlideTotalTime minutes={minutes}>
           <span>total time</span>
-          <h1>{jobDuration(duration)}<span>h</span></h1>
+          <h1>{hours}<span>h</span>{minutes > 0 ? minutes : null}<span>{minutes > 0 ? 'm' : ''}</span></h1>
         </SlideTotalTime>
       </SlideHeader>
       <SlideBody>

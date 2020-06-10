@@ -77,10 +77,6 @@ const useMapLocation = (lat, lng) => {
     }
   }, [lat, mapLoaded, infoWindowContent]);
 
-  // useEffect(() => {
-  //   mapLoaded && getGeocodeLocation();
-  // }, [lat, mapLoaded]);
-
   return {
     googleMapRef
   }

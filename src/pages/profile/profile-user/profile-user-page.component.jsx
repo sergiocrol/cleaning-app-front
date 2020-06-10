@@ -19,8 +19,8 @@ const ProfileUser = () => {
   const [isHistory, setHistory] = useState(true);
   const [jobs, setJobs] = useState([]);
 
-  const { getAllJobs, deleteAddress } = useContext(UserContext);
-  const { user: { firstName, lastName, email, addresses }, logout } = useContext(AuthContext);
+  const { getAllJobs, deleteAddress, editUser } = useContext(UserContext);
+  const { user: { firstName, lastName, email, addresses, _id, picture }, logout, update } = useContext(AuthContext);
 
   useEffect(() => {
     getAllJobs()
@@ -39,8 +39,25 @@ const ProfileUser = () => {
       <ProfileUserBody>
         {
           isHistory
-            ? <UserHistory jobs={jobs} name={`${firstName} ${lastName}`} email={email} setHistory={setHistory} />
-            : <UserProfile setHistory={setHistory} name={`${firstName} ${lastName}`} email={email} addresses={addresses} logout={logout} delete={deleteAddress} />
+            ? <UserHistory
+              jobs={jobs}
+              name={`${firstName} ${lastName}`}
+              email={email}
+              setHistory={setHistory}
+              picture={picture}
+            />
+            : <UserProfile
+              setHistory={setHistory}
+              name={`${firstName} ${lastName}`}
+              picture={picture}
+              update={update}
+              email={email}
+              addresses={addresses}
+              logout={logout}
+              delete={deleteAddress}
+              edit={editUser}
+              id={_id}
+            />
         }
       </ProfileUserBody>
     </ProfileUserContainer >

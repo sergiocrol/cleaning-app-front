@@ -12,9 +12,10 @@ export const Spinner = styled.div`
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: white;
+    background: ${({ dotColor }) => dotColor ? dotColor : 'white'};
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
+
   div:nth-child(1) {
     left: 8px;
     animation: lds-ellipsis1 0.6s infinite;

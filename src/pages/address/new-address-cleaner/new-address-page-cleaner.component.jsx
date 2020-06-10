@@ -62,7 +62,6 @@ const NewAddresPage = props => {
       setLoading(true);
       getAddress(formFields)
         .then(fields => {
-          console.log(fields);
           let addressFields = fields;
           if (fields.lat && fields.locality) {
             addressFields = setFields(fields);

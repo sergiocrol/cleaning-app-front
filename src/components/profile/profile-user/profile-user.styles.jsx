@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { ReactComponent as UserImage } from '../../../assets/signup-page/user-avatar.svg';
-
 export const UserProfileTitle = styled.h3`
   display: flex;
   align-items: flex-start; 
@@ -26,14 +24,35 @@ export const UserProfileHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
-export const UserProfileImage = styled(UserImage)`
+export const UserProfileImage = styled.div`
   width: 110px;
   height: 110px;
-  border-radius: 50%;
-  border: 2px solid white;
+  display: block;
   background-color: ${(props) => props.theme.colors.buttonColor};
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  background-image: url(${({ picture }) => picture});
+  background-size: cover;
+  background-position:50% 50%;
+  background-repeat:no-repeat; 
+  position: relative;
+  overflow: hidden;
+`;
+
+export const SaveAvatarButton = styled.span`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  opacity: .8;
+  width: 100%;
+  padding: 5px 0;
+  display: ${({ avatarImage }) => avatarImage ? 'flex' : 'none'};
+  justify-content: center;
 `;
 
 export const UserProfileName = styled.span`

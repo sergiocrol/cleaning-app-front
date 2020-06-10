@@ -12,36 +12,27 @@ export const getFields = async (address, lat, lng, addressSelected) => {
     const val = address[i]['short_name'];
     fields[addressType] = val;
   }
-  // if (!fields.route) fields.route = addressStreet;
   fields = { ...fields, lat, lng, addressSelected };
   const image = await getMapImage(lat, lng);
-  console.log(image, { ...fields })
   return { ...fields, image };
-  // .then(image => setFields({ ...fields, image }));
 }
 
 export const getAddress = fields => {
-  console.log(fields.addressSelected);
   return new Promise((resolve, reject) => {
     if (fields.addressSelected) {
       resolve(fields);
     } else {
       const address = `${fields.addressStreet}, ${fields.city}`;
-      console.log(fields);
       const geocoder = new window.google.maps.Geocoder();
       geocoder.geocode({ 'address': address }, function (results, status) {
         if (status === 'OK') {
           const address = results[0].address_components;
-          console.log('address is ok');
-          console.log(address);
           if (address[0].types.includes('locality')) {
             const address = fields.city;
             const geocoder = new window.google.maps.Geocoder();
             geocoder.geocode({ 'address': address }, function (results, status) {
               if (status === 'OK') {
                 const address = results[0].address_components;
-                console.log('city is ok');
-                console.log(address);
                 if (address) {
                   const location = results[0].geometry.location;
                   const lat = location.lat();
@@ -58,9 +49,7 @@ export const getAddress = fields => {
               }
             });
           } else {
-            console.log('si, aqui')
             const location = results[0].geometry.location;
-            console.log(location.lat(), location.lng())
             const lat = location.lat();
             const lng = location.lng();
             getFields(address, lat, lng, true)

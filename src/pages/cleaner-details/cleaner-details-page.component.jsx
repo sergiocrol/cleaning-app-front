@@ -43,10 +43,8 @@ const CleanerDetailsPage = ({ match: { params: { cleanerId } } }) => {
   }
 
   const newRequest = () => {
-    console.log('Request sent');
     sendRequest(currentJob._id, cleanerId)
       .then(request => {
-        console.log('Request sent');
         setButton({ action: removeRequest, text: 'Cancel Request' })
       })
       .catch(error => {

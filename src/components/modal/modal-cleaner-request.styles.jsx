@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ReactComponent as UserImage } from '../../assets/signup-page/cleaner-avatar.svg';
+import CleanerImage from '../../assets/signup-page/cleaner-avatar.svg';
 
 export const ModalRequestContainer = styled.div`
   width: 100%;
@@ -29,11 +29,22 @@ export const ModalRequestHeader = styled.div`
   }
 `;
 
-export const ProfileCleanerImage = styled(UserImage)`
-  width: 90px;
+export const ProfileCleanerImage = styled.div`
+  /* width: 90px;
   height: 90px;
   border-radius: 50%;
-  background-color: ${props => props.theme.colors.buttonColor};
+  background-color: ${props => props.theme.colors.buttonColor}; */
+  width: 90px;
+  height: 90px;
+  background-color: ${(props) => props.theme.colors.buttonColor};
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  background-image: url(${({ picture }) => picture ? picture : CleanerImage});
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat; 
+  overflow: hidden;
 `;
 
 export const ModalRequestBody = styled.div`
@@ -51,7 +62,7 @@ export const ModalRequestBody = styled.div`
 export const DataInfo = styled.div`
   display: flex;
   flex-direction: column;
-
+    
   div:nth-child(1) {
     font-weight: bold;
     font-size: 1.4rem;
@@ -62,15 +73,22 @@ export const DataInfo = styled.div`
       height: 30px;
       margin-right: 10px;
     }
+
     span {
-      margin-right: 10px;
+      font-size: .9rem;
+      margin-top: 6px;
     }
+
   }
 
   div:nth-child(2) {
     font-size: 1.4rem;
     margin-top: 15px;
   }
+`;
+
+export const Kilometers = styled.span`
+  margin-right: 18px;
 `;
 
 export const PriceInfo = styled.div`
@@ -104,10 +122,10 @@ export const ModalRequestFooter = styled.div`
 
 export const ModalRequestButtons = styled.div`
   position: absolute;
-  bottom: -15px;
+  bottom: -20px;
   left: 0;
   width: 100%;
-  height: 30px;
+  height: 40px;
   display: flex;
   justify-content: space-evenly;
 `;
