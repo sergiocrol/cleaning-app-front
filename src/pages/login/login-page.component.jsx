@@ -2,16 +2,19 @@ import React, { useContext } from 'react';
 
 import Login from '../../components/login/login.component';
 import LoginBlock from '../../components/login-block/login-block.component';
+
 import { AuthContext } from '../../contexts/auth-context';
 
-import { LoginPageContainer, LoginPageHeader, HeaderImage } from './login-page.styles';
+import { ReactComponent as Logo } from '../../assets/logo/logo.svg';
+
+import { LoginPageContainer, LoginPageHeader } from './login-page.styles';
 
 const LoginPage = () => {
   const value = useContext(AuthContext);
   return (
     <LoginPageContainer>
       <LoginPageHeader>
-        <HeaderImage />
+        <Logo />
       </LoginPageHeader>
       <Login value={value} />
       <LoginBlock to={'/signup'}>signup</LoginBlock>

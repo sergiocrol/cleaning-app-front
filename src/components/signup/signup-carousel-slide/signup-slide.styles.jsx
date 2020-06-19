@@ -34,9 +34,20 @@ export const WelcomeSlideContainer = styled.div`
     width: 28%;
     height: 90px;
     position: absolute;
-    top: 20vh;
+    top: 10vh;
     left: 50%;
     transform: translateX(-50%);
+    /* ----------- Galaxy S8 ----------- */
+    @media (max-device-width: 360px) { 
+      top: 18vh;
+    }
+    /* ----------- iPhone X----------- */
+    @media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3) { 
+      top: 20vh;
+    }
   }
 `;
 
