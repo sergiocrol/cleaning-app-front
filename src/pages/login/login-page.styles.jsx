@@ -8,7 +8,9 @@ export const LoginPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
   background-image: url(${Background});
   background-attachment: fixed;
   background-size: cover;
