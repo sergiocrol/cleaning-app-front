@@ -11,7 +11,7 @@ import { AuthContext } from '../../contexts/auth-context';
 
 import { ReactComponent as Logo } from '../../assets/logo/logo.svg';
 
-import { SignupPageContainer, SignupPageHeader } from './signup-page.styles';
+import { SignupPageContainer, SignupPageHeader, ButtonContainer } from './signup-page.styles';
 
 const SignupPage = () => {
   const [isCleaner, setCleaner] = useState(null);
@@ -37,7 +37,9 @@ const SignupPage = () => {
           </>
           : <>
             <SignupCarousel />
-            <CustomButton onClick={() => setRegisterPage(true)}>sign up</CustomButton>
+            <ButtonContainer>
+              <CustomButton onClick={() => setRegisterPage(true)}>sign up</CustomButton>
+            </ButtonContainer>
           </>
       }
       <LoginBlock to={'/login'}>login</LoginBlock>

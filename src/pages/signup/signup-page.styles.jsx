@@ -10,7 +10,8 @@ export const SignupPageContainer = styled.div`
   justify-content: start;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   background-image: url(${({ isCleaner }) => isCleaner === null ? Background : BackgroundForm});
   background-attachment: fixed;
   background-size: cover;
@@ -41,7 +42,7 @@ export const SignupPageHeader = styled.div`
     /* ----------- Galaxy S8 ----------- */
     @media only screen 
     and (min-device-width: 360px) { 
-      top: ${({ isCleaner }) => (isCleaner === null ? '15vh' : '3vh')};
+      top: ${({ isCleaner }) => (isCleaner === null ? '8vh' : '3vh')};
     }
     /* ----------- iPhone X----------- */
     @media only screen 
@@ -51,4 +52,10 @@ export const SignupPageHeader = styled.div`
       top: ${({ isCleaner }) => (isCleaner === null ? '20vh' : '5vh')};
     }
   }
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 75%;
 `;

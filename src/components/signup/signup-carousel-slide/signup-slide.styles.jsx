@@ -37,11 +37,7 @@ export const WelcomeSlideContainer = styled.div`
     top: 10vh;
     left: 50%;
     transform: translateX(-50%);
-    /* ----------- Galaxy S8 ----------- */
-    @media only screen 
-    and (min-device-width: 360px) { 
-      top: 18vh;
-    }
+
     /* ----------- iPhone X----------- */
     @media only screen 
     and (min-device-width: 375px) 

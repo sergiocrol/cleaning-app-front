@@ -9,7 +9,6 @@ export const LoginPageContainer = styled.div`
   align-items: center;
   width: 100vw;
   min-height: 100vh;
-  /* mobile viewport bug fix */
   min-height: -webkit-fill-available;
   background-image: url(${Background});
   background-attachment: fixed;
@@ -35,7 +34,7 @@ export const LoginPageHeader = styled.div`
     /* ----------- Galaxy S8 ----------- */
     @media only screen 
     and (min-device-width: 360px) { 
-      top: 10vh;
+      top: 4vh;
     }
     /* ----------- Iphone X ----------- */
     @media only screen 

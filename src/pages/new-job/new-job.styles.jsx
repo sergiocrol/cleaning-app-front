@@ -10,6 +10,7 @@ const line = css`
   justify-content: flex-start;
   align-items: center;
   margin: 10px 0;
+  max-width: 295px;
 `;
 
 export const NewJobContainer = styled.div`

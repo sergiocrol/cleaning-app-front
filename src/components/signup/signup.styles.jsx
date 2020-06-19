@@ -122,5 +122,5 @@ export const UserDescription = styled.span`
 
 export const CarouselContainer = styled.div`
   width: 100%;
-  height: 80vh;
+  height: 75vh;
 `;

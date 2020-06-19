@@ -51,7 +51,7 @@ export const Button = styled(Link)`
   width: 150px;
   height: 50px;
   border-radius: 5px;
-  bottom: 30px;
+  bottom: 70px;
   border: none;
   background-color: ${props => props.theme.colors.buttonColor};
   justify-content: center;

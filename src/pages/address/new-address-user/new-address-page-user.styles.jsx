@@ -31,7 +31,8 @@ export const NewAddressPageContainer = styled.div`
 `;
 
 export const NewAddressPageHeader = styled.div`
-  height: 130px;
+  /* height: 130px; */
+  height: 35px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -56,6 +57,7 @@ export const RoomsLine = styled.div`
   margin: 10px 0;
   justify-content: space-around;
   width: 90%;
+  max-width: 300px;
 
   span {
     text-align: center;
@@ -74,7 +76,7 @@ export const OthersLine = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 18px;
+  /* margin-bottom: 18px; */
 
   span {
     display: flex;
