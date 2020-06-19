@@ -45,6 +45,7 @@ const CarouselUserComponent = ({ userJobs, changeCurrentJob, currentJob, user, c
         transitionMode='scroll'
         slideIndex={selectedSlide}
         speed={500}
+        disableEdgeSwiping={true}
       >
         {
           userJobs && userJobs.length

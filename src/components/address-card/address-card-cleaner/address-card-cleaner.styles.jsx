@@ -27,6 +27,13 @@ export const AddressCardHeader = styled.div`
     font-weight: bold;
     margin-bottom: 8px;
   }
+
+  span:nth-child(2) {
+    display: inline-block;
+    overflow-x: scroll;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 export const AddressCardBody = styled.div`

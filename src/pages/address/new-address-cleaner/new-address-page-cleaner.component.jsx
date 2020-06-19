@@ -107,7 +107,7 @@ const NewAddresPage = props => {
       </Modal>
       <NewAddressPageHeader>
         <h2>{isEdit ? 'Edit your house' : 'Add your house'}</h2>
-        <span>Add detailed info about your house, so that we can manage your services in the best way</span>
+        {/* <span>Add detailed info about your house, so that we can manage your services in the best way</span> */}
       </NewAddressPageHeader>
       <AddressForm user={user} address={isEdit} setFormFields={setFormFields} formFields={formFields} setSubmitForm={setSubmitForm} />
       <NewAddressMap>

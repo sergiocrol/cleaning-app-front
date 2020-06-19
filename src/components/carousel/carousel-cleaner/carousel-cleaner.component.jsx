@@ -24,6 +24,7 @@ const CarouselCleanerComponent = () => {
         transitionMode='scroll'
         speed={500}
         afterSlide={slideIndex => setSelectedSlide(slideIndex)}
+        disableEdgeSwiping={true}
       >
         {
           cleanerStatus === JOBS
