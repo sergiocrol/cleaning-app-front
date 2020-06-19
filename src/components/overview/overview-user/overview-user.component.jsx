@@ -24,13 +24,12 @@ const OverviewUser = () => {
   const [redirect, setRedirect] = useState('');
   const [isTotalPrice, setTotalPrice] = useState(false);
   const [hireButton, setHireButton] = useState(false);
-  const { cleaners, currentJob, currentJob: { duration, requests }, currentAddress, userState } = useContext(UserContext);
+  const { cleaners, currentJob, currentJob: { duration }, currentAddress, userState } = useContext(UserContext);
   const [cleanerFee, setCleanerFee] = useState(0);
   const [currentRequest, setCurrentRequest] = useState({});
   const [currentCleaner, setCurrentCleaner] = useState({});
-  const [filteredCleaners, setFilteredCleaners] = useState(cleaners);
+  const [filteredCleaners, setFilteredCleaners] = useState(cleaners || []);
   const { isShowing, toggle } = useModal();
-  console.log(requests)
 
   useEffect(() => {
     if (cleaners && cleaners.length) {

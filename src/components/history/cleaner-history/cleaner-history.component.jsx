@@ -86,8 +86,8 @@ const CleanerHistory = ({ setHistory }) => {
             : <JobEmpty>
               <img src={Empty} alt='empty jobs' />
               <h3>You don't have jobs yet</h3>
-              <span>Let's create a new service and find cleaners!</span>
-              <Link to='/user/new-job'>new job</Link>
+              <span>Let's find a new job!</span>
+              <Link to='/'>find jobs</Link>
             </JobEmpty>
         }
       </ProfileUserJobs>

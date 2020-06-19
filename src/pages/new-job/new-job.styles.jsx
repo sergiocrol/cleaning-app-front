@@ -18,7 +18,9 @@ export const NewJobContainer = styled.div`
   background-size: cover;
   background-position: top;
   background-attachment: fixed;
-  height: calc(100vh - 60px);
+  /* height: calc(100vh - 60px); */
+  height: 100%;
+  min-height: -webkit-fill-available;
   width: 100vw;
   padding: 15px;
   display: flex;
