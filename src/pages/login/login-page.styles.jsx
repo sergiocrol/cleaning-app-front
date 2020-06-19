@@ -31,7 +31,8 @@ export const LoginPageHeader = styled.div`
     left: 50%;
     transform: translateX(-50%);
     /* ----------- Galaxy S8 ----------- */
-    @media (max-device-width: 360px) { 
+    @media only screen 
+    and (min-device-width: 360px) { 
       top: 10vh;
     }
     /* ----------- Iphone X ----------- */
