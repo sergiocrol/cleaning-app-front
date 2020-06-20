@@ -66,8 +66,12 @@ export const AddressCardHeaderName = styled.div`
 export const AddressCardHeaderAddress = styled.span`
   padding: 0 10px;
   width: 100%;
-  display: flex;
+  /* display: flex; */
   margin-bottom: 10px;
+  display: inline-block;
+  overflow-x: scroll;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const DeleteMessage = styled.div`

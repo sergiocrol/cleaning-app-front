@@ -25,12 +25,15 @@ const UserProvider = (props) => {
 
   useEffect(() => {
     if (user.jobs && user.jobs.length) {
+      console.log('call jobs')
       setUserState(JOB);
       getPendingJobs(_id);
     } else if (user.addresses && user.addresses.length) {
+      console.log('call address')
       setUserState(WITH_ADDRESS);
       setCurrentAddress(user.addresses[0]);
     } else {
+      console.log('first time')
       setUserState(FIRST_TIME);
       defineCityGeo();
     }
@@ -38,9 +41,11 @@ const UserProvider = (props) => {
   }, [user]);
 
   useEffect(() => {
-    if (user.jobs && user.jobs.length) {
+    if (/*user.jobs && user.jobs.length*/currentJob.address) {
+      setUserState(JOB);
       defineCityJobs();
     } else if (user.addresses && user.addresses.length) {
+      setUserState(WITH_ADDRESS);
       defineCityAddress();
     }
   }, [currentJob, currentAddress])
@@ -69,9 +74,11 @@ const UserProvider = (props) => {
       isFirstVisit && showLoading();
       const jobList = await userService.jobs();
       const confirmedJobs = jobList.filter(job => job.status === PENDING);
+      console.log('call jobs: ', confirmedJobs)
       setUserJobs(confirmedJobs);
       // if (!sessionStorage.currentJob) {
       setCurrentJob(confirmedJobs[0] || {});
+      console.log('current job:', currentJob)
       // } 
       isFirstVisit && hideLoading();
     } catch (error) {

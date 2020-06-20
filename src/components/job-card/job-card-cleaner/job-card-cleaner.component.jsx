@@ -69,7 +69,7 @@ const JobCardCleaner = ({ job, showStatus }) => {
               </RequestStatus>
               : null
           }
-          <h1>{(duration / 60) * fee}<span>€</span></h1>
+          <h1>{Math.round((duration / 60) * fee)}<span>€</span></h1>
         </JobCardTotalPrice>
       </SlideHeader>
       <SlideBody>

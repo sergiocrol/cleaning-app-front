@@ -10,16 +10,16 @@ import useJobRequest from '../../hooks/job-request';
 
 import { ReactComponent as UserImage } from '../../assets/signup-page/user-avatar.svg';
 
-import { JobCardMap, UserInfo } from './modal-job-request.styles';
+import { JobCardMap, UserInfo, ProfileUserImage } from './modal-job-request.styles';
 import { SlideButton } from '../carousel/carousel-cleaner/slide/slide-job-cleaner.styles';
 
 const ModalJobRequest = ({ job, showConfirmationModal }) => {
-  const { requests, _id: jobId, address: { mapImage }, user: { firstName, lastName } } = job;
+  const { requests, _id: jobId, address: { mapImage }, user: { firstName, lastName, picture } } = job;
   const [request, setRequest] = useState({});
   const [isLoading, setLoading] = useState(false);
 
   const { user: { _id }, update } = useContext(AuthContext);
-
+  console.log(job)
   const { requestStatus } = useJobRequest(request);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const ModalJobRequest = ({ job, showConfirmationModal }) => {
   return (
     <div>
       <UserInfo>
-        <UserImage />
+        <ProfileUserImage picture={picture} />
         <span>{firstName} {lastName}</span>
       </UserInfo>
       <JobCardCleaner job={job} />
