@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const CardLoadingContainer = styled.div`
-  width: 90%;
+  width: 100%;
   background-color: white;
   border-radius: 10px;
   display: flex;

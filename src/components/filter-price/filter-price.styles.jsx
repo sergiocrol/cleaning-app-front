@@ -32,7 +32,8 @@ export const SwitchButtonContainer = styled.div`
 `;
 
 export const CustomSliderContainer = styled.div`
-  width: ${({ isTotalPrice }) => isTotalPrice ? '80%' : '100%'};
+  /* width: ${({ isTotalPrice }) => isTotalPrice ? '80%' : '100%'}; */
+  width: 100%;
   display: flex;
   justify-content: center;
 

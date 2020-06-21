@@ -38,7 +38,7 @@ const UserProvider = (props) => {
   }, [user]);
 
   useEffect(() => {
-    if (/*user.jobs && user.jobs.length*/currentJob.address) {
+    if (currentJob.address) {
       setUserState(JOB);
       defineCityJobs();
     } else if (user.addresses && user.addresses.length) {

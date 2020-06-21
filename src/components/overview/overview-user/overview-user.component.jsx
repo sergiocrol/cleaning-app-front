@@ -30,7 +30,7 @@ const OverviewUser = () => {
   const [currentCleaner, setCurrentCleaner] = useState({});
   const [filteredCleaners, setFilteredCleaners] = useState(cleaners || []);
   const { isShowing, toggle } = useModal();
-  console.log(userState)
+
   useEffect(() => {
     if (cleaners && cleaners.length) {
       setCleanerFee(CleanersPriceRange(cleaners, statusTotalPrice(), duration, currentAddress.duration)[1]);
