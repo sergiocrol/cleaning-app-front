@@ -30,7 +30,7 @@ const OverviewUser = () => {
   const [currentCleaner, setCurrentCleaner] = useState({});
   const [filteredCleaners, setFilteredCleaners] = useState(cleaners || []);
   const { isShowing, toggle } = useModal();
-
+  console.log(userState)
   useEffect(() => {
     if (cleaners && cleaners.length) {
       setCleanerFee(CleanersPriceRange(cleaners, statusTotalPrice(), duration, currentAddress.duration)[1]);
@@ -121,16 +121,30 @@ const OverviewUser = () => {
             />
             {
               filteredCleaners.map(cleaner =>
-                <CleanerCard
-                  key={cleaner._id}
-                  cleaner={cleaner}
-                  request={statusUser(cleaner)}
-                  job={currentJob}
-                  address={currentAddress}
-                  isTotalPrice={isTotalPrice}
-                  redirect={redirectCleanerPage}
-                  showModal={showModal}
-                />)
+                userState === JOB
+                  ? !currentJob.requests.filter(req => req.cleaner._id === cleaner._id).length
+                    ? <CleanerCard
+                      key={cleaner._id}
+                      cleaner={cleaner}
+                      request={statusUser(cleaner)}
+                      job={currentJob}
+                      address={currentAddress}
+                      isTotalPrice={isTotalPrice}
+                      redirect={redirectCleanerPage}
+                      showModal={showModal}
+                    />
+                    : null
+                  : <CleanerCard
+                    key={cleaner._id}
+                    cleaner={cleaner}
+                    request={statusUser(cleaner)}
+                    job={currentJob}
+                    address={currentAddress}
+                    isTotalPrice={isTotalPrice}
+                    redirect={redirectCleanerPage}
+                    showModal={showModal}
+                  />
+              )
             }
           </>
           : <CustomSliderContainer>

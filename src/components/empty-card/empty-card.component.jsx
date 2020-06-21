@@ -22,7 +22,9 @@ const EmptyCard = () => {
       ? numberRequests
         ? `Your request ${numberRequests === 0 ? 'does' : 'do'} not have response yet. You can make the job public to increase your opportunities.`
         : `You don't have new requests yet. You can make the job public in order to increase your opportunities.`
-      : 'You do not have any requests at this moment. Find and send requests to other cleaners in order to increase your opportunities.'
+      : numberRequests
+        ? `Your request ${numberRequests === 0 ? 'does' : 'do'} not have response yet. Send more requests in order to increase your opportunities.`
+        : 'You do not have new requests yet. Find and send requests to other cleaners in order to increase your opportunities.'
     setMessage(message);
   }
 

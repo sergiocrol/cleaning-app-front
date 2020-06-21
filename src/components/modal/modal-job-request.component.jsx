@@ -8,8 +8,6 @@ import { AuthContext } from '../../contexts/auth-context';
 
 import useJobRequest from '../../hooks/job-request';
 
-import { ReactComponent as UserImage } from '../../assets/signup-page/user-avatar.svg';
-
 import { JobCardMap, UserInfo, ProfileUserImage } from './modal-job-request.styles';
 import { SlideButton } from '../carousel/carousel-cleaner/slide/slide-job-cleaner.styles';
 
@@ -19,7 +17,7 @@ const ModalJobRequest = ({ job, showConfirmationModal }) => {
   const [isLoading, setLoading] = useState(false);
 
   const { user: { _id }, update } = useContext(AuthContext);
-  console.log(job)
+
   const { requestStatus } = useJobRequest(request);
 
   useEffect(() => {

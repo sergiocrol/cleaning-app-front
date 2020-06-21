@@ -94,6 +94,7 @@ const UserProfile = ({ setHistory, name, email, addresses, logout, id, edit, pic
         </UserProfileName>
         <UserProfileEmail>{email}</UserProfileEmail>
       </UserProfileHeader>
+      <UserProfileTitle>Your address</UserProfileTitle>
       <UserProfileBody>
         {
           addressesList && addressesList.length

@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
-import background from '../../assets/backgrounds/bg4-alpha.svg';
+import background from '../../assets/backgrounds/bg6-alpha.svg';
 import { ReactComponent as AddIcon } from '../../assets/new-job/add-icon.svg';
-import { ReactComponent as UserImage } from '../../assets/signup-page/cleaner-avatar.svg';
+import CleanerImage from '../../assets/signup-page/cleaner-avatar.svg';
 
 const line = css`
   display: flex;
@@ -20,7 +20,7 @@ export const NewJobContainer = styled.div`
   background-attachment: fixed;
   /* height: calc(100vh - 60px); */
   height: 100%;
-  min-height: -webkit-fill-available;
+  /* min-height: -webkit-fill-available; */
   width: 100vw;
   padding: 15px;
   display: flex;
@@ -38,6 +38,7 @@ export const MessageBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: calc(12vh - 60px);
 
   h3{
     width: 90%;
@@ -180,6 +181,11 @@ export const JobPriceBlock = styled.div`
     margin-right: 10px;
   }
 
+  h4 {
+    margin: 0;
+    color: ${props => props.theme.colors.buttonColor};
+  }
+
   span {
     font-size: 1.1rem;
     color: 'black';
@@ -201,9 +207,15 @@ export const ImageBackground = styled.img`
   left: 0;
 `;
 
-export const ProfileCleanerImage = styled(UserImage)`
+export const ProfileCleanerImage = styled.div`
   width: 60px;
   height: 60px;
   border-radius: 50%;
   background-color: ${props => props.theme.colors.buttonColor};
+  background-image: url(${({ picture }) => picture ? picture : CleanerImage});
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat; 
+  overflow: hidden;
+  margin-right: 10px;
 `;

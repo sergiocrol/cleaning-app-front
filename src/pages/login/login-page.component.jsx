@@ -5,6 +5,7 @@ import LoginBlock from '../../components/login-block/login-block.component';
 
 import { AuthContext } from '../../contexts/auth-context';
 
+import { ReactComponent as BlobLogo } from '../../assets/logo/blob-logo.svg';
 import { ReactComponent as Logo } from '../../assets/logo/logo.svg';
 
 import { LoginPageContainer, LoginPageHeader } from './login-page.styles';
@@ -14,10 +15,16 @@ const LoginPage = () => {
   return (
     <LoginPageContainer>
       <LoginPageHeader>
-        <Logo />
+        <div>
+          <div>
+            <BlobLogo />
+            <Logo />
+          </div>
+        </div>
+        {/* <Logo /> */}
       </LoginPageHeader>
       <Login value={value} />
-      <LoginBlock to={'/signup'}>signup</LoginBlock>
+      <LoginBlock to={'/signup'}>sign up</LoginBlock>
     </LoginPageContainer>
   )
 };

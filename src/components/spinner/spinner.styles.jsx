@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import { ReactComponent as Logo } from '../../assets/logo/logo-bold.svg';
 
 export const SpinnerContainer = styled.div`
-  height: calc(100vh - 60px);
+  /* height: calc(100vh - 60px); */
+  height: 100vh;
   width: 100%;
   background-color: #F2F0F3;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  z-index: 999;
 `;
 
 export const SpinnerLogo = styled(Logo)`

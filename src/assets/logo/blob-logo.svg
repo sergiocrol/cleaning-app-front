@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+	<style>
+		tspan { white-space:pre }
+		.shp0 { opacity: 0.439;fill: #efb630 } 
+	</style>
+	<path id="Layer copy" class="shp0" d="M29.9 10.7C29.9 10.7 44.1 7.7 53.9 11C69.2 16.1 90.6 27.8 94.8 47.6C97.8 61.8 94.9 72 87.3 81.6C72.5 100.3 43.8 93.9 23.4 76.8C2.4 59.1 2.1 49.3 5.3 38.6C8.5 27.9 15.8 15.5 29.9 10.7Z" />
+</svg>

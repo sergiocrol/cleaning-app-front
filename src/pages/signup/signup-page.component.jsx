@@ -10,6 +10,7 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import { AuthContext } from '../../contexts/auth-context';
 
 import { ReactComponent as Logo } from '../../assets/logo/logo.svg';
+import { ReactComponent as BlobLogo } from '../../assets/logo/blob-logo.svg';
 
 import { SignupPageContainer, SignupPageHeader, ButtonContainer } from './signup-page.styles';
 
@@ -25,7 +26,12 @@ const SignupPage = () => {
         isRegisterPage
           ? <>
             <SignupPageHeader isCleaner={isCleaner}>
-              <Logo />
+              <div>
+                <div>
+                  {isCleaner === null ? <BlobLogo /> : null}
+                  <Logo />
+                </div>
+              </div>
             </SignupPageHeader>
             {isCleaner === null
               ? <UserType setCleaner={setCleaner} />
@@ -33,7 +39,6 @@ const SignupPage = () => {
                 ? <SignupCleaner value={value} />
                 : <SignupUser value={value} />
             }
-
           </>
           : <>
             <SignupCarousel />
@@ -42,7 +47,7 @@ const SignupPage = () => {
             </ButtonContainer>
           </>
       }
-      <LoginBlock to={'/login'}>login</LoginBlock>
+      <LoginBlock to={'/login'}>sign in</LoginBlock>
     </SignupPageContainer>
   )
 };

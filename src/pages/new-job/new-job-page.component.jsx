@@ -290,8 +290,11 @@ const NewJobPage = (props) => {
         {
           cleaner
             ? <JobPriceBlock>
-              <ProfileCleanerImage />
-              <span>{jobTotalDuration()}</span>
+              <ProfileCleanerImage picture={cleaner.picture} />
+              <div>
+                <h4>{`${cleaner.firstName} ${cleaner.lastName}`}</h4>
+                <span>{jobTotalDuration()}</span>
+              </div>
             </JobPriceBlock>
             : null
         }
