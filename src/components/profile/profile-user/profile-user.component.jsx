@@ -23,6 +23,7 @@ import {
   AddressEmpty,
   SaveAvatarButton
 } from './profile-user.styles';
+import { NewAddressCard } from '../profile-cleaner/profile-cleaner.styles';
 
 const UserProfile = ({ setHistory, name, email, addresses, logout, id, edit, picture, update }) => {
   const [isLoading, setLoading] = useState(false);
@@ -98,7 +99,17 @@ const UserProfile = ({ setHistory, name, email, addresses, logout, id, edit, pic
       <UserProfileBody>
         {
           addressesList && addressesList.length
-            ? addressesList.map(address => <AddressCard key={address._id} address={address} deleteAddressFromList={deleteAddressFromList} />)
+            ? <>
+              {
+                addressesList.map(address => <AddressCard key={address._id} address={address} deleteAddressFromList={deleteAddressFromList} />)
+              }
+              <Link to='/user/new-address'>
+                <NewAddressCard>
+                  <span>&#8853;</span>
+                  <span>new address</span>
+                </NewAddressCard>
+              </Link>
+            </>
             : <AddressEmpty>
               <Map />
               <h3>You don't have any address yet</h3>
