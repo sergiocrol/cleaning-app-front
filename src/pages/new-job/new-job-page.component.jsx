@@ -142,7 +142,7 @@ const NewJobPage = (props) => {
         city: addresses[selectedIndex].city,
         isPrivate,
         date: selectedDate,
-        duration: 120,
+        duration: calculateTotalDuration(rooms),
         rooms,
         phoneNumber: phoneNumber + '',
         status: 'pending',

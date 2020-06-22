@@ -42,6 +42,7 @@ const UserProvider = (props) => {
       setUserState(JOB);
       defineCityJobs();
     } else if (user.addresses && user.addresses.length) {
+      if (!currentAddress.city) setCurrentAddress(user.addresses[0]);
       setUserState(WITH_ADDRESS);
       defineCityAddress();
     }
